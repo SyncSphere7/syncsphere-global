@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,7 +30,6 @@ const OpenRouterChat = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const handleClose = () => {
@@ -40,13 +39,6 @@ const OpenRouterChat = () => {
   const handleBack = () => {
     navigate('/');
   };
-
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const callOpenRouterAPI = async (userMessage: string) => {
     // Check if API key is available
@@ -226,8 +218,8 @@ If asked about something outside our services, politely redirect to our expertis
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        <div className="space-y-4">
+      <ScrollArea className="flex-1 p-4 overflow-hidden">
+        <div className="space-y-4 max-h-full overflow-hidden">
           {messages.map((message) => (
             <div
               key={message.id}
