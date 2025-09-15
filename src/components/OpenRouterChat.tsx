@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Bot, User, Loader2, RefreshCw, MessageSquare } from 'lucide-react';
+import { Send, Bot, User, Loader2, RefreshCw, MessageSquare, X, ArrowLeft } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from 'react-router-dom';
 
 interface Message {
   id: string;
@@ -17,6 +18,7 @@ const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 const OpenRouterChat = () => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -30,6 +32,14 @@ const OpenRouterChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  const handleClose = () => {
+    navigate('/');
+  };
+
+  const handleBack = () => {
+    navigate('/');
+  };
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -172,11 +182,20 @@ If asked about something outside our services, politely redirect to our expertis
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleBack}
+            className="text-white/70 hover:text-white mr-2"
+            title="Back to Home"
+          >
+            <ArrowLeft size={16} />
+          </Button>
+          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
             <img
               src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
               alt="SyncSphere Logo"
-              className="w-8 h-8 object-contain"
+              className="w-6 h-6 object-contain"
             />
           </div>
           <div>
@@ -184,14 +203,26 @@ If asked about something outside our services, politely redirect to our expertis
             <p className="text-sm text-white/70">Advanced AI Technology</p>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={clearChat}
-          className="text-white/70 hover:text-white"
-        >
-          <RefreshCw size={16} />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearChat}
+            className="text-white/70 hover:text-white"
+            title="Clear Chat"
+          >
+            <RefreshCw size={16} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClose}
+            className="text-white/70 hover:text-red-400"
+            title="Close Chat"
+          >
+            <X size={16} />
+          </Button>
+        </div>
       </div>
 
       {/* Messages */}
