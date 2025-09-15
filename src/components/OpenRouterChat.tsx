@@ -13,7 +13,7 @@ interface Message {
   timestamp: Date;
 }
 
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 const OpenRouterChat = () => {
@@ -39,6 +39,11 @@ const OpenRouterChat = () => {
   }, [messages]);
 
   const callOpenRouterAPI = async (userMessage: string) => {
+    // Check if API key is available
+    if (!OPENROUTER_API_KEY) {
+      throw new Error('API_KEY_MISSING');
+    }
+
     const systemPrompt = `You are SyncSphere's AI Assistant, an expert in AI solutions and business automation. You help businesses understand and implement AI technologies.
 
 Key Services:
