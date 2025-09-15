@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { Send, Bot, User, Loader2, RefreshCw, MessageSquare, X, ArrowLeft } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,6 @@ const OpenRouterChat = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const handleClose = () => {
@@ -40,13 +39,6 @@ const OpenRouterChat = () => {
   const handleBack = () => {
     navigate('/');
   };
-
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const callOpenRouterAPI = async (userMessage: string) => {
     // Check if API key is available
@@ -226,8 +218,8 @@ If asked about something outside our services, politely redirect to our expertis
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        <div className="space-y-4">
+      <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(80vh - 200px)', minHeight: '200px' }}>
+        <div className="space-y-4 pb-4">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -294,7 +286,7 @@ If asked about something outside our services, politely redirect to our expertis
             </div>
           )}
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Input */}
       <div className="p-4 border-t border-white/10">

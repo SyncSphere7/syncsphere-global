@@ -25,7 +25,7 @@ const WhatsAppBubble = () => {
   }, [messageClosed]);
 
   // WhatsApp link with the updated number
-  const whatsappLink = "https://wa.me/256787308564";
+  const whatsappLink = "https://wa.me/18154727760";
 
   // Handle click to open WhatsApp
   const handleClick = () => {
