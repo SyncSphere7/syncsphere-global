@@ -10,6 +10,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import WhatsAppBubble from "./components/WhatsAppBubble";
 import SEOProvider from "./components/SEOProvider";
 import CookieConsent from "./components/CookieConsent";
+import AskAIButton from "./components/AskAIButton";
 import OpenRouterChat from "./components/OpenRouterChat";
 
 // Service Pages
@@ -41,6 +42,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <SEOProvider />
+            <AskAIButton />
             <Routes>
               <Route path="/" element={<Index />} />
               
