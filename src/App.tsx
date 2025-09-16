@@ -12,6 +12,7 @@ import SEOProvider from "./components/SEOProvider";
 import CookieConsent from "./components/CookieConsent";
 import AskAIButton from "./components/AskAIButton";
 import OpenRouterChat from "./components/OpenRouterChat";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Service Pages
 import Chatbots from "./pages/services/Chatbots";
@@ -34,49 +35,51 @@ import TermsOfService from "./pages/TermsOfService";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <SEOProvider />
-            <AskAIButton />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              
-              {/* Service Routes */}
-              <Route path="/services/chatbots" element={<Chatbots />} />
-              <Route path="/services/voice-agents" element={<VoiceAgents />} />
-              <Route path="/services/automations" element={<Automations />} />
-              <Route path="/services/ecommerce" element={<Ecommerce />} />
-              <Route path="/services/consulting" element={<Consulting />} />
-              <Route path="/services/web-development" element={<WebDevelopment />} />
-              <Route path="/services/app-development" element={<AppDevelopment />} />
-              
-              {/* Case Study Routes */}
-              <Route path="/case-studies/afrimart" element={<AfriMart />} />
-              <Route path="/case-studies/savannah-bank" element={<SavannahBank />} />
-              <Route path="/case-studies/healthplus" element={<HealthPlus />} />
-              
-              {/* Policy Routes */}
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              
-              {/* Chat Agent Route */}
-              <Route path="/chat-agent" element={<OpenRouterChat />} />
-              
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <WhatsAppBubble />
-            <CookieConsent />
-          </BrowserRouter>
-        </TooltipProvider>
-      </ThemeProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <SEOProvider />
+              <AskAIButton />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                
+                {/* Service Routes */}
+                <Route path="/services/chatbots" element={<Chatbots />} />
+                <Route path="/services/voice-agents" element={<VoiceAgents />} />
+                <Route path="/services/automations" element={<Automations />} />
+                <Route path="/services/ecommerce" element={<Ecommerce />} />
+                <Route path="/services/consulting" element={<Consulting />} />
+                <Route path="/services/web-development" element={<WebDevelopment />} />
+                <Route path="/services/app-development" element={<AppDevelopment />} />
+                
+                {/* Case Study Routes */}
+                <Route path="/case-studies/afrimart" element={<AfriMart />} />
+                <Route path="/case-studies/savannah-bank" element={<SavannahBank />} />
+                <Route path="/case-studies/healthplus" element={<HealthPlus />} />
+                
+                {/* Policy Routes */}
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                
+                {/* Chat Agent Route */}
+                <Route path="/chat-agent" element={<ErrorBoundary><OpenRouterChat /></ErrorBoundary>} />
+                
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <WhatsAppBubble />
+              <CookieConsent />
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

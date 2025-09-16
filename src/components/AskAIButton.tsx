@@ -8,11 +8,6 @@ const AskAIButton = () => {
   const [promptClosed, setPromptClosed] = useState(false);
   const location = useLocation();
 
-  // Don't show on chat page itself
-  if (location.pathname === '/chat-agent') {
-    return null;
-  }
-
   // Show prompt after delay
   useEffect(() => {
     if (promptClosed) return;
@@ -23,6 +18,11 @@ const AskAIButton = () => {
 
     return () => clearTimeout(timer);
   }, [promptClosed]);
+
+  // Don't show on chat page itself
+  if (location.pathname === '/chat-agent') {
+    return null;
+  }
 
   const handleClosePrompt = (e: React.MouseEvent) => {
     e.preventDefault();

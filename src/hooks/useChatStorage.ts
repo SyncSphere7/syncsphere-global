@@ -5,15 +5,15 @@ export interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
+  timestamp: string; // Changed from Date to string for proper serialization
 }
 
 export interface ChatSession {
   id: string;
   title: string;
   messages: Message[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string; // Changed from Date to string for proper serialization
+  updatedAt: string; // Changed from Date to string for proper serialization
   isActive?: boolean;
 }
 
@@ -37,10 +37,10 @@ export function useChatStorage() {
             id: '1',
             role: 'assistant',
             content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-            timestamp: new Date()
+            timestamp: new Date().toISOString()
           }],
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           isActive: true
         };
         setChatSessions([defaultChat]);
@@ -52,8 +52,8 @@ export function useChatStorage() {
                  typeof chat.id === 'string' &&
                  typeof chat.title === 'string' &&
                  Array.isArray(chat.messages) &&
-                 chat.createdAt instanceof Date &&
-                 chat.updatedAt instanceof Date;
+                 typeof chat.createdAt === 'string' &&
+                 typeof chat.updatedAt === 'string';
         });
 
         if (validChats.length !== chatSessions.length) {
@@ -65,10 +65,10 @@ export function useChatStorage() {
               id: '1',
               role: 'assistant',
               content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-              timestamp: new Date()
+              timestamp: new Date().toISOString()
             }],
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
             isActive: true
           }]);
         }
@@ -186,8 +186,8 @@ export function useChatStorage() {
 
     const newMessage: Message = {
       ...message,
-      id: Date.now().toString(),
-      timestamp: new Date()
+      timestamp: new Date().toISOString(),
+      id: Date.now().toString()
     };
 
     setChatSessions(prev =>
@@ -201,7 +201,7 @@ export function useChatStorage() {
             ...chat,
             messages: limitedMessages,
             title: chat.title === 'New Chat' ? generateChatTitle(limitedMessages) : chat.title,
-            updatedAt: new Date()
+            updatedAt: new Date().toISOString()
           };
         }
         return chat;
@@ -229,10 +229,10 @@ export function useChatStorage() {
             id: '1',
             role: 'assistant',
             content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-            timestamp: new Date()
+            timestamp: new Date().toISOString()
           }],
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           isActive: true
         }];
       }

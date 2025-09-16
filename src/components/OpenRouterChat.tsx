@@ -276,7 +276,7 @@ If asked about something outside our services, politely redirect to our expertis
                         <p className={`text-xs mt-2 ${
                           message.role === 'user' ? 'text-primary-foreground/70' : 'text-white/50'
                         }`}>
-                          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </CardContent>
                     </Card>

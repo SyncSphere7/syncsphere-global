@@ -42,8 +42,9 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
 }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
-  const formatDate = (date: Date): string => {
+  const formatDate = (dateString: string): string => {
     const now = new Date();
+    const date = new Date(dateString);
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
     if (diffInHours < 1) {
