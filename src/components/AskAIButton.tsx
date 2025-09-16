@@ -42,7 +42,7 @@ const AskAIButton = () => {
   const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
 
   return (
-    <div className="fixed top-6 right-6 z-50">
+    <div className="fixed bottom-20 right-6 z-50">
       {/* AI Assistant Prompt Bubble */}
       {showPrompt && (
         <div className="absolute top-full right-0 mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-72 animate-fadeIn border border-gray-200 dark:border-gray-700">
