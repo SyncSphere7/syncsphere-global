@@ -177,7 +177,10 @@ export function useChatStorage() {
 
   // Add message to active chat
   const addMessageToActiveChat = useCallback((message: Omit<Message, 'id' | 'timestamp'>) => {
-    if (!activeChatId) return;
+    if (!activeChatId) {
+      console.log('No active chat ID, cannot add message');
+      return;
+    }
 
     const newMessage: Message = {
       ...message,
@@ -185,12 +188,16 @@ export function useChatStorage() {
       id: Date.now().toString()
     };
 
-    setChatSessions(prev =>
-      prev.map(chat => {
+    console.log('Adding message to chat:', activeChatId, newMessage);
+
+    setChatSessions(prev => {
+      const updated = prev.map(chat => {
         if (chat.id === activeChatId) {
           const updatedMessages = [...chat.messages, newMessage];
           // Limit messages per chat
           const limitedMessages = updatedMessages.slice(-MAX_MESSAGES_PER_CHAT);
+
+          console.log('Updated chat messages:', limitedMessages);
 
           return {
             ...chat,
@@ -200,8 +207,10 @@ export function useChatStorage() {
           };
         }
         return chat;
-      })
-    );
+      });
+      console.log('Updated chat sessions:', updated);
+      return updated;
+    });
   }, [activeChatId]);
 
   // Delete chat

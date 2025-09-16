@@ -224,16 +224,22 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
     }
 
     try {
-      // Add user message to storage
+      // Add user message to storage first
+      console.log('Adding user message:', userMessageContent);
       addMessageToActiveChat({
         role: 'user',
         content: userMessageContent
       });
 
+      // Force a small delay to ensure the user message is added before API call
+      await new Promise(resolve => setTimeout(resolve, 100));
+      console.log('Active chat after user message:', activeChat);
+
       // Get AI response using the active chat's messages and uploaded files
       const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat?.messages || [], uploadedFiles.length > 0 ? uploadedFiles : undefined);
 
       // Add AI response to storage
+      console.log('Adding AI response:', aiResponse);
       addMessageToActiveChat({
         role: 'assistant',
         content: aiResponse
