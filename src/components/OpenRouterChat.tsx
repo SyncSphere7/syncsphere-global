@@ -46,6 +46,44 @@ const OpenRouterChat = () => {
     navigate('/');
   };
 
+  // Intelligent model selection based on task type
+  const selectOptimalModel = (userMessage: string, files?: File[]) => {
+    const message = userMessage.toLowerCase();
+    
+    // Multimodal tasks (images/visual content)
+    if (files?.some(f => f.type.startsWith('image/')) || 
+        message.includes('image') || message.includes('visual') || message.includes('picture')) {
+      return "google/gemini-2.5-pro-exp-03-25:free"; // Best multimodal performance
+    }
+    
+    // Mathematical/reasoning tasks
+    if (message.includes('math') || message.includes('calculate') || message.includes('solve') ||
+        message.includes('equation') || message.includes('formula') || message.includes('logic')) {
+      return "google/gemini-2.5-pro-exp-03-25:free"; // 97.3% GSM8K, 88.7% MATH
+    }
+    
+    // Coding/programming tasks
+    if (message.includes('code') || message.includes('program') || message.includes('function') ||
+        message.includes('debug') || message.includes('script') || message.includes('api')) {
+      return "meta-llama/llama-4-maverick:free"; // 88.5% HumanEval
+    }
+    
+    // Long context/document analysis
+    if (files?.length > 0 || message.includes('analyze') || message.includes('summarize') ||
+        message.includes('document') || message.includes('report')) {
+      return "google/gemini-2.5-pro-exp-03-25:free"; // 1M token context
+    }
+    
+    // Technical/specialized knowledge
+    if (message.includes('technical') || message.includes('engineering') || message.includes('architecture') ||
+        message.includes('system') || message.includes('infrastructure')) {
+      return "deepseek/deepseek-v3-base:free"; // Technical domain optimization
+    }
+    
+    // General conversation/business queries
+    return "mistralai/mistral-small-3.1-24b-instruct:free"; // Balanced performance, function calling
+  };
+
   const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[], files?: File[]) => {
     // Check if API key is available
     if (!OPENROUTER_API_KEY) {
@@ -71,6 +109,9 @@ const OpenRouterChat = () => {
       }
       fileContext += '\nPlease analyze these files and provide relevant insights or assistance based on their content.\n';
     }
+
+    // Select optimal model for the task
+    const selectedModel = selectOptimalModel(userMessage, files);
 
     const systemPrompt = `You are SyncSphere's world-class AI Assistant - a billion-dollar caliber AI that represents the pinnacle of artificial intelligence in business automation and AI solutions. You are not just an assistant; you are a strategic AI partner that transforms businesses globally.
 
@@ -153,10 +194,10 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': window.location.origin,
-          'X-Title': 'SyncSphere AI Assistant'
+          'X-Title': 'AI Assistant'
         },
         body: JSON.stringify({
-          model: "anthropic/claude-3.5-sonnet",
+          model: selectedModel,
           messages: [
             { role: "system", content: systemPrompt },
             ...chatMessages.slice(-10).map(msg => ({
@@ -394,7 +435,7 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
                           <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
                           <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                         </div>
-                        <span className="text-sm text-white/70">SyncSphere AI is typing...</span>
+                        <span className="text-sm text-white/70">AI Assistant is typing...</span>
                       </div>
                     </CardContent>
                   </Card>
