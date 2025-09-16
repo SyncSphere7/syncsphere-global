@@ -172,7 +172,17 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
   };
 
   const handleSendMessage = async () => {
-    if (!input.trim() || isLoading || !activeChat) return;
+    if (!input.trim() || isLoading) return;
+    
+    // Ensure we have an active chat, create one if needed
+    let currentChat = activeChat;
+    if (!currentChat) {
+      const newChatId = createNewChat();
+      // Wait for the chat to be created and get the new chat
+      const newChat = chatSessions.find(chat => chat.id === newChatId);
+      if (!newChat) return;
+      currentChat = newChat;
+    }
 
     const userMessageContent = input.trim();
     setInput('');
@@ -187,7 +197,7 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
       });
 
       // Get AI response
-      const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat.messages);
+      const aiResponse = await callOpenRouterAPI(userMessageContent, currentChat.messages);
 
       // Add AI response to storage
       addMessageToActiveChat({
