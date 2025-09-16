@@ -1,34 +1,36 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, RefreshCw, X, User, Paperclip, ArrowLeft, Menu } from 'lucide-react';
+import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { useChatStorage, Message } from '@/hooks/useChatStorage';
 import { useToast } from '@/hooks/use-toast';
 import FileUpload from './FileUpload';
+import { ContactForm } from './ContactForm';
 import { useNavigate } from 'react-router-dom';
-import ChatHistorySidebar from './ChatHistorySidebar';
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+}
 
 const OpenRouterChat = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Chat storage hooks
-  const {
-    chatSessions,
-    activeChat,
-    activeChatId,
-    createNewChat,
-    switchToChat,
-    addMessageToActiveChat,
-    deleteChat,
-    clearAllChats,
-    storageSize,
-    storageLimit
-  } = useChatStorage();
+  // Simple message state - no localStorage
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      role: 'assistant',
+      content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+      timestamp: new Date().toISOString()
+    }
+  ]);
 
   // Local state
   const [input, setInput] = useState('');
@@ -36,7 +38,7 @@ const OpenRouterChat = () => {
   const [showFileUpload, setShowFileUpload] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
 
   const handleClose = () => {
     navigate('/');
@@ -44,6 +46,17 @@ const OpenRouterChat = () => {
 
   const handleBack = () => {
     navigate('/');
+  };
+
+  // Add message to conversation
+  const addMessage = (message: Omit<Message, 'id' | 'timestamp'>) => {
+    const newMessage: Message = {
+      ...message,
+      id: Date.now().toString(),
+      timestamp: new Date().toISOString()
+    };
+    console.log('Adding message:', newMessage);
+    setMessages(prev => [...prev, newMessage]);
   };
 
   // Use reliable working model
@@ -209,38 +222,22 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
     setIsLoading(true);
     setIsTyping(true);
 
-    // Ensure we have an active chat, create one if needed
-    if (!activeChat) {
-      const newChatId = createNewChat();
-      // Wait for the new chat to be set as active
-      await new Promise(resolve => setTimeout(resolve, 150));
-      
-      // If still no active chat after creation, something went wrong
-      if (!activeChat) {
-        setIsLoading(false);
-        setIsTyping(false);
-        return;
-      }
-    }
+    // Using simple state - no chat creation needed
 
     try {
-      // Add user message to storage first
+      // Add user message first
       console.log('Adding user message:', userMessageContent);
-      addMessageToActiveChat({
+      addMessage({
         role: 'user',
         content: userMessageContent
       });
 
-      // Force a small delay to ensure the user message is added before API call
-      await new Promise(resolve => setTimeout(resolve, 100));
-      console.log('Active chat after user message:', activeChat);
+      // Get AI response using current messages and uploaded files
+      const aiResponse = await callOpenRouterAPI(userMessageContent, messages, uploadedFiles.length > 0 ? uploadedFiles : undefined);
 
-      // Get AI response using the active chat's messages and uploaded files
-      const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat?.messages || [], uploadedFiles.length > 0 ? uploadedFiles : undefined);
-
-      // Add AI response to storage
+      // Add AI response
       console.log('Adding AI response:', aiResponse);
-      addMessageToActiveChat({
+      addMessage({
         role: 'assistant',
         content: aiResponse
       });
@@ -250,6 +247,10 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
       setShowFileUpload(false);
     } catch (error) {
       console.error('Error sending message:', error);
+      addMessage({
+        role: 'assistant',
+        content: 'I apologize, but I encountered an error. Please try again or contact our team directly.'
+      });
       toast({
         title: "Connection Error",
         description: "Unable to send message. Please try again or contact us directly.",
@@ -269,42 +270,24 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
   };
 
   const clearCurrentChat = () => {
-    if (activeChatId) {
-      // Clear messages in current chat instead of creating new one
-      // This will be handled by the chat storage hook
-    }
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+        timestamp: new Date().toISOString()
+      }
+    ]);
   };
 
   return (
     <div className="flex h-full max-h-[80vh] bg-background">
-      {/* Chat History Sidebar */}
-      <ChatHistorySidebar
-        chatSessions={chatSessions}
-        activeChatId={activeChatId}
-        onCreateNewChat={createNewChat}
-        onSwitchToChat={switchToChat}
-        onDeleteChat={deleteChat}
-        onClearAllChats={clearAllChats}
-        storageSize={storageSize}
-        storageLimit={storageLimit}
-        isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-      />
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleBack}
-              className="text-white/70 hover:text-white mr-2"
-              title="Back to Home"
-            >
-              <ArrowLeft size={16} />
-            </Button>
             <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
               <img
                 src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
@@ -321,11 +304,11 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+              onClick={() => setShowContactForm(true)}
               className="text-white/70 hover:text-white"
-              title="Toggle chat history"
+              title="Request human contact"
             >
-              <Menu size={16} />
+              <Phone size={16} />
             </Button>
             <Button
               variant="ghost"
@@ -351,8 +334,8 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(100vh - 200px)', minHeight: '400px' }}>
           <div className="space-y-4 pb-4">
-            {activeChat?.messages?.length ? (
-              activeChat.messages.map((message) => (
+            {messages.length ? (
+              messages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -393,6 +376,33 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
             ) : (
               <div className="flex items-center justify-center h-full text-white/50">
                 <p>No messages yet. Start a conversation!</p>
+              </div>
+            )}
+
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img
+                      src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                      alt="SyncSphere Logo"
+                      className="w-6 h-6 object-contain"
+                    />
+                  </div>
+                  <Card className="bg-white/5 border-white/10">
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                        </div>
+                        <span className="text-sm text-white/70">AI Assistant is typing...</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             )}
 
@@ -473,6 +483,13 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
             Ask about our services, pricing, or how we can help your business
           </p>
         </div>
+
+        {/* Contact Form Modal */}
+        <ContactForm
+          isOpen={showContactForm}
+          onClose={() => setShowContactForm(false)}
+          conversationHistory={messages}
+        />
       </div>
     </div>
   );
