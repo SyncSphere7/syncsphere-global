@@ -180,18 +180,10 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
     setIsTyping(true);
 
     // Ensure we have an active chat, create one if needed
-    let currentChat = activeChat;
-    if (!currentChat) {
-      const newChatId = createNewChat();
-      // Wait for state to update by using a small delay
-      await new Promise(resolve => setTimeout(resolve, 100));
-      const newChat = chatSessions.find(chat => chat.id === newChatId);
-      if (!newChat) {
-        setIsLoading(false);
-        setIsTyping(false);
-        return;
-      }
-      currentChat = newChat;
+    if (!activeChat) {
+      createNewChat();
+      // Wait for the new chat to be set as active
+      await new Promise(resolve => setTimeout(resolve, 150));
     }
 
     try {
@@ -201,8 +193,8 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
         content: userMessageContent
       });
 
-      // Get AI response
-      const aiResponse = await callOpenRouterAPI(userMessageContent, currentChat.messages);
+      // Get AI response using the active chat's messages
+      const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat?.messages || []);
 
       // Add AI response to storage
       addMessageToActiveChat({
@@ -310,7 +302,7 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(80vh - 200px)', minHeight: '200px' }}>
+        <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(100vh - 200px)', minHeight: '400px' }}>
           <div className="space-y-4 pb-4">
             {activeChat?.messages?.length ? (
               activeChat.messages.map((message) => (
