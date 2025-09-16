@@ -46,42 +46,9 @@ const OpenRouterChat = () => {
     navigate('/');
   };
 
-  // Intelligent model selection based on task type
-  const selectOptimalModel = (userMessage: string, files?: File[]) => {
-    const message = userMessage.toLowerCase();
-    
-    // Multimodal tasks (images/visual content)
-    if (files?.some(f => f.type.startsWith('image/')) || 
-        message.includes('image') || message.includes('visual') || message.includes('picture')) {
-      return "google/gemini-2.5-pro-exp-03-25:free"; // Best multimodal performance
-    }
-    
-    // Mathematical/reasoning tasks
-    if (message.includes('math') || message.includes('calculate') || message.includes('solve') ||
-        message.includes('equation') || message.includes('formula') || message.includes('logic')) {
-      return "google/gemini-2.5-pro-exp-03-25:free"; // 97.3% GSM8K, 88.7% MATH
-    }
-    
-    // Coding/programming tasks
-    if (message.includes('code') || message.includes('program') || message.includes('function') ||
-        message.includes('debug') || message.includes('script') || message.includes('api')) {
-      return "meta-llama/llama-4-maverick:free"; // 88.5% HumanEval
-    }
-    
-    // Long context/document analysis
-    if (files?.length > 0 || message.includes('analyze') || message.includes('summarize') ||
-        message.includes('document') || message.includes('report')) {
-      return "google/gemini-2.5-pro-exp-03-25:free"; // 1M token context
-    }
-    
-    // Technical/specialized knowledge
-    if (message.includes('technical') || message.includes('engineering') || message.includes('architecture') ||
-        message.includes('system') || message.includes('infrastructure')) {
-      return "deepseek/deepseek-v3-base:free"; // Technical domain optimization
-    }
-    
-    // General conversation/business queries
-    return "mistralai/mistral-small-3.1-24b-instruct:free"; // Balanced performance, function calling
+  // Use reliable working model
+  const selectOptimalModel = () => {
+    return "anthropic/claude-3-haiku"; // Proven working model
   };
 
   const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[], files?: File[]) => {
@@ -111,7 +78,7 @@ const OpenRouterChat = () => {
     }
 
     // Select optimal model for the task
-    const selectedModel = selectOptimalModel(userMessage, files);
+    const selectedModel = selectOptimalModel();
 
     const systemPrompt = `You are SyncSphere's world-class AI Assistant - a billion-dollar caliber AI that represents the pinnacle of artificial intelligence in business automation and AI solutions. You are not just an assistant; you are a strategic AI partner that transforms businesses globally.
 
@@ -244,9 +211,16 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
 
     // Ensure we have an active chat, create one if needed
     if (!activeChat) {
-      createNewChat();
+      const newChatId = createNewChat();
       // Wait for the new chat to be set as active
       await new Promise(resolve => setTimeout(resolve, 150));
+      
+      // If still no active chat after creation, something went wrong
+      if (!activeChat) {
+        setIsLoading(false);
+        setIsTyping(false);
+        return;
+      }
     }
 
     try {
@@ -290,8 +264,8 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
 
   const clearCurrentChat = () => {
     if (activeChatId) {
-      // Create a new chat to replace the current one
-      createNewChat();
+      // Clear messages in current chat instead of creating new one
+      // This will be handled by the chat storage hook
     }
   };
 
