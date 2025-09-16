@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "./components/ThemeProvider";
 import WhatsAppBubble from "./components/WhatsAppBubble";
 import SEOProvider from "./components/SEOProvider";
+import CookieConsent from "./components/CookieConsent";
 import OpenRouterChat from "./components/OpenRouterChat";
 
 // Service Pages
@@ -68,6 +69,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <WhatsAppBubble />
+            <CookieConsent />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

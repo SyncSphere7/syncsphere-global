@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 
-import { Send, Bot, User, Loader2, RefreshCw, MessageSquare, X, ArrowLeft } from 'lucide-react';
+import { Send, Bot, User, Loader2, RefreshCw, MessageSquare, X, ArrowLeft, Menu } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from 'react-router-dom';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
+import { useChatStorage, Message } from '@/hooks/useChatStorage';
+import ChatHistorySidebar from './ChatHistorySidebar';
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 const OpenRouterChat = () => {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-      timestamp: new Date()
-    }
-  ]);
+  const { toast } = useToast();
+
+  // Chat storage hooks
+  const {
+    chatSessions,
+    activeChat,
+    activeChatId,
+    createNewChat,
+    switchToChat,
+    addMessageToActiveChat,
+    deleteChat,
+    clearAllChats,
+    storageSize,
+    storageLimit
+  } = useChatStorage();
+
+  // Local state
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const { toast } = useToast();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleClose = () => {
     navigate('/');
@@ -40,7 +44,7 @@ const OpenRouterChat = () => {
     navigate('/');
   };
 
-  const callOpenRouterAPI = async (userMessage: string) => {
+  const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[]) => {
     // Check if API key is available
     if (!OPENROUTER_API_KEY) {
       throw new Error('API_KEY_MISSING');
@@ -80,7 +84,7 @@ If asked about something outside our services, politely redirect to our expertis
           model: "anthropic/claude-3-haiku",
           messages: [
             { role: "system", content: systemPrompt },
-            ...messages.slice(-10).map(msg => ({
+            ...chatMessages.slice(-10).map(msg => ({
               role: msg.role,
               content: msg.content
             })),
@@ -115,31 +119,28 @@ If asked about something outside our services, politely redirect to our expertis
   };
 
   const handleSendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !activeChat) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: input.trim(),
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
+    const userMessageContent = input.trim();
     setInput('');
     setIsLoading(true);
     setIsTyping(true);
 
     try {
-      const aiResponse = await callOpenRouterAPI(input.trim());
+      // Add user message to storage
+      addMessageToActiveChat({
+        role: 'user',
+        content: userMessageContent
+      });
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
+      // Get AI response
+      const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat.messages);
+
+      // Add AI response to storage
+      addMessageToActiveChat({
         role: 'assistant',
-        content: aiResponse,
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
+        content: aiResponse
+      });
     } catch (error) {
       console.error('Error sending message:', error);
       toast({
@@ -160,160 +161,184 @@ If asked about something outside our services, politely redirect to our expertis
     }
   };
 
-  const clearChat = () => {
-    setMessages([{
-      id: '1',
-      role: 'assistant',
-      content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-      timestamp: new Date()
-    }]);
+  const clearCurrentChat = () => {
+    if (activeChatId) {
+      // Create a new chat to replace the current one
+      createNewChat();
+    }
   };
 
   return (
-    <div className="flex flex-col h-full max-h-[80vh] bg-background">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleBack}
-            className="text-white/70 hover:text-white mr-2"
-            title="Back to Home"
-          >
-            <ArrowLeft size={16} />
-          </Button>
-          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
-            <img
-              src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
-              alt="SyncSphere Logo"
-              className="w-6 h-6 object-contain"
-            />
-          </div>
-          <div>
-            <h3 className="font-semibold text-white">SyncSphere AI Assistant</h3>
-            <p className="text-sm text-white/70">Advanced AI Technology</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearChat}
-            className="text-white/70 hover:text-white"
-            title="Clear Chat"
-          >
-            <RefreshCw size={16} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleClose}
-            className="text-white/70 hover:text-red-400"
-            title="Close Chat"
-          >
-            <X size={16} />
-          </Button>
-        </div>
-      </div>
+    <div className="flex h-full max-h-[80vh] bg-background">
+      {/* Chat History Sidebar */}
+      <ChatHistorySidebar
+        chatSessions={chatSessions}
+        activeChatId={activeChatId}
+        onCreateNewChat={createNewChat}
+        onSwitchToChat={switchToChat}
+        onDeleteChat={deleteChat}
+        onClearAllChats={clearAllChats}
+        storageSize={storageSize}
+        storageLimit={storageLimit}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+      />
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(80vh - 200px)', minHeight: '200px' }}>
-        <div className="space-y-4 pb-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-white/10">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBack}
+              className="text-white/70 hover:text-white mr-2"
+              title="Back to Home"
             >
-              <div className={`flex gap-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                  message.role === 'user'
-                    ? 'bg-primary'
-                    : 'bg-white/10'
-                }`}>
-                  {message.role === 'user' ? (
-                    <User size={16} className="text-white" />
-                  ) : (
+              <ArrowLeft size={16} />
+            </Button>
+            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
+              <img
+                src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                alt="SyncSphere Logo"
+                className="w-6 h-6 object-contain"
+              />
+            </div>
+            <div>
+              <h3 className="font-semibold text-white">SyncSphere AI Assistant</h3>
+              <p className="text-sm text-white/70">Advanced AI Technology</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+              className="text-white/70 hover:text-white"
+              title="Toggle chat history"
+            >
+              <Menu size={16} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearCurrentChat}
+              className="text-white/70 hover:text-white"
+              title="New Chat"
+            >
+              <RefreshCw size={16} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleClose}
+              className="text-white/70 hover:text-red-400"
+              title="Close Chat"
+            >
+              <X size={16} />
+            </Button>
+          </div>
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(80vh - 200px)', minHeight: '200px' }}>
+          <div className="space-y-4 pb-4">
+            {activeChat?.messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`flex gap-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                    message.role === 'user'
+                      ? 'bg-primary'
+                      : 'bg-white/10'
+                  }`}>
+                    {message.role === 'user' ? (
+                      <User size={16} className="text-white" />
+                    ) : (
+                      <img
+                        src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                        alt="SyncSphere Logo"
+                        className="w-6 h-6 object-contain"
+                      />
+                    )}
+                  </div>
+                  <Card className={`${
+                    message.role === 'user'
+                      ? 'bg-primary text-white'
+                      : 'bg-white/5 border-white/10 text-white'
+                  }`}>
+                    <CardContent className="p-3">
+                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <p className={`text-xs mt-2 ${
+                        message.role === 'user' ? 'text-primary-foreground/70' : 'text-white/50'
+                      }`}>
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            ))}
+
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                     <img
                       src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
                       alt="SyncSphere Logo"
                       className="w-6 h-6 object-contain"
                     />
-                  )}
-                </div>
-                <Card className={`${
-                  message.role === 'user'
-                    ? 'bg-primary text-white'
-                    : 'bg-white/5 border-white/10 text-white'
-                }`}>
-                  <CardContent className="p-3">
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                    <p className={`text-xs mt-2 ${
-                      message.role === 'user' ? 'text-primary-foreground/70' : 'text-white/50'
-                    }`}>
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          ))}
-
-          {/* Typing Indicator */}
-          {isTyping && (
-            <div className="flex justify-start">
-              <div className="flex gap-3 max-w-[80%]">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  <img
-                    src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
-                    alt="SyncSphere Logo"
-                    className="w-6 h-6 object-contain"
-                  />
-                </div>
-                <Card className="bg-white/5 border-white/10">
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                  <Card className="bg-white/5 border-white/10">
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                        </div>
+                        <span className="text-sm text-white/70">SyncSphere AI is typing...</span>
                       </div>
-                      <span className="text-sm text-white/70">SyncSphere AI is typing...</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Input */}
-      <div className="p-4 border-t border-white/10">
-        <div className="flex gap-2">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask me about our AI solutions..."
-            disabled={isLoading}
-            className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/50 focus:border-primary"
-          />
-          <Button
-            onClick={handleSendMessage}
-            disabled={!input.trim() || isLoading}
-            className="bg-primary hover:bg-primary/90"
-          >
-            {isLoading ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              <Send size={16} />
             )}
-          </Button>
+          </div>
         </div>
-        <p className="text-xs text-white/50 mt-2 text-center">
-          Ask about our services, pricing, or how we can help your business
-        </p>
+
+        {/* Input */}
+        <div className="p-4 border-t border-white/10">
+          <div className="flex gap-2">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask me about our AI solutions..."
+              disabled={isLoading}
+              className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/50 focus:border-primary"
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={!input.trim() || isLoading}
+              className="bg-primary hover:bg-primary/90"
+            >
+              {isLoading ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : (
+                <Send size={16} />
+              )}
+            </Button>
+          </div>
+          <p className="text-xs text-white/50 mt-2 text-center">
+            Ask about our services, pricing, or how we can help your business
+          </p>
+        </div>
       </div>
     </div>
   );

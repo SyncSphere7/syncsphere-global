@@ -1,0 +1,232 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useLocalStorage, localStorageUtils } from './useLocalStorage';
+
+export interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
+export interface ChatSession {
+  id: string;
+  title: string;
+  messages: Message[];
+  createdAt: Date;
+  updatedAt: Date;
+  isActive?: boolean;
+}
+
+const CHAT_STORAGE_KEY = 'syncsphere_chat_sessions';
+const MAX_CHATS = 10;
+const MAX_MESSAGES_PER_CHAT = 50;
+const STORAGE_LIMIT_MB = 5; // 5MB limit
+
+export function useChatStorage() {
+  const [chatSessions, setChatSessions] = useLocalStorage<ChatSession[]>(CHAT_STORAGE_KEY, []);
+  const [activeChatId, setActiveChatId] = useState<string | null>(null);
+
+  // Initialize with a default chat if none exists
+  useEffect(() => {
+    if (chatSessions.length === 0) {
+      const defaultChat: ChatSession = {
+        id: generateChatId(),
+        title: 'New Chat',
+        messages: [{
+          id: '1',
+          role: 'assistant',
+          content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+          timestamp: new Date()
+        }],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isActive: true
+      };
+      setChatSessions([defaultChat]);
+      setActiveChatId(defaultChat.id);
+    } else {
+      // Find the active chat or set the first one as active
+      const activeChat = chatSessions.find(chat => chat.isActive) || chatSessions[0];
+      if (activeChat) {
+        setActiveChatId(activeChat.id);
+      }
+    }
+  }, []);
+
+  // Generate unique chat ID
+  const generateChatId = (): string => {
+    return `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  };
+
+  // Generate chat title from first user message
+  const generateChatTitle = (messages: Message[]): string => {
+    const firstUserMessage = messages.find(msg => msg.role === 'user');
+    if (firstUserMessage) {
+      const content = firstUserMessage.content;
+      return content.length > 30 ? content.substring(0, 30) + '...' : content;
+    }
+    return 'New Chat';
+  };
+
+  // Check storage limits
+  const checkStorageLimit = useCallback((): boolean => {
+    const storageSize = localStorageUtils.getStorageSize();
+    const storageSizeMB = storageSize / (1024 * 1024);
+    return storageSizeMB < STORAGE_LIMIT_MB;
+  }, []);
+
+  // Clean up old chats if storage is full
+  const cleanupOldChats = useCallback(() => {
+    if (!checkStorageLimit()) {
+      const sortedChats = [...chatSessions].sort((a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      );
+
+      // Keep only the most recent 5 chats
+      const chatsToKeep = sortedChats.slice(0, 5);
+      setChatSessions(chatsToKeep);
+
+      // If active chat was deleted, set the first remaining chat as active
+      if (activeChatId && !chatsToKeep.find(chat => chat.id === activeChatId)) {
+        setActiveChatId(chatsToKeep[0]?.id || null);
+      }
+    }
+  }, [chatSessions, activeChatId, checkStorageLimit]);
+
+  // Create new chat
+  const createNewChat = useCallback((): string => {
+    cleanupOldChats();
+
+    const newChatId = generateChatId();
+    const newChat: ChatSession = {
+      id: newChatId,
+      title: 'New Chat',
+      messages: [{
+        id: '1',
+        role: 'assistant',
+        content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+        timestamp: new Date()
+      }],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: true
+    };
+
+    setChatSessions(prev => {
+      // Mark all other chats as inactive
+      const updatedChats = prev.map(chat => ({ ...chat, isActive: false }));
+      return [...updatedChats, newChat];
+    });
+
+    setActiveChatId(newChatId);
+    return newChatId;
+  }, [cleanupOldChats]);
+
+  // Switch to existing chat
+  const switchToChat = useCallback((chatId: string) => {
+    setChatSessions(prev =>
+      prev.map(chat => ({
+        ...chat,
+        isActive: chat.id === chatId
+      }))
+    );
+    setActiveChatId(chatId);
+  }, []);
+
+  // Add message to active chat
+  const addMessageToActiveChat = useCallback((message: Omit<Message, 'id' | 'timestamp'>) => {
+    if (!activeChatId) return;
+
+    const newMessage: Message = {
+      ...message,
+      id: Date.now().toString(),
+      timestamp: new Date()
+    };
+
+    setChatSessions(prev =>
+      prev.map(chat => {
+        if (chat.id === activeChatId) {
+          const updatedMessages = [...chat.messages, newMessage];
+          // Limit messages per chat
+          const limitedMessages = updatedMessages.slice(-MAX_MESSAGES_PER_CHAT);
+
+          return {
+            ...chat,
+            messages: limitedMessages,
+            title: chat.title === 'New Chat' ? generateChatTitle(limitedMessages) : chat.title,
+            updatedAt: new Date()
+          };
+        }
+        return chat;
+      })
+    );
+  }, [activeChatId]);
+
+  // Delete chat
+  const deleteChat = useCallback((chatId: string) => {
+    setChatSessions(prev => {
+      const filteredChats = prev.filter(chat => chat.id !== chatId);
+
+      // If deleting active chat, switch to another chat
+      if (chatId === activeChatId && filteredChats.length > 0) {
+        const newActiveChat = filteredChats[0];
+        newActiveChat.isActive = true;
+        setActiveChatId(newActiveChat.id);
+      } else if (filteredChats.length === 0) {
+        // If no chats left, create a new one
+        const newChatId = createNewChat();
+        return [{
+          id: newChatId,
+          title: 'New Chat',
+          messages: [{
+            id: '1',
+            role: 'assistant',
+            content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+            timestamp: new Date()
+          }],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isActive: true
+        }];
+      }
+
+      return filteredChats;
+    });
+  }, [activeChatId, createNewChat]);
+
+  // Clear all chats
+  const clearAllChats = useCallback(() => {
+    localStorageUtils.remove(CHAT_STORAGE_KEY);
+    const newChatId = createNewChat();
+    setChatSessions([{
+      id: newChatId,
+      title: 'New Chat',
+      messages: [{
+        id: '1',
+        role: 'assistant',
+        content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+        timestamp: new Date()
+      }],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: true
+    }]);
+    setActiveChatId(newChatId);
+  }, [createNewChat]);
+
+  // Get active chat
+  const activeChat = chatSessions.find(chat => chat.id === activeChatId);
+
+  return {
+    chatSessions,
+    activeChat,
+    activeChatId,
+    createNewChat,
+    switchToChat,
+    addMessageToActiveChat,
+    deleteChat,
+    clearAllChats,
+    storageSize: localStorageUtils.getStorageSize(),
+    storageLimit: STORAGE_LIMIT_MB * 1024 * 1024
+  };
+}

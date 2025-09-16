@@ -1,7 +1,9 @@
 
-import React from 'react';
-import { Facebook, Instagram, Linkedin, Mail, Phone, Twitter } from 'lucide-react';
+import React, { useState } from 'react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, Twitter, Cookie } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import CookieConsent from './CookieConsent';
 
 const Footer = () => {
   return (
@@ -40,6 +42,17 @@ const Footer = () => {
               <Link to="/terms-of-service" className="text-foreground/70 hover:text-primary transition-colors block">
                 Terms of Service
               </Link>
+              <button
+                onClick={() => {
+                  // Trigger cookie settings modal
+                  const event = new CustomEvent('openCookieSettings');
+                  window.dispatchEvent(event);
+                }}
+                className="text-foreground/70 hover:text-primary transition-colors text-left flex items-center gap-2"
+              >
+                <Cookie size={16} />
+                Cookie Settings
+              </button>
             </div>
           </div>
           
