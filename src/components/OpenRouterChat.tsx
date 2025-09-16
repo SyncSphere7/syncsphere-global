@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-
-import { Send, Bot, User, Loader2, RefreshCw, MessageSquare, X, ArrowLeft, Menu } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { Send, Loader2, RefreshCw, X, User, Paperclip, ArrowLeft, Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
 import { useChatStorage, Message } from '@/hooks/useChatStorage';
+import { useToast } from '@/hooks/use-toast';
+import FileUpload from './FileUpload';
+import { useNavigate } from 'react-router-dom';
 import ChatHistorySidebar from './ChatHistorySidebar';
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
@@ -32,6 +32,8 @@ const OpenRouterChat = () => {
 
   // Local state
   const [input, setInput] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [showFileUpload, setShowFileUpload] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -44,10 +46,30 @@ const OpenRouterChat = () => {
     navigate('/');
   };
 
-  const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[]) => {
+  const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[], files?: File[]) => {
     // Check if API key is available
     if (!OPENROUTER_API_KEY) {
       return "I'm currently experiencing configuration issues. Please contact our team directly at info@syncsphereofficial.com or WhatsApp +44 742 481 9094 for immediate assistance with your AI solution needs. Our experts are ready to discuss how we can transform your business with world-class AI technology.";
+    }
+
+    // Process files if provided
+    let fileContext = '';
+    if (files && files.length > 0) {
+      fileContext = '\n\nFiles uploaded by user:\n';
+      for (const file of files) {
+        fileContext += `- ${file.name} (${file.type}, ${(file.size / 1024 / 1024).toFixed(2)}MB)\n`;
+        
+        // For text files, try to read content
+        if (file.type.startsWith('text/') || file.name.endsWith('.txt')) {
+          try {
+            const text = await file.text();
+            fileContext += `  Content preview: ${text.substring(0, 500)}${text.length > 500 ? '...' : ''}\n`;
+          } catch (error) {
+            fileContext += `  (Could not read file content)\n`;
+          }
+        }
+      }
+      fileContext += '\nPlease analyze these files and provide relevant insights or assistance based on their content.\n';
     }
 
     const systemPrompt = `You are SyncSphere's world-class AI Assistant - a billion-dollar caliber AI that represents the pinnacle of artificial intelligence in business automation and AI solutions. You are not just an assistant; you are a strategic AI partner that transforms businesses globally.
@@ -134,16 +156,16 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
           'X-Title': 'SyncSphere AI Assistant'
         },
         body: JSON.stringify({
-          model: "anthropic/claude-3-haiku",
+          model: "anthropic/claude-3.5-sonnet",
           messages: [
             { role: "system", content: systemPrompt },
             ...chatMessages.slice(-10).map(msg => ({
               role: msg.role,
               content: msg.content
             })),
-            { role: "user", content: userMessage }
+            { role: "user", content: userMessage + fileContext }
           ],
-          max_tokens: 1000,
+          max_tokens: 2000,
           temperature: 0.7
         })
       });
@@ -193,14 +215,18 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
         content: userMessageContent
       });
 
-      // Get AI response using the active chat's messages
-      const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat?.messages || []);
+      // Get AI response using the active chat's messages and uploaded files
+      const aiResponse = await callOpenRouterAPI(userMessageContent, activeChat?.messages || [], uploadedFiles.length > 0 ? uploadedFiles : undefined);
 
       // Add AI response to storage
       addMessageToActiveChat({
         role: 'assistant',
         content: aiResponse
       });
+
+      // Clear uploaded files after successful message
+      setUploadedFiles([]);
+      setShowFileUpload(false);
     } catch (error) {
       console.error('Error sending message:', error);
       toast({
@@ -378,9 +404,30 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
           </div>
         </div>
 
+        {/* File Upload Section */}
+        {showFileUpload && (
+          <div className="p-4 border-t border-white/10">
+            <FileUpload
+              onFileSelect={setUploadedFiles}
+              maxFiles={3}
+              acceptedTypes={['image/*', 'application/pdf', '.doc', '.docx', '.txt']}
+              maxSizeBytes={10 * 1024 * 1024}
+            />
+          </div>
+        )}
+
         {/* Input */}
         <div className="p-4 border-t border-white/10">
           <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowFileUpload(!showFileUpload)}
+              className="text-white/70 hover:text-white p-2"
+              title="Upload files"
+            >
+              <Paperclip size={16} />
+            </Button>
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
