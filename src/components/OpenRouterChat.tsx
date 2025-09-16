@@ -244,44 +244,50 @@ If asked about something outside our services, politely redirect to our expertis
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(80vh - 200px)', minHeight: '200px' }}>
           <div className="space-y-4 pb-4">
-            {activeChat?.messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div className={`flex gap-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                    message.role === 'user'
-                      ? 'bg-primary'
-                      : 'bg-white/10'
-                  }`}>
-                    {message.role === 'user' ? (
-                      <User size={16} className="text-white" />
-                    ) : (
-                      <img
-                        src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
-                        alt="SyncSphere Logo"
-                        className="w-6 h-6 object-contain"
-                      />
-                    )}
+            {activeChat?.messages?.length ? (
+              activeChat.messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`flex gap-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                      message.role === 'user'
+                        ? 'bg-primary'
+                        : 'bg-white/10'
+                    }`}>
+                      {message.role === 'user' ? (
+                        <User size={16} className="text-white" />
+                      ) : (
+                        <img
+                          src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                          alt="SyncSphere Logo"
+                          className="w-6 h-6 object-contain"
+                        />
+                      )}
+                    </div>
+                    <Card className={`${
+                      message.role === 'user'
+                        ? 'bg-primary text-white'
+                        : 'bg-white/5 border-white/10 text-white'
+                    }`}>
+                      <CardContent className="p-3">
+                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                        <p className={`text-xs mt-2 ${
+                          message.role === 'user' ? 'text-primary-foreground/70' : 'text-white/50'
+                        }`}>
+                          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </CardContent>
+                    </Card>
                   </div>
-                  <Card className={`${
-                    message.role === 'user'
-                      ? 'bg-primary text-white'
-                      : 'bg-white/5 border-white/10 text-white'
-                  }`}>
-                    <CardContent className="p-3">
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                      <p className={`text-xs mt-2 ${
-                        message.role === 'user' ? 'text-primary-foreground/70' : 'text-white/50'
-                      }`}>
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </p>
-                    </CardContent>
-                  </Card>
                 </div>
+              ))
+            ) : (
+              <div className="flex items-center justify-center h-full text-white/50">
+                <p>No messages yet. Start a conversation!</p>
               </div>
-            ))}
+            )}
 
             {/* Typing Indicator */}
             {isTyping && (
