@@ -28,7 +28,60 @@ export function useChatStorage() {
 
   // Initialize with a default chat if none exists
   useEffect(() => {
-    if (chatSessions.length === 0) {
+    try {
+      if (chatSessions.length === 0) {
+        const defaultChat: ChatSession = {
+          id: generateChatId(),
+          title: 'New Chat',
+          messages: [{
+            id: '1',
+            role: 'assistant',
+            content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+            timestamp: new Date()
+          }],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isActive: true
+        };
+        setChatSessions([defaultChat]);
+        setActiveChatId(defaultChat.id);
+      } else {
+        // Validate chat sessions data
+        const validChats = chatSessions.filter(chat => {
+          return chat &&
+                 typeof chat.id === 'string' &&
+                 typeof chat.title === 'string' &&
+                 Array.isArray(chat.messages) &&
+                 chat.createdAt instanceof Date &&
+                 chat.updatedAt instanceof Date;
+        });
+
+        if (validChats.length !== chatSessions.length) {
+          // If some chats are invalid, use only valid ones
+          setChatSessions(validChats.length > 0 ? validChats : [{
+            id: generateChatId(),
+            title: 'New Chat',
+            messages: [{
+              id: '1',
+              role: 'assistant',
+              content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+              timestamp: new Date()
+            }],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isActive: true
+          }]);
+        }
+
+        // Find the active chat or set the first one as active
+        const activeChat = validChats.find(chat => chat.isActive) || validChats[0];
+        if (activeChat) {
+          setActiveChatId(activeChat.id);
+        }
+      }
+    } catch (error) {
+      console.error('Error initializing chat sessions:', error);
+      // Reset to default state if there's an error
       const defaultChat: ChatSession = {
         id: generateChatId(),
         title: 'New Chat',
@@ -44,12 +97,6 @@ export function useChatStorage() {
       };
       setChatSessions([defaultChat]);
       setActiveChatId(defaultChat.id);
-    } else {
-      // Find the active chat or set the first one as active
-      const activeChat = chatSessions.find(chat => chat.isActive) || chatSessions[0];
-      if (activeChat) {
-        setActiveChatId(activeChat.id);
-      }
     }
   }, []);
 

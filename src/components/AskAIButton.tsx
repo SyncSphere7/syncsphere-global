@@ -1,10 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Sparkle, MessageCircle, X } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const AskAIButton = () => {
-  const navigate = useNavigate();
   const [showPrompt, setShowPrompt] = useState(false);
   const [promptClosed, setPromptClosed] = useState(false);
   const location = useLocation();
@@ -30,10 +29,6 @@ const AskAIButton = () => {
     e.stopPropagation();
     setShowPrompt(false);
     setPromptClosed(true);
-  };
-
-  const handleOpenChat = () => {
-    navigate('/chat-agent');
   };
 
   const prompts = [
@@ -79,27 +74,27 @@ const AskAIButton = () => {
       )}
 
       {/* AI Assistant Button */}
-      <button
-        onClick={handleOpenChat}
-        aria-label="Chat with SyncSphere AI Assistant"
-        className="group flex items-center justify-center gap-2 h-14 w-14 md:w-auto md:px-5 rounded-full shadow-lg text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl"
-        style={{
-          background: "linear-gradient(130deg, rgba(0,149,255,1) 0%, rgba(0,224,138,1) 100%)",
-          boxShadow: "0 10px 25px -5px rgba(0, 149, 255, 0.3)"
-        }}
-      >
-        <Sparkle
-          size={18}
-          className="text-white animate-pulse"
-          style={{ animationDuration: '3s' }}
-        />
-        <span className="hidden md:inline">AI Assistant</span>
+      <Link to="/chat-agent" aria-label="Chat with SyncSphere AI Assistant">
+        <button
+          className="group flex items-center justify-center gap-2 h-14 w-14 md:w-auto md:px-5 rounded-full shadow-lg text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          style={{
+            background: "linear-gradient(130deg, rgba(0,149,255,1) 0%, rgba(0,224,138,1) 100%)",
+            boxShadow: "0 10px 25px -5px rgba(0, 149, 255, 0.3)"
+          }}
+        >
+          <Sparkle
+            size={18}
+            className="text-white animate-pulse"
+            style={{ animationDuration: '3s' }}
+          />
+          <span className="hidden md:inline">AI Assistant</span>
 
-        {/* Tooltip */}
-        <span className="absolute bottom-full right-0 mb-3 bg-black/80 text-white text-sm px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          Ask me about AI solutions
-        </span>
-      </button>
+          {/* Tooltip */}
+          <span className="absolute bottom-full right-0 mb-3 bg-black/80 text-white text-sm px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            Ask me about AI solutions
+          </span>
+        </button>
+      </Link>
     </div>
   );
 };

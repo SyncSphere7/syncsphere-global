@@ -1,5 +1,36 @@
 import { useState, useEffect } from 'react';
 
+// Function to revive Date objects from JSON
+function reviveDates(obj: any): any {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(reviveDates);
+  }
+
+  const revived: any = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+
+      // Check if it's a date-like string (ISO format)
+      if (typeof value === 'string' &&
+          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(value) &&
+          !isNaN(Date.parse(value))) {
+        revived[key] = new Date(value);
+      } else if (typeof value === 'object') {
+        revived[key] = reviveDates(value);
+      } else {
+        revived[key] = value;
+      }
+    }
+  }
+
+  return revived;
+}
+
 export function useLocalStorage<T>(key: string, initialValue: T) {
   // Get from local storage then parse stored json or return initialValue
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -8,7 +39,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         return initialValue;
       }
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      return item ? reviveDates(JSON.parse(item)) : initialValue;
     } catch (error) {
       console.error(`Error reading localStorage key "${key}":`, error);
       return initialValue;
@@ -42,7 +73,10 @@ export const localStorageUtils = {
     try {
       if (typeof window === 'undefined') return defaultValue;
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : defaultValue;
+      if (!item) return defaultValue;
+
+      const parsed = JSON.parse(item);
+      return reviveDates(parsed);
     } catch {
       return defaultValue;
     }
