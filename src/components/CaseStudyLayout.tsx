@@ -31,7 +31,7 @@ const CaseStudyLayout = ({
     "@type": "Article",
     "headline": title,
     "description": description,
-    "image": "https://syncsphereofficial.com/lovable-uploads/54f2dc02-f4c5-4c57-afe2-0a95d7775909.png",
+    "image": "https://syncsphereofficial.com/syncsphere-logo.png",
     "author": {
       "@type": "Organization",
       "name": "SyncSphere"

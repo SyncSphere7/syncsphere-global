@@ -18,7 +18,7 @@ const SEOProvider: React.FC<SEOProps> = ({
   title = "SyncSphere AI Agency",
   description = "Professional AI solutions including chatbots, voice agents, automations, micro-SaaS, and AI agents.",
   canonicalUrl = "https://syncsphereofficial.com",
-  ogImageUrl = "https://syncsphereofficial.com/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png",
+  ogImageUrl = "https://syncsphereofficial.com/syncsphere-logo.png",
   keywords = "ai automation, business automation, workflow automation, ai chatbots, voice agents",
   region = 'global',
   service,

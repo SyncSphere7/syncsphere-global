@@ -319,7 +319,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
               <img
-                src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                src="/syncsphere-logo.png"
                 alt="SyncSphere Logo"
                 className="w-6 h-6 object-contain"
               />
@@ -379,7 +379,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
                         <User size={16} className="text-white" />
                       ) : (
                         <img
-                          src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                          src="/syncsphere-logo.png"
                           alt="SyncSphere Logo"
                           className="w-6 h-6 object-contain"
                         />
@@ -414,7 +414,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
                 <div className="flex gap-3 max-w-[80%]">
                   <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                     <img
-                      src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+                      src="/syncsphere-logo.png"
                       alt="SyncSphere Logo"
                       className="w-6 h-6 object-contain"
                     />
