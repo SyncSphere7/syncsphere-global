@@ -160,67 +160,67 @@ const Pricing = () => {
               </div>
 
               <Tabs value={selectedService} onValueChange={setSelectedService} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6 mb-12">
+                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 mb-12 h-auto p-2">
                   {services.map((service) => (
                     <TabsTrigger 
                       key={service.id} 
                       value={service.id}
-                      className="flex flex-col items-center gap-2 p-4"
+                      className="flex flex-col items-center gap-1 p-3 h-auto min-h-[80px] text-xs"
                     >
-                      <span className="text-2xl">{service.icon}</span>
-                      <span className="text-sm font-medium text-center">{service.name}</span>
+                      <span className="text-lg">{service.icon}</span>
+                      <span className="text-xs font-medium text-center leading-tight">{service.name}</span>
                     </TabsTrigger>
                   ))}
                 </TabsList>
 
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                <div className="text-center mb-8 px-4">
+                  <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                     {services.find(s => s.id === selectedService)?.name} Pricing
                   </h3>
-                  <p className="text-foreground/70 mb-4">
+                  <p className="text-foreground/70 mb-4 text-sm md:text-base">
                     {services.find(s => s.id === selectedService)?.desc}
                   </p>
                   <Link to={`/services/${selectedService}`}>
-                    <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary hover:text-white">
+                    <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary hover:text-white text-xs md:text-sm">
                       Learn More About {services.find(s => s.id === selectedService)?.name}
-                      <ArrowRight className="h-4 w-4 ml-2" />
+                      <ArrowRight className="h-3 w-3 md:h-4 md:w-4 ml-2" />
                     </Button>
                   </Link>
                 </div>
 
                 {/* Pricing Tiers */}
-                <div className="grid md:grid-cols-4 gap-6 mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12 px-4">
                   <Card className="relative border-blue-500/30 bg-blue-500/5">
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-blue-500 text-white px-3 py-1 text-xs">
                         🚀 Quick Start
                       </Badge>
                     </div>
-                    <CardHeader className="text-center pt-6">
-                      <CardTitle className="text-lg">Pilot Program</CardTitle>
-                      <CardDescription className="text-sm">Working AI solution</CardDescription>
-                      <div className="text-2xl font-bold text-foreground mt-3">
+                    <CardHeader className="text-center pt-4 pb-2">
+                      <CardTitle className="text-base md:text-lg">Pilot Program</CardTitle>
+                      <CardDescription className="text-xs md:text-sm">Working AI solution</CardDescription>
+                      <div className="text-lg md:text-2xl font-bold text-foreground mt-2">
                         {formatPrice(pricing.pilot[0])}
                       </div>
                       <p className="text-xs text-foreground/60">Delivered in 7-14 days</p>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <ul className="space-y-2 mb-4 text-xs">
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Basic working solution (yours to keep)</span>
+                    <CardContent className="pt-0 pb-4">
+                      <ul className="space-y-1 mb-3 text-xs">
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Basic working solution (yours to keep)</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Single platform deployment</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Single platform deployment</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>30 days to see results</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">30 days to see results</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Credits toward upgrades</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Credits toward upgrades</span>
                         </li>
                       </ul>
                       <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20start%20a%20pilot%20program%20for%20" target="_blank" rel="noopener noreferrer">
@@ -233,31 +233,31 @@ const Pricing = () => {
                   </Card>
 
                   <Card className="relative">
-                    <CardHeader className="text-center">
-                      <CardTitle className="text-lg">Quick Start</CardTitle>
-                      <CardDescription className="text-sm">Perfect for SMEs</CardDescription>
-                      <div className="text-2xl font-bold text-foreground mt-3">
+                    <CardHeader className="text-center pt-4 pb-2">
+                      <CardTitle className="text-base md:text-lg">Quick Start</CardTitle>
+                      <CardDescription className="text-xs md:text-sm">Perfect for SMEs</CardDescription>
+                      <div className="text-lg md:text-2xl font-bold text-foreground mt-2">
                         {pricing.starter.length > 1 ? `${formatPrice(pricing.starter[0])} - ${formatPrice(pricing.starter[1])}` : formatPrice(pricing.starter[0])}
                       </div>
                       <p className="text-xs text-foreground/60">Flexible payments available</p>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <ul className="space-y-2 mb-4 text-xs">
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Essential features</span>
+                    <CardContent className="pt-0 pb-4">
+                      <ul className="space-y-1 mb-3 text-xs">
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Essential features</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Basic integrations</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Basic integrations</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Email support</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Email support</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>60-day warranty</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">60-day warranty</span>
                         </li>
                       </ul>
                       <Link to={`/services/${selectedService}`}>
@@ -276,35 +276,35 @@ const Pricing = () => {
                         Most Popular
                       </Badge>
                     </div>
-                    <CardHeader className="text-center pt-6">
-                      <CardTitle className="text-lg">Professional</CardTitle>
-                      <CardDescription className="text-sm">Growing businesses</CardDescription>
-                      <div className="text-2xl font-bold text-foreground mt-3">
+                    <CardHeader className="text-center pt-6 pb-2">
+                      <CardTitle className="text-base md:text-lg">Professional</CardTitle>
+                      <CardDescription className="text-xs md:text-sm">Growing businesses</CardDescription>
+                      <div className="text-lg md:text-2xl font-bold text-foreground mt-2">
                         {formatPrice(pricing.professional[0])} - {formatPrice(pricing.professional[1])}
                       </div>
                       <p className="text-xs text-foreground/60">Monthly payments available</p>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <ul className="space-y-2 mb-4 text-xs">
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Advanced features</span>
+                    <CardContent className="pt-0 pb-4">
+                      <ul className="space-y-1 mb-3 text-xs">
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Advanced features</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Custom integrations</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Custom integrations</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Priority support</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Priority support</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>90-day warranty</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">90-day warranty</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Training included</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Training included</span>
                         </li>
                       </ul>
                       <Link to={`/services/${selectedService}`}>
@@ -317,35 +317,35 @@ const Pricing = () => {
                   </Card>
 
                   <Card className="relative">
-                    <CardHeader className="text-center">
-                      <CardTitle className="text-lg">Enterprise</CardTitle>
-                      <CardDescription className="text-sm">Large organizations</CardDescription>
-                      <div className="text-2xl font-bold text-foreground mt-3">
+                    <CardHeader className="text-center pt-4 pb-2">
+                      <CardTitle className="text-base md:text-lg">Enterprise</CardTitle>
+                      <CardDescription className="text-xs md:text-sm">Large organizations</CardDescription>
+                      <div className="text-lg md:text-2xl font-bold text-foreground mt-2">
                         {formatPrice(pricing.enterprise[0])} - {formatPrice(pricing.enterprise[1])}
                       </div>
                       <p className="text-xs text-foreground/60">Custom payment terms</p>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <ul className="space-y-2 mb-4 text-xs">
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Enterprise-grade</span>
+                    <CardContent className="pt-0 pb-4">
+                      <ul className="space-y-1 mb-3 text-xs">
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Enterprise-grade</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>Full customization</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">Full customization</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>24/7 dedicated support</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">24/7 dedicated support</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>1-year warranty</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">1-year warranty</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-3 w-3 text-green-500" />
-                          <span>SLA guarantees</span>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="leading-tight">SLA guarantees</span>
                         </li>
                       </ul>
                       <Button 
@@ -384,50 +384,51 @@ const Pricing = () => {
           <section id="payment-terms" className="py-16 bg-white/5">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h3 className="text-2xl font-bold text-foreground mb-8">Flexible Payment Options</h3>
-              <div className="grid md:grid-cols-4 gap-6 mb-8">
-                <div className="text-center bg-blue-500/10 p-6 rounded-lg border border-blue-500/20">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <span className="text-blue-400 font-bold text-sm">100%</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 px-4">
+                <div className="text-center bg-blue-500/10 p-4 md:p-6 rounded-lg border border-blue-500/20">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3">
+                    <span className="text-blue-400 font-bold text-xs md:text-sm">100%</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2 text-sm">Pilot Program</h4>
-                  <p className="text-foreground/70 text-xs">Full payment upfront for quick delivery</p>
+                  <h4 className="font-semibold text-foreground mb-1 md:mb-2 text-xs md:text-sm">Pilot Program</h4>
+                  <p className="text-foreground/70 text-xs leading-tight">Full payment upfront for quick delivery</p>
                 </div>
-                <div className="text-center bg-white/5 p-6 rounded-lg border border-white/10">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <span className="text-primary font-bold text-sm">25%</span>
+                <div className="text-center bg-white/5 p-4 md:p-6 rounded-lg border border-white/10">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3">
+                    <span className="text-primary font-bold text-xs md:text-sm">25%</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2 text-sm">Quick Start</h4>
-                  <p className="text-foreground/70 text-xs">25% upfront, flexible milestone payments</p>
+                  <h4 className="font-semibold text-foreground mb-1 md:mb-2 text-xs md:text-sm">Quick Start</h4>
+                  <p className="text-foreground/70 text-xs leading-tight">25% upfront, flexible milestone payments</p>
                 </div>
-                <div className="text-center bg-white/5 p-6 rounded-lg border border-white/10">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <span className="text-primary font-bold text-sm">Monthly</span>
+                <div className="text-center bg-white/5 p-4 md:p-6 rounded-lg border border-white/10">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3">
+                    <span className="text-primary font-bold text-xs md:text-sm">Monthly</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2 text-sm">Professional</h4>
-                  <p className="text-foreground/70 text-xs">Monthly payments over 6-12 months</p>
+                  <h4 className="font-semibold text-foreground mb-1 md:mb-2 text-xs md:text-sm">Professional</h4>
+                  <p className="text-foreground/70 text-xs leading-tight">Monthly payments over 6-12 months</p>
                 </div>
-                <div className="text-center bg-white/5 p-6 rounded-lg border border-white/10">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <span className="text-primary font-bold text-sm">Custom</span>
+                <div className="text-center bg-white/5 p-4 md:p-6 rounded-lg border border-white/10">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3">
+                    <span className="text-primary font-bold text-xs md:text-sm">Custom</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2 text-sm">Enterprise</h4>
-                  <p className="text-foreground/70 text-xs">Tailored payment schedules</p>
+                  <h4 className="font-semibold text-foreground mb-1 md:mb-2 text-xs md:text-sm">Enterprise</h4>
+                  <p className="text-foreground/70 text-xs leading-tight">Tailored payment schedules</p>
                 </div>
               </div>
-              <div className="text-center">
-                <p className="text-foreground/70 text-sm mb-4">
+              <div className="text-center px-4">
+                <p className="text-foreground/70 text-xs md:text-sm mb-4">
                   All payment plans include setup, training, and ongoing support
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20discuss%20flexible%20payment%20options%20for%20AI%20solutions." target="_blank" rel="noopener noreferrer" className="inline-block">
-                    <Button variant="outline" size="sm">
-                      <Phone className="h-4 w-4 mr-2" />
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center max-w-md mx-auto">
+                  <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20discuss%20flexible%20payment%20options%20for%20AI%20solutions." target="_blank" rel="noopener noreferrer" className="inline-block w-full sm:w-auto">
+                    <Button variant="outline" size="sm" className="w-full text-xs md:text-sm">
+                      <Phone className="h-3 w-3 md:h-4 md:w-4 mr-2" />
                       Discuss Payment Options
                     </Button>
                   </a>
                   <Button 
                     variant="outline" 
                     size="sm"
+                    className="w-full sm:w-auto text-xs md:text-sm"
                     onClick={async () => {
                       try {
                         await fetch('/api/contact', {
@@ -447,7 +448,7 @@ const Pricing = () => {
                       }
                     }}
                   >
-                    <Mail className="h-4 w-4 mr-2" />
+                    <Mail className="h-3 w-3 md:h-4 md:w-4 mr-2" />
                     Get Payment Info
                   </Button>
                 </div>
@@ -456,29 +457,29 @@ const Pricing = () => {
           </section>
 
           {/* Final CTA */}
-          <section className="py-20 bg-gradient-to-r from-primary to-blue-600 text-white relative overflow-hidden">
+          <section className="py-12 md:py-20 bg-gradient-to-r from-primary to-blue-600 text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-30 blur-3xl -z-10"></div>
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
-              <p className="text-xl mb-8 opacity-90">
+              <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6">Ready to Get Started?</h2>
+              <p className="text-base md:text-xl mb-6 md:mb-8 opacity-90">
                 Start with a £1,500 pilot program or book a free consultation to discuss your needs
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                <a href="https://wa.me/447424819094?text=Hi%20SyncSphere!%20I'd%20like%20to%20schedule%20a%20free%20consultation%20to%20discuss%20AI%20solutions%20for%20my%20business." target="_blank" rel="noopener noreferrer">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-6 md:mb-8 max-w-2xl mx-auto">
+                <a href="https://wa.me/447424819094?text=Hi%20SyncSphere!%20I'd%20like%20to%20schedule%20a%20free%20consultation%20to%20discuss%20AI%20solutions%20for%20my%20business." target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                   <Button 
-                    size="lg" 
+                    size="sm" 
                     variant="secondary"
-                    className="group bg-white text-primary hover:bg-white/90 px-8 py-6 text-lg flex items-center gap-2 shadow-lg transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto"
+                    className="group bg-white text-primary hover:bg-white/90 px-4 md:px-8 py-3 md:py-6 text-sm md:text-lg flex items-center gap-2 shadow-lg transition-all duration-300 hover:translate-y-[-2px] w-full"
                   >
-                    <Phone className="h-5 w-5" />
+                    <Phone className="h-4 w-4 md:h-5 md:w-5" />
                     Schedule Free Consultation
-                    <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight size={16} className="md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </a>
                 <Button 
-                  size="lg" 
+                  size="sm" 
                   variant="outline" 
-                  className="group text-white border-white hover:bg-white hover:text-primary px-8 py-6 text-lg flex items-center gap-2 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto"
+                  className="group text-white border-white hover:bg-white hover:text-primary px-4 md:px-8 py-3 md:py-6 text-sm md:text-lg flex items-center gap-2 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto"
                   onClick={async () => {
                     try {
                       await fetch('/api/contact', {
@@ -498,11 +499,11 @@ const Pricing = () => {
                     }
                   }}
                 >
-                  <Download className="h-5 w-5" />
+                  <Download className="h-4 w-4 md:h-5 md:w-5" />
                   Download Pricing Guide
                 </Button>
               </div>
-              <div className="flex flex-wrap justify-center gap-6 text-sm opacity-80">
+              <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-xs md:text-sm opacity-80 px-4">
                 <a href="#payment-terms" className="hover:opacity-100 transition-opacity">
                   <span>💳 Flexible payment terms</span>
                 </a>

@@ -136,27 +136,27 @@ const Header = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-background w-full py-4 px-6 absolute left-0 border-b border-white/10 dark:border-white/10 light:border-gray-200">
-          <nav className="flex flex-col space-y-4">
+        <div className="md:hidden bg-background w-full py-4 px-4 absolute left-0 top-full border-b border-white/10 dark:border-white/10 light:border-gray-200 z-50 max-h-screen overflow-y-auto">
+          <nav className="flex flex-col space-y-3">
             <Link 
               to={homeLink}
-              className="text-foreground/80 hover:text-foreground transition-colors"
+              className="text-foreground/80 hover:text-foreground transition-colors py-2 px-3 rounded-md hover:bg-white/5"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             
             {/* Mobile Services Submenu */}
-            <div className="flex flex-col space-y-2">
-              <div className="text-foreground/80 flex items-center cursor-pointer">
+            <div className="flex flex-col space-y-1">
+              <div className="text-foreground/80 flex items-center cursor-pointer py-2 px-3 rounded-md">
                 Services
               </div>
-              <div className="pl-4 flex flex-col space-y-2">
+              <div className="pl-3 flex flex-col space-y-1">
                 {servicesItems.map((service) => (
                   <Link
                     key={service.path}
                     to={service.path}
-                    className="text-foreground/70 hover:text-primary transition-colors text-sm"
+                    className="text-foreground/70 hover:text-primary transition-colors text-sm py-2 px-3 rounded-md hover:bg-white/5"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {service.title}
@@ -167,7 +167,7 @@ const Header = () => {
             
             <Link 
               to="/pricing"
-              className="text-foreground/80 hover:text-foreground transition-colors"
+              className="text-foreground/80 hover:text-foreground transition-colors py-2 px-3 rounded-md hover:bg-white/5"
               onClick={() => setIsMenuOpen(false)}
             >
               Pricing
@@ -179,7 +179,7 @@ const Header = () => {
                 handleContactClick(e);
                 setIsMenuOpen(false);
               }}
-              className="text-foreground/80 hover:text-foreground transition-colors cursor-pointer"
+              className="text-foreground/80 hover:text-foreground transition-colors cursor-pointer py-2 px-3 rounded-md hover:bg-white/5"
             >
               Contact
             </a>
