@@ -21,7 +21,7 @@ const Index = () => {
     "name": "SyncSphere AI Global Agency",
     "description": "SyncSphere delivers professional AI solutions including AI chatbots, voice agents, automations, micro-SaaS, and AI agents for businesses of all sizes globally.",
     "url": "https://syncsphereofficial.com",
-    "logo": "https://syncsphereofficial.com/SyncSphere%20logo.png",
+    "logo": "https://syncsphereofficial.com/syncsphere-logo.png",
     "sameAs": [
       "https://twitter.com/SyncSphere",
       "https://www.linkedin.com/company/syncsphere",

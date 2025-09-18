@@ -103,7 +103,7 @@ const SEOProvider: React.FC<SEOProps> = ({
     "name": "SyncSphere",
     "alternateName": "SyncSphere AI Agency",
     "url": "https://syncsphereofficial.com",
-    "logo": "https://syncsphereofficial.com/SyncSphere%20logo.png",
+    "logo": "https://syncsphereofficial.com/syncsphere-logo.png",
     "description": "Leading AI automation agency providing enterprise-grade business process automation, conversational AI, voice agents, and digital transformation solutions across UK, US, and EU markets.",
     "foundingDate": "2023",
     "sameAs": [

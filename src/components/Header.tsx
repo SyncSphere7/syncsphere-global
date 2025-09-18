@@ -63,7 +63,7 @@ const Header = () => {
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <img 
-              src="/SyncSphere logo.png" 
+              src="/syncsphere-logo.png" 
               alt="SyncSphere Logo" 
               className="h-12 mr-2"
             />
