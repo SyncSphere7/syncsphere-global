@@ -25,31 +25,37 @@ const Pricing = () => {
 
   const pricingData = {
     automations: {
-      starter: { usd: [8000, 15000], gbp: [6400, 12000], eur: [7200, 13500] },
+      pilot: { usd: [1875], gbp: [1500], eur: [1700] },
+      starter: { usd: [4375, 5000], gbp: [3500, 4000], eur: [3900, 4500] },
       professional: { usd: [15000, 35000], gbp: [12000, 28000], eur: [13500, 31500] },
       enterprise: { usd: [35000, 75000], gbp: [28000, 60000], eur: [31500, 67500] }
     },
     chatbots: {
-      starter: { usd: [6000, 12000], gbp: [4800, 9600], eur: [5400, 10800] },
+      pilot: { usd: [1875], gbp: [1500], eur: [1700] },
+      starter: { usd: [3125, 3750], gbp: [2500, 3000], eur: [2800, 3400] },
       professional: { usd: [12000, 28000], gbp: [9600, 22400], eur: [10800, 25200] },
       enterprise: { usd: [28000, 60000], gbp: [22400, 48000], eur: [25200, 54000] }
     },
     'voice-agents': {
-      starter: { usd: [10000, 18000], gbp: [8000, 14400], eur: [9000, 16200] },
+      pilot: { usd: [1875], gbp: [1500], eur: [1700] },
+      starter: { usd: [5000, 6250], gbp: [4000, 5000], eur: [4500, 5600] },
       professional: { usd: [18000, 40000], gbp: [14400, 32000], eur: [16200, 36000] },
       enterprise: { usd: [40000, 85000], gbp: [32000, 68000], eur: [36000, 76500] }
     },
     ecommerce: {
+      pilot: { usd: [1250], gbp: [1000], eur: [1100] },
       starter: { usd: [2500, 5000], gbp: [2000, 4000], eur: [2250, 4500] },
       professional: { usd: [5000, 15000], gbp: [4000, 12000], eur: [4500, 13500] },
       enterprise: { usd: [15000, 35000], gbp: [12000, 28000], eur: [13500, 31500] }
     },
     'web-development': {
-      starter: { usd: [500, 2000], gbp: [400, 1600], eur: [450, 1800] },
+      pilot: { usd: [625], gbp: [500], eur: [550] },
+      starter: { usd: [1250, 2500], gbp: [1000, 2000], eur: [1100, 2250] },
       professional: { usd: [2000, 8000], gbp: [1600, 6400], eur: [1800, 7200] },
       enterprise: { usd: [8000, 20000], gbp: [6400, 16000], eur: [7200, 18000] }
     },
     'app-development': {
+      pilot: { usd: [1250], gbp: [1000], eur: [1100] },
       starter: { usd: [3000, 6000], gbp: [2400, 4800], eur: [2700, 5400] },
       professional: { usd: [6000, 20000], gbp: [4800, 16000], eur: [5400, 18000] },
       enterprise: { usd: [20000, 50000], gbp: [16000, 40000], eur: [18000, 45000] }
@@ -65,6 +71,7 @@ const Pricing = () => {
     const service = pricingData[selectedService];
     const curr = currency.toLowerCase();
     return {
+      pilot: service.pilot[curr],
       starter: service.starter[curr],
       professional: service.professional[curr],
       enterprise: service.enterprise[curr]
@@ -182,84 +189,128 @@ const Pricing = () => {
                 </div>
 
                 {/* Pricing Tiers */}
-                <div className="grid md:grid-cols-3 gap-8 mb-12">
+                <div className="grid md:grid-cols-4 gap-6 mb-12">
+                  <Card className="relative border-blue-500/30 bg-blue-500/5">
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <Badge className="bg-blue-500 text-white px-3 py-1 text-xs">
+                        🚀 Quick Start
+                      </Badge>
+                    </div>
+                    <CardHeader className="text-center pt-6">
+                      <CardTitle className="text-lg">Pilot Program</CardTitle>
+                      <CardDescription className="text-sm">Working AI solution</CardDescription>
+                      <div className="text-2xl font-bold text-foreground mt-3">
+                        {formatPrice(pricing.pilot[0])}
+                      </div>
+                      <p className="text-xs text-foreground/60">Delivered in 7-14 days</p>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <ul className="space-y-2 mb-4 text-xs">
+                        <li className="flex items-center gap-2">
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Basic working solution (yours to keep)</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Single platform deployment</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>30 days to see results</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Credits toward upgrades</span>
+                        </li>
+                      </ul>
+                      <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20start%20a%20pilot%20program%20for%20" target="_blank" rel="noopener noreferrer">
+                        <Button className="w-full text-xs py-2 bg-blue-500 hover:bg-blue-600">
+                          Start Pilot
+                          <ArrowRight className="h-3 w-3 ml-1" />
+                        </Button>
+                      </a>
+                    </CardContent>
+                  </Card>
+
                   <Card className="relative">
                     <CardHeader className="text-center">
-                      <CardTitle>Starter</CardTitle>
-                      <CardDescription>Perfect for small businesses</CardDescription>
-                      <div className="text-3xl font-bold text-foreground mt-4">
-                        {formatPrice(pricing.starter[0])} - {formatPrice(pricing.starter[1])}
+                      <CardTitle className="text-lg">Quick Start</CardTitle>
+                      <CardDescription className="text-sm">Perfect for SMEs</CardDescription>
+                      <div className="text-2xl font-bold text-foreground mt-3">
+                        {pricing.starter.length > 1 ? `${formatPrice(pricing.starter[0])} - ${formatPrice(pricing.starter[1])}` : formatPrice(pricing.starter[0])}
                       </div>
+                      <p className="text-xs text-foreground/60">Flexible payments available</p>
                     </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-3 mb-6">
+                    <CardContent className="pt-0">
+                      <ul className="space-y-2 mb-4 text-xs">
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Basic implementation</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Essential features</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Standard features</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Basic integrations</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Email support</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Email support</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">30-day warranty</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>60-day warranty</span>
                         </li>
                       </ul>
                       <Link to={`/services/${selectedService}`}>
-                        <Button className="w-full" variant="outline">
+                        <Button className="w-full text-xs py-2" variant="outline">
                           Get Started
-                          <ArrowRight className="h-4 w-4 ml-2" />
+                          <ArrowRight className="h-3 w-3 ml-1" />
                         </Button>
                       </Link>
                     </CardContent>
                   </Card>
 
                   <Card className="relative border-primary shadow-lg scale-105">
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-primary text-white px-4 py-1">
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <Badge className="bg-primary text-white px-3 py-1 text-xs">
                         <Star className="h-3 w-3 mr-1" />
                         Most Popular
                       </Badge>
                     </div>
-                    <CardHeader className="text-center">
-                      <CardTitle>Professional</CardTitle>
-                      <CardDescription>Ideal for growing businesses</CardDescription>
-                      <div className="text-3xl font-bold text-foreground mt-4">
+                    <CardHeader className="text-center pt-6">
+                      <CardTitle className="text-lg">Professional</CardTitle>
+                      <CardDescription className="text-sm">Growing businesses</CardDescription>
+                      <div className="text-2xl font-bold text-foreground mt-3">
                         {formatPrice(pricing.professional[0])} - {formatPrice(pricing.professional[1])}
                       </div>
+                      <p className="text-xs text-foreground/60">Monthly payments available</p>
                     </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-3 mb-6">
+                    <CardContent className="pt-0">
+                      <ul className="space-y-2 mb-4 text-xs">
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Advanced features</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Advanced features</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Custom integrations</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Custom integrations</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Priority support</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Priority support</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">90-day warranty</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>90-day warranty</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Training included</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Training included</span>
                         </li>
                       </ul>
                       <Link to={`/services/${selectedService}`}>
-                        <Button className="w-full bg-primary">
+                        <Button className="w-full text-xs py-2 bg-primary">
                           Get Started
-                          <ArrowRight className="h-4 w-4 ml-2" />
+                          <ArrowRight className="h-3 w-3 ml-1" />
                         </Button>
                       </Link>
                     </CardContent>
@@ -267,46 +318,60 @@ const Pricing = () => {
 
                   <Card className="relative">
                     <CardHeader className="text-center">
-                      <CardTitle>Enterprise</CardTitle>
-                      <CardDescription>For large organizations</CardDescription>
-                      <div className="text-3xl font-bold text-foreground mt-4">
+                      <CardTitle className="text-lg">Enterprise</CardTitle>
+                      <CardDescription className="text-sm">Large organizations</CardDescription>
+                      <div className="text-2xl font-bold text-foreground mt-3">
                         {formatPrice(pricing.enterprise[0])} - {formatPrice(pricing.enterprise[1])}
                       </div>
+                      <p className="text-xs text-foreground/60">Custom payment terms</p>
                     </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-3 mb-6">
+                    <CardContent className="pt-0">
+                      <ul className="space-y-2 mb-4 text-xs">
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Enterprise-grade</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Enterprise-grade</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">Full customization</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>Full customization</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">24/7 dedicated support</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>24/7 dedicated support</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">1-year warranty</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>1-year warranty</span>
                         </li>
                         <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-500" />
-                          <span className="text-sm">SLA guarantees</span>
+                          <Check className="h-3 w-3 text-green-500" />
+                          <span>SLA guarantees</span>
                         </li>
                       </ul>
                       <Button 
-                        className="w-full" 
+                        className="w-full text-xs py-2" 
                         variant="outline"
-                        onClick={() => {
-                          const form = document.createElement('div');
-                          form.innerHTML = `<div id="enterprise-contact"></div>`;
-                          document.body.appendChild(form);
+                        onClick={async () => {
+                          try {
+                            await fetch('/api/contact', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                name: 'Enterprise Inquiry',
+                                email: 'enterprise@example.com',
+                                message: 'I would like to discuss enterprise AI solutions.',
+                                formType: 'sales',
+                                service: 'Enterprise'
+                              })
+                            });
+                            alert('Enterprise inquiry sent! We\'ll contact you within 24 hours.');
+                          } catch (error) {
+                            window.location.href = 'mailto:sales@syncsphereofficial.com?subject=Enterprise%20AI%20Solutions%20Inquiry';
+                          }
                         }}
                       >
                         Contact Sales
-                        <Mail className="h-4 w-4 ml-2" />
+                        <Mail className="h-3 w-3 ml-1" />
                       </Button>
                     </CardContent>
                   </Card>
@@ -317,36 +382,49 @@ const Pricing = () => {
 
           {/* Payment Terms */}
           <section id="payment-terms" className="py-16 bg-white/5">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h3 className="text-2xl font-bold text-foreground mb-8">Professional Payment Terms</h3>
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-primary font-bold text-xl">50%</span>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h3 className="text-2xl font-bold text-foreground mb-8">Flexible Payment Options</h3>
+              <div className="grid md:grid-cols-4 gap-6 mb-8">
+                <div className="text-center bg-blue-500/10 p-6 rounded-lg border border-blue-500/20">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-blue-400 font-bold text-sm">100%</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2">Project Start</h4>
-                  <p className="text-foreground/70 text-sm">Upfront payment to begin development</p>
+                  <h4 className="font-semibold text-foreground mb-2 text-sm">Pilot Program</h4>
+                  <p className="text-foreground/70 text-xs">Full payment upfront for quick delivery</p>
                 </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-primary font-bold text-xl">30%</span>
+                <div className="text-center bg-white/5 p-6 rounded-lg border border-white/10">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-primary font-bold text-sm">25%</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2">Milestone</h4>
-                  <p className="text-foreground/70 text-sm">Progress payment at key milestone</p>
+                  <h4 className="font-semibold text-foreground mb-2 text-sm">Quick Start</h4>
+                  <p className="text-foreground/70 text-xs">25% upfront, flexible milestone payments</p>
                 </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-primary font-bold text-xl">20%</span>
+                <div className="text-center bg-white/5 p-6 rounded-lg border border-white/10">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-primary font-bold text-sm">Monthly</span>
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2">Completion</h4>
-                  <p className="text-foreground/70 text-sm">Final payment upon delivery</p>
+                  <h4 className="font-semibold text-foreground mb-2 text-sm">Professional</h4>
+                  <p className="text-foreground/70 text-xs">Monthly payments over 6-12 months</p>
+                </div>
+                <div className="text-center bg-white/5 p-6 rounded-lg border border-white/10">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-primary font-bold text-sm">Custom</span>
+                  </div>
+                  <h4 className="font-semibold text-foreground mb-2 text-sm">Enterprise</h4>
+                  <p className="text-foreground/70 text-xs">Tailored payment schedules</p>
                 </div>
               </div>
-              <div className="mt-8 text-center">
+              <div className="text-center">
                 <p className="text-foreground/70 text-sm mb-4">
-                  Enterprise clients can discuss custom payment schedules
+                  All payment plans include setup, training, and ongoing support
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20discuss%20flexible%20payment%20options%20for%20AI%20solutions." target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <Button variant="outline" size="sm">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Discuss Payment Options
+                    </Button>
+                  </a>
                   <Button 
                     variant="outline" 
                     size="sm"
@@ -358,26 +436,20 @@ const Pricing = () => {
                           body: JSON.stringify({
                             name: 'Payment Terms Inquiry',
                             email: 'inquiry@example.com',
-                            message: 'I would like to discuss custom payment terms for my project.',
+                            message: 'I would like information about monthly payment plans and flexible terms.',
                             formType: 'finance',
-                            service: 'Payment Terms'
+                            service: 'Payment Plans'
                           })
                         });
-                        alert('Payment terms inquiry sent! We\'ll contact you soon.');
+                        alert('Payment inquiry sent! We\'ll contact you with flexible options.');
                       } catch (error) {
-                        window.location.href = 'mailto:finance@syncsphereofficial.com?subject=Custom%20Payment%20Terms%20Inquiry';
+                        window.location.href = 'mailto:finance@syncsphereofficial.com?subject=Flexible%20Payment%20Plans%20Inquiry';
                       }
                     }}
                   >
                     <Mail className="h-4 w-4 mr-2" />
-                    Discuss Payment Terms
+                    Get Payment Info
                   </Button>
-                  <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20discuss%20enterprise%20payment%20options." target="_blank" rel="noopener noreferrer" className="inline-block">
-                    <Button variant="outline" size="sm">
-                      <Phone className="h-4 w-4 mr-2" />
-                      WhatsApp Finance Team
-                    </Button>
-                  </a>
                 </div>
               </div>
             </div>
@@ -389,7 +461,7 @@ const Pricing = () => {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
               <p className="text-xl mb-8 opacity-90">
-                Book your strategic consultation this week for priority Q4 2025 implementation
+                Start with a £1,500 pilot program or book a free consultation to discuss your needs
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <a href="https://wa.me/447424819094?text=Hi%20SyncSphere!%20I'd%20like%20to%20schedule%20a%20free%20consultation%20to%20discuss%20AI%20solutions%20for%20my%20business." target="_blank" rel="noopener noreferrer">
