@@ -51,11 +51,34 @@ const WebDevelopment = () => {
               we build digital experiences that convert visitors into customers and grow your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                Start Your Project
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button size="lg" variant="outline">
+              <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20start%20a%20web%20development%20project." target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full">
+                  Start Your Project
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </a>
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={async () => {
+                  try {
+                    await fetch('/api/contact', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        name: 'Portfolio Request',
+                        email: 'portfolio@example.com',
+                        message: 'I would like to see your web development portfolio.',
+                        formType: 'demo',
+                        service: 'Web Development Portfolio'
+                      })
+                    });
+                    alert('Portfolio request sent! We\'ll send you our latest work examples.');
+                  } catch (error) {
+                    window.location.href = 'mailto:info@syncsphereofficial.com?subject=Web%20Development%20Portfolio%20Request';
+                  }
+                }}
+              >
                 View Portfolio
               </Button>
             </div>
@@ -248,9 +271,11 @@ const WebDevelopment = () => {
                 <p className="text-lg mb-6 opacity-90">
                   Let's create a stunning website that drives results for your business
                 </p>
-                <Button size="lg" variant="secondary">
-                  Get Started Today
-                </Button>
+                <a href="https://wa.me/447424819094?text=Hi!%20I'm%20ready%20to%20build%20my%20website%20with%20SyncSphere." target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" variant="secondary">
+                    Get Started Today
+                  </Button>
+                </a>
               </CardContent>
             </Card>
           </div>
