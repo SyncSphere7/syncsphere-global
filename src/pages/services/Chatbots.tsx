@@ -26,8 +26,8 @@ const Chatbots = () => {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "AI Chatbots (SMS, WhatsApp, Web, Social)",
-    "description": "24/7 customer engagement, order handling, inquiries, and recommendations across all channels. Provide instant support and boost customer satisfaction.",
+    "name": "AI Chatbot Development Services",
+    "description": "Professional AI chatbot development for SMS, WhatsApp, web, and social media. 24/7 customer engagement, automated order processing, and intelligent customer support solutions.",
     "provider": {
       "@type": "Organization",
       "name": "SyncSphere",
@@ -38,8 +38,10 @@ const Chatbots = () => {
     "serviceType": "AI Chatbot Development",
     "offers": {
       "@type": "Offer",
-      "priceRange": "$1000-$3000",
-      "description": "Chatbot solutions priced based on complexity and number of channels"
+      "priceRange": "£4800-£54000",
+      "description": "AI chatbot development services: Starter £4,800-£10,800, Professional £10,800-£25,200, Enterprise £25,200-£54,000",
+      "availability": "InStock",
+      "validFrom": "2024-01-01"
     },
     "additionalProperty": [
       {

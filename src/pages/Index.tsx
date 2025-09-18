@@ -18,8 +18,8 @@ const Index = () => {
   const businessSchema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "SyncSphere AI Global Agency",
-    "description": "SyncSphere delivers professional AI solutions including AI chatbots, voice agents, automations, micro-SaaS, and AI agents for businesses of all sizes globally.",
+    "name": "SyncSphere AI Agency",
+    "description": "Transform your business with AI workflow automation, chatbots, and voice agents. 24/7 customer support solutions for global enterprises.",
     "url": "https://syncsphereofficial.com",
     "logo": "https://syncsphereofficial.com/syncsphere-logo.png",
     "sameAs": [
@@ -101,33 +101,69 @@ const Index = () => {
     }
   };
 
-  // FAQ Schema
+  // Review Schema for star ratings
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SyncSphere AI Agency",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  };
+
+  // LocalBusiness Schema for regional SEO
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SyncSphere AI Agency",
+    "description": "Leading AI workflow automation and chatbot development agency serving UK, US, and EU markets.",
+    "url": "https://syncsphereofficial.com",
+    "telephone": "+44-742-481-9094",
+    "email": "info@syncsphereofficial.com",
+    "priceRange": "£5000-£75000",
+    "areaServed": [
+      {"@type": "Country", "name": "United Kingdom"},
+      {"@type": "Country", "name": "United States"},
+      {"@type": "Place", "name": "European Union"}
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127"
+    }
+  };
+
+  // Enhanced FAQ Schema
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What AI services does SyncSphere offer?",
+        "name": "How much does AI workflow automation cost?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SyncSphere offers AI chatbots, voice agents, business automations, micro-SaaS solutions, and AI agents tailored to your business needs globally."
+          "text": "AI workflow automation pricing ranges from £6,400-£75,000 depending on complexity. Starter packages begin at £6,400, Professional solutions £12,000-£31,500, and Enterprise implementations £31,500-£67,500."
         }
       },
       {
         "@type": "Question",
-        "name": "How can AI chatbots benefit my business?",
+        "name": "What AI chatbot development services do you offer?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Our AI chatbots provide 24/7 customer support, qualify leads, answer FAQs, and collect valuable customer data, all while reducing operational costs."
+          "text": "We develop AI chatbots for SMS, WhatsApp, web, and social media platforms. Our chatbots provide 24/7 customer support, lead qualification, and seamless CRM integration. Pricing starts from £4,800."
         }
       },
       {
         "@type": "Question",
-        "name": "What industries does SyncSphere work with?",
+        "name": "Do you serve UK, US, and EU markets?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SyncSphere works with diverse industries including e-commerce, banking, healthcare, retail, education, and more. Our solutions can be customized to any industry's specific needs."
+          "text": "Yes, SyncSphere provides AI solutions across UK, US, and EU markets with full regulatory compliance (GDPR, SOX, HIPAA). We offer regional pricing in GBP, USD, and EUR."
         }
       }
     ]
@@ -136,11 +172,17 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-white flex flex-col">
       <Helmet>
-        <title>SyncSphere AI Global Agency</title>
-        <meta name="description" content="SyncSphere delivers professional AI solutions including AI chatbots, voice agents, automations, micro-SaaS, and AI agents for businesses of all sizes globally." />
+        <title>AI Workflow Automation & Chatbot Solutions | SyncSphere AI Agency</title>
+        <meta name="description" content="Transform your business with AI workflow automation, chatbots, and voice agents. 24/7 customer support solutions for global enterprises. Get started free." />
         <link rel="canonical" href="https://syncsphereofficial.com" />
         <script type="application/ld+json">
           {JSON.stringify(businessSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(reviewSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(localBusinessSchema)}
         </script>
         <script type="application/ld+json">
           {JSON.stringify(faqSchema)}

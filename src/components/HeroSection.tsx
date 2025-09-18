@@ -15,10 +15,10 @@ const HeroSection = () => {
           AI Solutions for a Smarter World
         </span>
         <h1 className="text-foreground text-4xl md:text-6xl font-bold mb-6 animate-fadeIn leading-tight">
-          Empowering businesses globally with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-300">Intelligent AI</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-300">AI Workflow Automation</span> & Chatbot Development Services
         </h1>
         <p className="text-foreground/80 text-xl md:text-2xl mb-10 max-w-3xl animate-fadeIn" style={{ animationDelay: "0.2s" }}>
-          From AI Workflow Automation to websites and apps — we help you build, automate, and scale your digital future.
+          Transform your business with intelligent automation, AI chatbots, and voice agents. 24/7 customer support solutions for global enterprises.
         </p>
         <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fadeIn" style={{ animationDelay: "0.4s" }}>
           <Link to="/services/chatbots">

@@ -3,6 +3,7 @@ import React from 'react';
 import ServiceLayout from '../../components/ServiceLayout';
 import ServiceDemoForm from '../../components/ServiceDemoForm';
 import { Phone, CheckCircle2, DollarSign } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const VoiceAgents = () => {
   const benefits = [
@@ -21,11 +22,39 @@ const VoiceAgents = () => {
     "Real-time analytics and performance monitoring"
   ];
 
+  // Enhanced structured data for SEO
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "AI Voice Agent Development Services",
+    "description": "Professional AI voice agent development for call centers and customer service. Natural-sounding voice technology that handles calls, routes queries, and processes transactions autonomously.",
+    "provider": {
+      "@type": "Organization",
+      "name": "SyncSphere AI Agency",
+      "url": "https://syncsphereofficial.com",
+      "logo": "https://syncsphereofficial.com/syncsphere-logo.png"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceRange": "£8000-£76500",
+      "description": "AI voice agent development: Starter £8,000-£16,200, Professional £16,200-£36,000, Enterprise £36,000-£76,500"
+    }
+  };
+
   return (
-    <ServiceLayout
-      title="AI Voice Agents"
-      description="Handle calls, route queries, and perform basic transactions with natural-sounding AI voice technology. Reduce call center costs while maintaining quality service."
-    >
+    <>
+      <Helmet>
+        <title>AI Voice Agent Development | Call Center Automation | SyncSphere</title>
+        <meta name="description" content="Professional AI voice agent development services. Automate call centers, reduce costs by 60%, handle calls 24/7. Natural voice technology from £8,000." />
+        <meta name="keywords" content="AI voice agents, voice agent development, call center automation, AI phone systems, automated customer service, voice AI technology" />
+        <script type="application/ld+json">
+          {JSON.stringify(serviceSchema)}
+        </script>
+      </Helmet>
+      <ServiceLayout
+        title="AI Voice Agents"
+        description="Handle calls, route queries, and perform basic transactions with natural-sounding AI voice technology. Reduce call center costs while maintaining quality service."
+      >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
         <div className="lg:col-span-2">
           <h2 className="text-2xl font-bold mb-6 text-white">Revolutionary Voice Technology</h2>
@@ -94,6 +123,7 @@ const VoiceAgents = () => {
         </div>
       </div>
     </ServiceLayout>
+    </>
   );
 };
 

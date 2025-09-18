@@ -75,8 +75,8 @@ const Pricing = () => {
 
   return (
     <SEOProvider
-      title="AI Automation Pricing | Transparent Enterprise Rates | SyncSphere"
-      description="Transparent pricing for enterprise AI automation, chatbots, and voice agents. Professional payment terms, regional pricing (UK/US/EU), and Fortune 500-grade solutions from £5,000."
+      title="AI Workflow Automation Pricing | Enterprise Chatbot Development Costs | SyncSphere"
+      description="Transparent AI automation pricing: Workflow automation £6,400-£75,000, AI chatbots £4,800-£54,000, voice agents £8,000-£76,500. UK/US/EU pricing with flexible payment terms."
       keywords="ai automation pricing, chatbot development cost, voice agent pricing, enterprise ai cost, business automation pricing, ai consulting rates"
     >
       <div className="min-h-screen bg-background">
