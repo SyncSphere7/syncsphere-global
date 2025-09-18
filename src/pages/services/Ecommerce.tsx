@@ -82,12 +82,24 @@ const Ecommerce = () => {
             </div>
 
             <div className="mt-auto">
-              <ServiceDemoForm
-                serviceName="E-commerce Solutions"
-                ctaText="Get E-commerce Consultation"
-              />
-              <p className="text-white/50 text-sm text-center mt-4">
-                Our experts will design an AI-powered e-commerce solution tailored to your business
+              <div className="space-y-3">
+                <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20start%20with%20a%20£1,000%20e-commerce%20pilot%20program." target="_blank" rel="noopener noreferrer">
+                  <button className="w-full bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+                    🛍️ Start E-commerce Pilot (£1,000)
+                  </button>
+                </a>
+                <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20discuss%20e-commerce%20solutions%20for%20my%20business." target="_blank" rel="noopener noreferrer">
+                  <button className="w-full bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg font-medium transition-colors border border-white/20">
+                    💬 WhatsApp Consultation
+                  </button>
+                </a>
+                <ServiceDemoForm
+                  serviceName="E-commerce Solutions"
+                  ctaText="📧 Send Detailed Requirements"
+                />
+              </div>
+              <p className="text-white/50 text-xs text-center mt-3">
+                WhatsApp for instant response • Form for detailed requirements
               </p>
             </div>
           </div>

@@ -51,9 +51,9 @@ const WebDevelopment = () => {
               we build digital experiences that convert visitors into customers and grow your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20start%20a%20web%20development%20project." target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/447392428844?text=Hi! I'd like to start a web development project with a £500 pilot program." target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full">
-                  Start Your Project
+                  Start £500 Pilot
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </a>
@@ -271,7 +271,7 @@ const WebDevelopment = () => {
                 <p className="text-lg mb-6 opacity-90">
                   Let's create a stunning website that drives results for your business
                 </p>
-                <a href="https://wa.me/447424819094?text=Hi!%20I'm%20ready%20to%20build%20my%20website%20with%20SyncSphere." target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/447392428844?text=Hi! I'm ready to build my website with SyncSphere. Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
                   <Button size="lg" variant="secondary">
                     Get Started Today
                   </Button>
