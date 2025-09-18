@@ -58,35 +58,31 @@ const ContactSection = () => {
     setIsSubmitting(true);
     
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent('New Inquiry from SyncSphere Official Website');
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\n` +
-        `Email: ${formData.email}\n` +
-        `Phone: ${formData.phone || 'Not provided'}\n` +
-        `Company: ${formData.company || 'Not provided'}\n` +
-        `Message: ${formData.message}`
-      );
-      
-      const mailtoLink = `mailto:info@syncsphereofficial.com?subject=${subject}&body=${body}`;
-      
-      console.log('Opening email client with form data...');
-      
-      // Open email client
-      window.location.href = mailtoLink;
-      
-      // Show success message
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
-      
-      toast({
-        title: "Email client opened!",
-        description: "Your email client has been opened with the form details. Please send the email to complete your inquiry.",
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          formType: 'contact',
+          service: 'General Inquiry'
+        }),
       });
-      
-      // Reset success message after delay
-      setTimeout(() => setIsSubmitted(false), 5000);
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+        
+        toast({
+          title: "Message sent!",
+          description: "Thank you for your inquiry. We'll get back to you within 24 hours.",
+        });
+        
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        throw new Error('Failed to submit');
+      }
       
     } catch (error) {
       console.error('Error opening email client:', error);
@@ -196,12 +192,12 @@ const ContactSection = () => {
                 ) : isSubmitted ? (
                   <>
                     <Check size={20} />
-                    Email Client Opened
+                    Message Sent!
                   </>
                 ) : (
                   <>
                     <SendHorizontal size={20} />
-                    Send via Email
+                    Send Message
                   </>
                 )}
               </Button>

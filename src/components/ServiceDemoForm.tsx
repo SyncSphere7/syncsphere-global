@@ -23,40 +23,38 @@ const ServiceDemoForm = ({ serviceName, ctaText }: ServiceDemoFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // Send the form data to the email address
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('phone', phone);
-      formData.append('service', serviceName);
-      formData.append('_replyto', email);
-      formData.append('_subject', `Demo Request for ${serviceName}`);
-      
-      // Log the form data for debugging
       console.log('Demo requested for:', serviceName, { name, email, phone });
       
-      // Email.js or a similar service would be better than formspree for direct email
-      // For now sending directly to email using mailto as a fallback
-      const mailtoLink = `mailto:info@syncsphereofficial.com?subject=Demo Request for ${serviceName}&body=Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}%0D%0AService: ${serviceName}`;
-      
-      // Open the default mail client
-      window.location.href = mailtoLink;
-      
-      // Show success message
-      setIsSubmitted(true);
-      
-      toast({
-        title: "Request submitted",
-        description: `Your ${serviceName} demo request has been received. We'll contact you soon.`,
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          message: `I'm interested in a demo of your ${serviceName} solution. Please contact me to schedule a consultation.`,
+          formType: 'demo',
+          service: serviceName
+        }),
       });
-      
-      // Reset form
-      setEmail('');
-      setName('');
-      setPhone('');
-      
-      // Reset success state after delay
-      setTimeout(() => setIsSubmitted(false), 5000);
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        toast({
+          title: "Request submitted",
+          description: `Your ${serviceName} demo request has been received. We'll contact you soon.`,
+        });
+        
+        setEmail('');
+        setName('');
+        setPhone('');
+        
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        throw new Error('Failed to submit');
+      }
       
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -114,10 +112,10 @@ const ServiceDemoForm = ({ serviceName, ctaText }: ServiceDemoFormProps) => {
         className="w-full bg-primary hover:bg-primary/90 text-white py-6 text-lg mt-4"
         disabled={isSubmitting || isSubmitted}
       >
-        {isSubmitting ? 'Processing...' : isSubmitted ? (
+        {isSubmitting ? 'Sending...' : isSubmitted ? (
           <span className="flex items-center justify-center">
             <Check className="mr-2" size={20} />
-            Request Received
+            Request Sent!
           </span>
         ) : ctaText}
       </Button>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Loader2, RefreshCw } from 'lucide-react';
+import { sanitizeForLog } from '@/lib/security';
 
 const ChatbaseAgent = () => {
   const [searchParams] = useSearchParams();
@@ -82,7 +83,7 @@ const ChatbaseAgent = () => {
     const handleMessage = (event: MessageEvent) => {
       // Chatbase might send messages when it's ready
       if (event.origin.includes('chatbase.co')) {
-        console.log('Received message from Chatbase:', event.data);
+        console.log('Received message from Chatbase:', sanitizeForLog(event.data));
         setIsLoading(false);
         setError(false);
       }

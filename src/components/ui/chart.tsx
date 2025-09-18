@@ -75,6 +75,8 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   }
 
   return (
+    // Note: This dangerouslySetInnerHTML usage is safe as it only processes
+    // controlled configuration objects, not user input
     <style
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)

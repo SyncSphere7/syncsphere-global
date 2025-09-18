@@ -69,11 +69,25 @@ ${conversationText}
 This conversation history is provided for reference to ensure accurate project scoping and consistent pricing.
       `;
 
-      // For now, we'll use a simple mailto approach
-      // In production, you'd want to use a proper email service
-      const mailtoLink = `mailto:sales@syncsphereofficial.com?subject=New Lead from AI Assistant - ${formData.name}&body=${encodeURIComponent(emailBody)}`;
-      
-      window.open(mailtoLink, '_blank');
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          message: `${formData.message}\n\nConversation History:\n${conversationText}`,
+          formType: 'sales',
+          service: 'AI Assistant Lead'
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit');
+      }
 
       toast({
         title: "Contact Request Sent",

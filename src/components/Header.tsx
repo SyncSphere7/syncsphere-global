@@ -63,7 +63,7 @@ const Header = () => {
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <img 
-              src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png" 
+              src="/SyncSphere logo.png" 
               alt="SyncSphere Logo" 
               className="h-12 mr-2"
             />
@@ -103,6 +103,13 @@ const Header = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+
+          <Link 
+            to="/pricing"
+            className="text-foreground/80 hover:text-foreground transition-colors"
+          >
+            Pricing
+          </Link>
 
           <a 
             href="#contact"
@@ -157,6 +164,14 @@ const Header = () => {
                 ))}
               </div>
             </div>
+            
+            <Link 
+              to="/pricing"
+              className="text-foreground/80 hover:text-foreground transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Pricing
+            </Link>
             
             <a 
               href="#contact"

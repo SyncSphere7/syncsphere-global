@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Upload, X, File, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { sanitizeForLog, sanitizeHtml } from '@/lib/security';
 
 interface FileUploadProps {
   onFileSelect: (files: File[]) => void;
@@ -32,7 +33,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     fileArray.forEach((file) => {
       // Check file size
       if (file.size > maxSizeBytes) {
-        console.warn(`File ${file.name} is too large (${(file.size / 1024 / 1024).toFixed(2)}MB). Max size is ${(maxSizeBytes / 1024 / 1024).toFixed(2)}MB`);
+        console.warn(`File ${sanitizeForLog(file.name)} is too large (${(file.size / 1024 / 1024).toFixed(2)}MB). Max size is ${(maxSizeBytes / 1024 / 1024).toFixed(2)}MB`);
         return;
       }
 
@@ -45,7 +46,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       });
 
       if (!isValidType) {
-        console.warn(`File ${file.name} is not an accepted type`);
+        console.warn(`File ${sanitizeForLog(file.name)} is not an accepted type`);
         return;
       }
 
@@ -161,7 +162,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                   {uploadedFile.preview ? (
                     <img
                       src={uploadedFile.preview}
-                      alt={uploadedFile.file.name}
+                      alt={sanitizeHtml(uploadedFile.file.name)}
                       className="w-12 h-12 object-cover rounded"
                     />
                   ) : (
@@ -170,7 +171,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">{uploadedFile.file.name}</p>
+                    <p className="text-sm text-white truncate">{sanitizeHtml(uploadedFile.file.name)}</p>
                     <p className="text-xs text-white/50">
                       {(uploadedFile.file.size / 1024 / 1024).toFixed(2)} MB
                     </p>

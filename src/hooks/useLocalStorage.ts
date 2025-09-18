@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { sanitizeForLog } from '@/lib/security';
 
 // Function to revive Date objects from JSON
 function reviveDates(obj: any): any {
@@ -41,7 +42,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       const item = window.localStorage.getItem(key);
       return item ? reviveDates(JSON.parse(item)) : initialValue;
     } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
+      console.error(`Error reading localStorage key "${sanitizeForLog(key)}":`, sanitizeForLog(error));
       return initialValue;
     }
   });
@@ -60,7 +61,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
-      console.error(`Error setting localStorage key "${key}":`, error);
+      console.error(`Error setting localStorage key "${sanitizeForLog(key)}":`, sanitizeForLog(error));
     }
   };
 
@@ -88,7 +89,7 @@ export const localStorageUtils = {
         window.localStorage.setItem(key, JSON.stringify(value));
       }
     } catch (error) {
-      console.error(`Error setting localStorage key "${key}":`, error);
+      console.error(`Error setting localStorage key "${sanitizeForLog(key)}":`, sanitizeForLog(error));
     }
   },
 
@@ -98,7 +99,7 @@ export const localStorageUtils = {
         window.localStorage.removeItem(key);
       }
     } catch (error) {
-      console.error(`Error removing localStorage key "${key}":`, error);
+      console.error(`Error removing localStorage key "${sanitizeForLog(key)}":`, sanitizeForLog(error));
     }
   },
 

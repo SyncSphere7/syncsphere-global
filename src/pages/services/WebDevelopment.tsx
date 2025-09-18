@@ -1,100 +1,262 @@
-
 import React from 'react';
-import ServiceLayout from '../../components/ServiceLayout';
-import ServiceDemoForm from '../../components/ServiceDemoForm';
-import { Globe, CheckCircle2, DollarSign } from 'lucide-react';
+import ServiceLayout from '@/components/ServiceLayout';
+import SEOProvider from '@/components/SEOProvider';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { CheckCircle, ArrowRight, Globe, Smartphone, Zap, Shield, Code, Palette } from 'lucide-react';
 
 const WebDevelopment = () => {
-  const benefits = [
-    "Modern, responsive websites that convert visitors into customers",
-    "AI integration for enhanced functionality and user experience",
-    "Mobile-first design ensuring perfect performance across all devices",
-    "SEO optimization to improve search engine rankings",
-    "Ongoing maintenance and performance monitoring"
+  const features = [
+    "Modern responsive design",
+    "AI-powered personalization",
+    "SEO optimization",
+    "Performance optimization",
+    "Security best practices",
+    "Content management systems",
+    "E-commerce integration",
+    "Analytics and tracking"
   ];
 
-  const features = [
-    "Custom website design and development",
-    "AI chatbot and recommendation engine integration",
-    "E-commerce functionality and payment processing",
-    "Content management system implementation",
-    "Performance optimization and speed enhancements",
-    "Analytics and conversion tracking setup"
+  const technologies = [
+    "React & Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Node.js",
+    "WordPress",
+    "Shopify",
+    "AWS/Vercel",
+    "AI Integration APIs"
   ];
 
   return (
-    <ServiceLayout
-      title="Website Design & Revamps"
-      description="Modern, responsive websites or revamping outdated platforms with AI integration. Create stunning digital experiences that convert visitors into customers."
+    <SEOProvider
+      title="Website Design & Development | AI-Enhanced Web Solutions | SyncSphere"
+      description="Professional website design and development services with AI integration. Modern, responsive websites that convert visitors into customers. Custom web solutions for businesses worldwide."
+      keywords="website design, web development, responsive design, ai websites, custom websites, web design agency"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
-        <div className="lg:col-span-2">
-          <h2 className="text-2xl font-bold mb-6 text-white">Elevate Your Digital Presence</h2>
-          <p className="text-white/70 mb-6">
-            Whether you're launching a new website or modernizing an existing one, our website design and development services combine stunning visuals with powerful functionality. We create websites that not only look professional but also drive business results through strategic design and AI-powered features.
-          </p>
-          <p className="text-white/70 mb-6">
-            Our approach focuses on user experience, conversion optimization, and seamless integration of AI technologies. From intelligent chatbots that improve customer engagement to recommendation engines that boost sales, we build websites that work as hard as your team to grow your business.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white/5 border border-white/10 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-white">Key Benefits</h3>
-              <ul className="space-y-3">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle2 size={20} className="text-primary mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-white/70">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-white">What's Included</h3>
-              <ul className="space-y-3">
-                {features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle2 size={20} className="text-primary mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-white/70">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-primary/20 to-blue-300/20 border border-primary/30 p-6 rounded-lg">
-            <div className="flex items-center mb-4">
-              <DollarSign size={24} className="text-primary mr-3" />
-              <h3 className="text-xl font-semibold text-white">Pricing: $500 – $2,000</h3>
-            </div>
-            <p className="text-white/70">
-              Website projects are priced based on complexity and features. Simple brochure sites start at $500, while comprehensive e-commerce platforms with AI integration can reach $2,000. All projects include design, development, testing, and launch support.
+      <ServiceLayout>
+        <div className="container mx-auto px-4 py-16">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <Badge variant="outline" className="mb-4 border-blue-500 text-blue-600">
+              <Globe className="w-4 h-4 mr-2" />
+              Web Development Excellence
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Website Design & Development
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto">
+              Create stunning, high-performance websites that drive results. From modern design to AI integration, 
+              we build digital experiences that convert visitors into customers and grow your business.
             </p>
-          </div>
-        </div>
-
-        <div className="lg:col-span-1">
-          <div className="bg-white/5 border border-white/10 p-8 rounded-lg flex flex-col h-full">
-            <div className="mb-6 text-center">
-              <Globe size={48} className="text-primary mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-white">Transform Your Website</h2>
-              <p className="text-white/70 mt-2">Create a digital experience that drives results</p>
-            </div>
-
-            <div className="mt-auto">
-              <ServiceDemoForm
-                serviceName="Website Design"
-                ctaText="Start Your Project"
-              />
-              <p className="text-white/50 text-sm text-center mt-4">
-                Let's discuss your vision and create a website that exceeds your expectations
-              </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                Start Your Project
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button size="lg" variant="outline">
+                View Portfolio
+              </Button>
             </div>
           </div>
+
+          {/* Features Grid */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Complete Web Solutions
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="text-center">
+                <CardContent className="p-6">
+                  <Palette className="h-12 w-12 text-blue-500 mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">Modern Design</h3>
+                  <p className="text-sm text-muted-foreground">Beautiful, user-friendly interfaces that engage visitors</p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardContent className="p-6">
+                  <Smartphone className="h-12 w-12 text-green-500 mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">Mobile-First</h3>
+                  <p className="text-sm text-muted-foreground">Responsive design that works perfectly on all devices</p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardContent className="p-6">
+                  <Zap className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">Fast Performance</h3>
+                  <p className="text-sm text-muted-foreground">Optimized for speed and search engine rankings</p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardContent className="p-6">
+                  <Shield className="h-12 w-12 text-red-500 mx-auto mb-4" />
+                  <h3 className="font-semibold mb-2">Secure & Reliable</h3>
+                  <p className="text-sm text-muted-foreground">Built with security best practices and reliability</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Features List */}
+          <div className="mb-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-3xl font-bold mb-6">
+                  Everything You Need for Success
+                </h2>
+                <div className="grid gap-4">
+                  {features.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Code className="h-5 w-5" />
+                      Technologies We Use
+                    </CardTitle>
+                    <CardDescription>
+                      Cutting-edge tools and frameworks for modern web development
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {technologies.map((tech, index) => (
+                        <Badge key={index} variant="secondary">
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          {/* Pricing */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Transparent Pricing
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Starter Website</CardTitle>
+                  <CardDescription>Perfect for small businesses</CardDescription>
+                  <div className="text-3xl font-bold">$500 - $2,000</div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Up to 5 pages</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Responsive design</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Basic SEO</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Contact forms</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-primary">
+                <CardHeader>
+                  <Badge className="w-fit mb-2">Most Popular</Badge>
+                  <CardTitle>Professional Website</CardTitle>
+                  <CardDescription>Advanced features and customization</CardDescription>
+                  <div className="text-3xl font-bold">$2,000 - $5,000</div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Up to 15 pages</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Custom design</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">CMS integration</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">AI features</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Advanced SEO</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Enterprise Solution</CardTitle>
+                  <CardDescription>Complex web applications</CardDescription>
+                  <div className="text-3xl font-bold">$5,000+</div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Unlimited pages</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Custom functionality</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">API integrations</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Advanced AI</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Ongoing support</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+              <CardContent className="p-8">
+                <h2 className="text-3xl font-bold mb-4">Ready to Build Your Website?</h2>
+                <p className="text-lg mb-6 opacity-90">
+                  Let's create a stunning website that drives results for your business
+                </p>
+                <Button size="lg" variant="secondary">
+                  Get Started Today
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
-    </ServiceLayout>
+      </ServiceLayout>
+    </SEOProvider>
   );
 };
 

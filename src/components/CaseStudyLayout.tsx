@@ -41,7 +41,7 @@ const CaseStudyLayout = ({
       "name": "SyncSphere",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://syncsphereofficial.com/lovable-uploads/54f2dc02-f4c5-4c57-afe2-0a95d7775909.png"
+        "url": "https://syncsphereofficial.com/SyncSphere%20logo.png"
       }
     },
     "datePublished": "2023-09-01",

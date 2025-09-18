@@ -6,7 +6,7 @@ import HeroSection from '../components/HeroSection';
 import ServicesSection from '../components/ServicesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import CaseStudiesSection from '../components/CaseStudiesSection';
-import TeamSection from '../components/TeamSection';
+import EnterpriseExpertise from '../components/EnterpriseExpertise';
 import ProcessSection from '../components/ProcessSection';
 import FAQSection from '../components/FAQSection';
 import ContactSection from '../components/ContactSection';
@@ -21,7 +21,7 @@ const Index = () => {
     "name": "SyncSphere AI Global Agency",
     "description": "SyncSphere delivers professional AI solutions including AI chatbots, voice agents, automations, micro-SaaS, and AI agents for businesses of all sizes globally.",
     "url": "https://syncsphereofficial.com",
-    "logo": "https://syncsphereofficial.com/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png",
+    "logo": "https://syncsphereofficial.com/SyncSphere%20logo.png",
     "sameAs": [
       "https://twitter.com/SyncSphere",
       "https://www.linkedin.com/company/syncsphere",
@@ -154,7 +154,7 @@ const Index = () => {
         <ProcessSection />
         <CaseStudiesSection />
         <TestimonialsSection />
-        <TeamSection />
+        <EnterpriseExpertise />
         <FAQSection />
         <ContactSection />
         

@@ -32,7 +32,7 @@ const Chatbots = () => {
       "@type": "Organization",
       "name": "SyncSphere",
       "url": "https://syncsphereofficial.com",
-      "logo": "https://syncsphereofficial.com/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
+      "logo": "https://syncsphereofficial.com/SyncSphere%20logo.png"
     },
     "areaServed": "Worldwide",
     "serviceType": "AI Chatbot Development",

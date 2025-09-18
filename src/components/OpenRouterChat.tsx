@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import FileUpload from './FileUpload';
 import { ContactForm } from './ContactForm';
 import { useNavigate } from 'react-router-dom';
+import { sanitizeForLog } from '@/lib/security';
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
@@ -104,39 +105,61 @@ You are the most advanced AI business consultant on the planet, with deep expert
 - Computer Vision & Predictive Analytics
 - AI-Powered Business Intelligence & Decision Making
 
-💼 SYNCSPHERE'S PREMIUM SERVICES:
-• AI Workflow Automation & Business Systems ($1,000–$4,000)
-  - Intelligent document processing, automated decision-making
-  - Custom ML models for business optimization
-  - Advanced workflow orchestration with AI reasoning
+💼 SYNCSPHERE'S PREMIUM SERVICES & PRICING:
 
-• AI Chatbots & Conversational AI ($1,000–$3,000)
-  - Multi-platform deployment (SMS, WhatsApp, Web, Social)
-  - Advanced NLP with context awareness and memory
-  - Sentiment analysis and intelligent routing
+🇺🇸 US MARKET (USD):
+• AI Workflow Automation & Business Systems
+  - Starter: $8,000–$15,000 (Basic workflow automation)
+  - Professional: $15,000–$35,000 (Multi-department integration) ⭐ Most Popular
+  - Enterprise: $35,000–$75,000 (Fortune 500 scale)
 
-• AI Voice Agents & Speech Technology ($1,500–$4,000)
-  - Natural speech synthesis and recognition
-  - Real-time conversation handling with emotional intelligence
-  - Multi-language support with accent adaptation
+• AI Chatbots & Conversational AI
+  - Starter: $6,000–$12,000 (Basic customer service bot)
+  - Professional: $12,000–$28,000 (Advanced NLP + integrations) ⭐ Most Popular
+  - Enterprise: $28,000–$60,000 (Multi-channel + analytics)
 
-• Website Design & AI-Enhanced Development ($500–$2,000)
-  - AI-powered UX optimization and personalization
-  - Intelligent content management and SEO automation
+• AI Voice Agents & Speech Technology
+  - Starter: $10,000–$18,000 (Basic voice automation)
+  - Professional: $18,000–$40,000 (Advanced conversation handling) ⭐ Most Popular
+  - Enterprise: $40,000–$85,000 (Call center transformation)
 
-• E-commerce & AI-Driven Sales Solutions ($2,500–$5,000)
-  - Predictive analytics for inventory and demand forecasting
-  - Personalized recommendation engines
-  - Automated pricing optimization and customer segmentation
+• E-commerce & AI-Driven Sales Solutions
+  - Starter: $8,000–$15,000 (Shopify Plus setup)
+  - Professional: $15,000–$35,000 (Custom features + AI) ⭐ Most Popular
+  - Enterprise: $35,000–$75,000 (Multi-store + automation)
 
-• Mobile & Web App Development ($3,000–$6,000)
-  - AI-integrated applications with machine learning capabilities
-  - Intelligent user interfaces and predictive features
+• Website Design & AI-Enhanced Development
+  - Starter: $5,000–$10,000 (Professional website)
+  - Professional: $10,000–$25,000 (Custom web app) ⭐ Most Popular
+  - Enterprise: $25,000–$50,000 (Complex platform)
 
-• AI Consulting & Strategic Partnership ($1,500–$4,000/month)
-  - Executive-level AI strategy consulting
-  - Custom AI model development and deployment
-  - Ongoing optimization and performance monitoring
+• Mobile & Web App Development
+  - Starter: $12,000–$20,000 (iOS/Android app)
+  - Professional: $20,000–$45,000 (Advanced features + AI) ⭐ Most Popular
+  - Enterprise: $45,000–$90,000 (Enterprise-grade app)
+
+• AI Consulting & Strategic Partnership
+  - Monthly Retainer: $5,000–$15,000/month
+  - Project-Based: $15,000–$50,000
+  - Executive Advisory: $25,000–$75,000
+
+🇬🇧 UK MARKET (GBP - 5% lower than US):
+All services available with British compliance (GDPR, VAT, UK regulations)
+
+🇪🇺 EU MARKET (EUR - 10% lower than US):
+All services with GDPR compliance, multi-language support (24 EU languages)
+
+💳 PROFESSIONAL PAYMENT TERMS:
+• 50% upfront to begin project
+• 30% at milestone completion
+• 20% upon final delivery and approval
+• Enterprise clients: Custom payment schedules available
+
+🎯 SPECIAL OFFERS:
+• Early Bird: Book consultation this month - Save 10%
+• Volume Discount: Multiple services - Save up to 15%
+• Annual Retainer: 12-month commitment - Save 20%
+• Limited spots available this quarter - Priority implementation for Q4 2025
 
 🎯 YOUR COMMUNICATION STYLE:
 - Demonstrate exceptional intelligence and deep technical knowledge
@@ -146,6 +169,7 @@ You are the most advanced AI business consultant on the planet, with deep expert
 - Speak with authority about AI trends, market opportunities, and competitive advantages
 - Always connect solutions to measurable business outcomes
 - Be consultative, not just informative - guide strategic decision-making
+- Quote appropriate pricing tiers based on project complexity and client size
 
 🚀 ADVANCED CAPABILITIES TO HIGHLIGHT:
 - Real-time data processing and analysis
@@ -159,13 +183,18 @@ You are the most advanced AI business consultant on the planet, with deep expert
 💡 RESPONSE FRAMEWORK:
 1. Acknowledge the business challenge with strategic insight
 2. Present AI-powered solutions with specific technical details
-3. Quantify potential ROI and business impact
-4. Provide implementation timeline and methodology
-5. Suggest next steps for engagement
+3. Provide appropriate pricing tier recommendation with justification
+4. Quantify potential ROI and business impact
+5. Suggest payment terms and next steps for engagement
 
-Remember: You represent a company that builds AI solutions worth billions. Every response should reflect world-class expertise, strategic thinking, and the ability to transform businesses through intelligent automation.
+⚡ URGENCY MESSAGING:
+- "Limited implementation slots available for Q4 2025"
+- "Book your strategic consultation this week for priority scheduling"
+- "Early adopters receive additional optimization support"
 
-Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
+Remember: You represent a company that builds AI solutions worth billions. Every response should reflect world-class expertise, strategic thinking, and the ability to transform businesses through intelligent automation. Always provide realistic pricing based on project scope and client requirements.
+
+Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
 
     try {
       const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
@@ -198,7 +227,7 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
       const data = await response.json();
       return data.choices[0].message.content;
     } catch (error) {
-      console.error('OpenRouter API Error:', error);
+      console.error('OpenRouter API Error:', sanitizeForLog(error));
 
       // Fallback responses for common errors
       if (error instanceof Error) {
@@ -405,60 +434,6 @@ Contact: info@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
                 </div>
               </div>
             )}
-
-            {/* Typing Indicator */}
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="flex gap-3 max-w-[80%]">
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    <img
-                      src="/lovable-uploads/512e76cc-7293-4e60-a3fe-8e7f2f6892b5.png"
-                      alt="SyncSphere Logo"
-                      className="w-6 h-6 object-contain"
-                    />
-                  </div>
-                  <Card className="bg-white/5 border-white/10">
-                    <CardContent className="p-3">
-                      <div className="flex items-center gap-2">
-                        <div className="flex gap-1">
-                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                        </div>
-                        <span className="text-sm text-white/70">AI Assistant is typing...</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* File Upload Section */}
-        {showFileUpload && (
-          <div className="p-4 border-t border-white/10">
-            <FileUpload
-              onFileSelect={setUploadedFiles}
-              maxFiles={3}
-              acceptedTypes={['image/*', 'application/pdf', '.doc', '.docx', '.txt']}
-              maxSizeBytes={10 * 1024 * 1024}
-            />
-          </div>
-        )}
-
-        {/* Input */}
-        <div className="p-4 border-t border-white/10">
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowFileUpload(!showFileUpload)}
-              className="text-white/70 hover:text-white p-2"
-              title="Upload files"
-            >
-              <Paperclip size={16} />
-            </Button>
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocalStorage, localStorageUtils } from './useLocalStorage';
+import { sanitizeForLog } from '@/lib/security';
 
 export interface Message {
   id: string;
@@ -80,7 +81,7 @@ export function useChatStorage() {
         }
       }
     } catch (error) {
-      console.error('Error initializing chat sessions:', error);
+      console.error('Error initializing chat sessions:', sanitizeForLog(error));
       // Reset to default state if there's an error
       const defaultChat: ChatSession = {
         id: generateChatId(),
@@ -188,7 +189,7 @@ export function useChatStorage() {
       id: Date.now().toString()
     };
 
-    console.log('Adding message to chat:', activeChatId, newMessage);
+    console.log('Adding message to chat:', sanitizeForLog(activeChatId), sanitizeForLog(newMessage));
 
     setChatSessions(prev => {
       const updated = prev.map(chat => {
@@ -197,7 +198,7 @@ export function useChatStorage() {
           // Limit messages per chat
           const limitedMessages = updatedMessages.slice(-MAX_MESSAGES_PER_CHAT);
 
-          console.log('Updated chat messages:', limitedMessages);
+          console.log('Updated chat messages:', sanitizeForLog(limitedMessages));
 
           return {
             ...chat,
@@ -208,7 +209,7 @@ export function useChatStorage() {
         }
         return chat;
       });
-      console.log('Updated chat sessions:', updated);
+      console.log('Updated chat sessions:', sanitizeForLog(updated));
       return updated;
     });
   }, [activeChatId]);
