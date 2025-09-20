@@ -22,6 +22,18 @@ export default async function handler(req, res) {
       }
     };
 
+    // Determine sender based on form type
+    const getSender = (type) => {
+      switch (type) {
+        case 'demo': return 'SyncSphere Demo Team <info@syncsphereofficial.com>';
+        case 'sales': return 'SyncSphere Sales <sales@syncsphereofficial.com>';
+        case 'finance': return 'SyncSphere Finance <finance@syncsphereofficial.com>';
+        case 'compliance': return 'SyncSphere Compliance <compliance@syncsphereofficial.com>';
+        case 'security': return 'SyncSphere Security <security@syncsphereofficial.com>';
+        default: return 'SyncSphere Team <info@syncsphereofficial.com>';
+      }
+    };
+
     // Create email content
     const emailContent = `
       <h2>New ${formType} Inquiry from SyncSphere Website</h2>
@@ -38,24 +50,24 @@ export default async function handler(req, res) {
 
     // Send email
     await resend.emails.send({
-      from: 'SyncSphere Website <noreply@resend.dev>',
+      from: getSender(formType),
       to: getRecipient(formType),
       subject: `New ${formType} inquiry from ${name}`,
       html: emailContent,
     });
 
-    // Send auto-reply to user
+    // Send auto-reply to user with matching department signature
     await resend.emails.send({
-      from: 'SyncSphere Team <noreply@resend.dev>',
+      from: getSender(formType),
       to: email,
       subject: 'Thank you for contacting SyncSphere',
       html: `
         <h2>Thank you for your inquiry!</h2>
         <p>Hi ${name},</p>
         <p>We've received your message and will get back to you within 24 hours.</p>
-        <p>Our team is excited to help you with your AI automation needs.</p>
+        <p>Our team is excited to help you with your ${formType === 'demo' ? 'AI automation' : formType} needs.</p>
         <br>
-        <p>Best regards,<br>The SyncSphere Team</p>
+        <p>Best regards,<br>The SyncSphere ${formType.charAt(0).toUpperCase() + formType.slice(1)} Team</p>
       `,
     });
 

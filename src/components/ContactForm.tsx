@@ -81,7 +81,7 @@ This conversation history is provided for reference to ensure accurate project s
           company: formData.company,
           message: `${formData.message}\n\nConversation History:\n${conversationText}`,
           formType: 'sales',
-          service: 'AI Assistant Lead'
+          service: 'AI Assistant Consultation'
         }),
       });
 
@@ -90,8 +90,8 @@ This conversation history is provided for reference to ensure accurate project s
       }
 
       toast({
-        title: "Contact Request Sent",
-        description: "Your request has been sent to our sales team. They will contact you shortly.",
+        title: "AI Consultation Request Sent",
+        description: "Your request has been sent to our AI solutions team. They will contact you shortly.",
         variant: "default"
       });
 
