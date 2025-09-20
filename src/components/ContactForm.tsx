@@ -5,6 +5,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { X, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import '@/styles/phone-input.css';  // Import custom styles
 
 interface Message {
   id: string;
@@ -28,11 +31,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose, conve
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success'>('idle');
   const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setFormData(prev => ({ ...prev, phone: value }));
   };
 
   const formatConversationForEmail = (messages: Message[]) => {
@@ -46,6 +54,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose, conve
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('sending');
 
     try {
       const conversationText = formatConversationForEmail(conversationHistory);
@@ -89,11 +98,16 @@ This conversation history is provided for reference to ensure accurate project s
         throw new Error('Failed to submit');
       }
 
+      setSubmitStatus('success');
+
       toast({
         title: "AI Consultation Request Sent",
         description: "Your request has been sent to our AI solutions team. They will contact you shortly.",
         variant: "default"
       });
+
+      // Show success state for 1.5 seconds before closing
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
       // Reset form
       setFormData({
@@ -112,6 +126,7 @@ This conversation history is provided for reference to ensure accurate project s
         description: "There was an issue sending your request. Please try again.",
         variant: "destructive"
       });
+      setSubmitStatus('idle');
     } finally {
       setIsSubmitting(false);
     }
@@ -175,12 +190,19 @@ This conversation history is provided for reference to ensure accurate project s
             </div>
             
             <div>
-              <Input
-                name="phone"
-                placeholder="Phone Number"
+              <PhoneInput
+                country={'us'}
                 value={formData.phone}
-                onChange={handleInputChange}
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/50"
+                onChange={handlePhoneChange}
+                inputProps={{
+                  name: 'phone',
+                  placeholder: 'Phone Number',
+                  className: 'w-full bg-white/5 border border-white/10 text-white placeholder:text-white/50 rounded-md px-3 py-2'
+                }}
+                containerClass="phone-input-container"
+                buttonClass="phone-input-button"
+                dropdownClass="phone-input-dropdown"
+                searchClass="phone-input-search"
               />
             </div>
             
@@ -209,9 +231,8 @@ This conversation history is provided for reference to ensure accurate project s
                 disabled={isSubmitting || !formData.name || !formData.email}
                 className="flex-1 bg-primary hover:bg-primary/90"
               >
-                {isSubmitting ? (
-                  'Sending...'
-                ) : (
+                {submitStatus === 'sending' ? 'Sending...' :
+                 submitStatus === 'success' ? 'Email Sent' : (
                   <>
                     <Send size={16} className="mr-2" />
                     Send Request

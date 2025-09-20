@@ -1,0 +1,55 @@
+.phone-input-container {
+  width: 100%;
+}
+
+.phone-input-container .form-control {
+  width: 100% !important;
+  height: 40px !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  padding-left: 48px !important;
+  border-radius: 6px !important;
+}
+
+.phone-input-container .flag-dropdown {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-right: none !important;
+  border-radius: 6px 0 0 6px !important;
+}
+
+.phone-input-container .flag-dropdown:hover,
+.phone-input-container .flag-dropdown.open {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.phone-input-container .selected-flag {
+  background-color: transparent !important;
+}
+
+.phone-input-container .country-list {
+  background-color: #1a1a1a !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px !important;
+  margin-top: 4px !important;
+  max-height: 200px !important;
+}
+
+.phone-input-container .country-list .country {
+  color: white !important;
+}
+
+.phone-input-container .country-list .country:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.phone-input-container .country-list .country.highlight {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.phone-input-container .search-box {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
