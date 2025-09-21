@@ -190,20 +190,25 @@ This conversation history is provided for reference to ensure accurate project s
             </div>
             
             <div>
-              <PhoneInput
-                country={'us'}
-                value={formData.phone}
-                onChange={handlePhoneChange}
-                inputProps={{
-                  name: 'phone',
-                  placeholder: 'Phone Number',
-                  className: 'w-full bg-white/5 border border-white/10 text-white placeholder:text-white/50 rounded-md px-3 py-2'
-                }}
-                containerClass="phone-input-container"
-                buttonClass="phone-input-button"
-                dropdownClass="phone-input-dropdown"
-                searchClass="phone-input-search"
-              />
+              <div>
+                <PhoneInput
+                  country={'us'}
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
+                  inputProps={{
+                    name: 'phone',
+                    placeholder: 'Phone Number with Country Code',
+                    className: 'w-full bg-white/5 border border-white/10 text-white placeholder:text-white/50 rounded-md px-3 py-2'
+                  }}
+                  containerClass="phone-input-container"
+                  buttonClass="phone-input-button"
+                  dropdownClass="phone-input-dropdown"
+                  searchClass="phone-input-search"
+                />
+                <p className="text-xs text-white/50 mt-1 ml-1">
+                  Please include your country code (e.g., +1 for US/Canada)
+                </p>
+              </div>
             </div>
             
             <div>

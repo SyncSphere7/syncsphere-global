@@ -270,33 +270,62 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
     }
   };
 
+  // Function to detect if the user wants to contact SyncSphere
+  const detectContactRequest = (message: string) => {
+    const contactKeywords = [
+      'contact', 'get in touch', 'talk to someone', 'speak to an expert', 
+      'request a call', 'contact form', 'talk to a human', 'speak with sales', 
+      'quote', 'pricing', 'consultation', 'schedule a meeting', 'talk to sales',
+      'speak to someone', 'human assistance', 'call me'
+    ];
+    return contactKeywords.some(keyword => message.toLowerCase().includes(keyword));
+  };
+
   const handleSendMessage = async () => {
-    if (!input.trim() || isLoading) return;
-    
-    const userMessageContent = input.trim();
+    if (!input.trim() && uploadedFiles.length === 0) return;
+
+    // Clear input field
+    const userMessage = input;
     setInput('');
+
+    // Add user message to state
+    addMessage({ role: 'user', content: userMessage });
+    
+    // Check if user wants to contact SyncSphere
+    if (detectContactRequest(userMessage)) {
+      setTimeout(() => {
+        addMessage({
+          role: 'assistant',
+          content: "I'd be happy to help you get in touch with our team! Please fill out the contact form below, and make sure to include your country code with your phone number (e.g., +1 for US/Canada). One of our AI experts will contact you within 1 business day."
+        });
+        setShowContactForm(true);
+      }, 1000);
+      return;
+    }
+    
+    // If we have files, handle file upload first
+    const filesForProcessing = uploadedFiles.length > 0 ? [...uploadedFiles] : undefined;
+
+    // Set loading indicators
     setIsLoading(true);
     setIsTyping(true);
 
-    // Using simple state - no chat creation needed
-
     try {
-      // Add user message first
-      console.log('Adding user message:', userMessageContent);
-      addMessage({
-        role: 'user',
-        content: userMessageContent
-      });
-
-      // Get AI response using current messages and uploaded files
-      const aiResponse = await callOpenRouterAPI(userMessageContent, messages, uploadedFiles.length > 0 ? uploadedFiles : undefined);
-
-      // Add AI response
-      console.log('Adding AI response:', aiResponse);
-      addMessage({
-        role: 'assistant',
-        content: aiResponse
-      });
+      console.log('Sending message to AI');
+      
+      // Get AI response
+      const aiResponse = await callOpenRouterAPI(userMessage, messages, filesForProcessing);
+      
+      // Simulate typing effect for short responses
+      if (aiResponse.length < 500) {
+        await simulateTyping(aiResponse.length);
+      } else {
+        // For long responses, just add a minimum delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+      }
+      
+      // Add AI response to chat
+      addMessage({ role: 'assistant', content: aiResponse });
 
       // Clear uploaded files after successful message
       setUploadedFiles([]);
