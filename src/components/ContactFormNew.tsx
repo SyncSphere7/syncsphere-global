@@ -3,7 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Phone, User, Building, MessageSquare, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Phone, User, Building, MessageSquare, CheckCircle, AlertCircle, Send } from 'lucide-react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import '@/styles/phone-input.css';
 
 interface ContactFormProps {
   formType?: 'demo' | 'sales' | 'finance' | 'compliance' | 'security';
@@ -26,12 +29,12 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setSubmitStatus('sending');
 
     try {
       const response = await fetch('/api/contact', {
@@ -48,7 +51,12 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
 
       if (response.ok) {
         setSubmitStatus('success');
+
+        // Show success state for 1.5 seconds before resetting
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
         setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+        setSubmitStatus('idle');
       } else {
         setSubmitStatus('error');
       }
@@ -64,6 +72,10 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
       ...prev,
       [e.target.name]: e.target.value
     }));
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setFormData(prev => ({ ...prev, phone: value }));
   };
 
   if (submitStatus === 'success') {
@@ -124,23 +136,29 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
-              <Phone className="absolute left-3 top-3 h-4 w-4 text-foreground/50" />
+              <Building className="absolute left-3 top-3 h-4 w-4 text-foreground/50 z-10" />
               <Input
-                name="phone"
-                placeholder="Phone Number (Optional)"
-                value={formData.phone}
+                name="company"
+                placeholder="Company Name"
+                value={formData.company}
                 onChange={handleChange}
                 className="pl-10 bg-white/5 border-white/10 text-foreground placeholder:text-foreground/50"
               />
             </div>
             <div className="relative">
-              <Building className="absolute left-3 top-3 h-4 w-4 text-foreground/50" />
-              <Input
-                name="company"
-                placeholder="Company Name (Optional)"
-                value={formData.company}
-                onChange={handleChange}
-                className="pl-10 bg-white/5 border-white/10 text-foreground placeholder:text-foreground/50"
+              <Phone className="absolute left-3 top-3 h-4 w-4 text-foreground/50 z-10" />
+              <PhoneInput
+                country={'us'}
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                inputProps={{
+                  name: 'phone',
+                  placeholder: 'Phone Number',
+                }}
+                containerClass="phone-input-container pl-10"
+                buttonClass="phone-input-button"
+                dropdownClass="phone-input-dropdown"
+                searchClass="phone-input-search"
               />
             </div>
           </div>
@@ -149,7 +167,7 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
             <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-foreground/50" />
             <Textarea
               name="message"
-              placeholder="Tell us about your project or inquiry..."
+              placeholder="Your message..."
               value={formData.message}
               onChange={handleChange}
               required
@@ -165,12 +183,18 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
             </div>
           )}
 
-          <Button 
-            type="submit" 
-            disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-primary text-white"
+          <Button
+            type="submit"
+            disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
+            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50"
           >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {submitStatus === 'sending' ? 'Sending...' :
+             submitStatus === 'success' ? 'Email Sent' : (
+              <>
+                <Send className="h-4 w-4 mr-2" />
+                Send Message
+              </>
+            )}
           </Button>
         </form>
       </CardContent>
