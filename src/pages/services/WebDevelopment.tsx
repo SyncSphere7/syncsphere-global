@@ -265,14 +265,14 @@ const WebDevelopment = () => {
 
           {/* CTA */}
           <div className="text-center">
-            <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="bg-black border-white/10 text-white">
               <CardContent className="p-8">
                 <h2 className="text-3xl font-bold mb-4">Ready to Build Your Website?</h2>
-                <p className="text-lg mb-6 opacity-90">
+                <p className="text-lg mb-6 text-white/70">
                   Let's create a stunning website that drives results for your business
                 </p>
                 <a href="https://wa.me/447392428844?text=Hi! I'm ready to build my website with SyncSphere. Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" variant="secondary">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90">
                     Get Started Today
                   </Button>
                 </a>

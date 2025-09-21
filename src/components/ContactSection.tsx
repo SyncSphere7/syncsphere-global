@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
 import { SendHorizontal, Check } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import '@/styles/phone-input.css';
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -21,6 +25,10 @@ const ContactSection = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handlePhoneChange = (value: string) => {
+    setFormData(prev => ({ ...prev, phone: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -146,15 +154,26 @@ const ContactSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="phone" className="text-sm text-foreground/70">Phone Number</label>
-                  <Input 
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Your phone number"
-                    className="bg-white/5 border-white/10 focus:border-primary"
-                  />
+                  <div>
+                    <PhoneInput
+                      country={'us'}
+                      value={formData.phone}
+                      onChange={handlePhoneChange}
+                      inputProps={{
+                        name: 'phone',
+                        id: 'phone',
+                        placeholder: 'Phone Number with Country Code',
+                        className: 'w-full bg-white/5 border border-white/10 text-foreground placeholder:text-foreground/50 rounded-md px-3 py-2'
+                      }}
+                      containerClass="phone-input-container"
+                      buttonClass="phone-input-button"
+                      dropdownClass="phone-input-dropdown"
+                      searchClass="phone-input-search"
+                    />
+                    <p className="text-xs text-foreground/50 mt-1 ml-1">
+                      Please include your country code (e.g., +1 for US/Canada)
+                    </p>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="company" className="text-sm text-foreground/70">Company (Optional)</label>

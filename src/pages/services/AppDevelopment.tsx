@@ -166,49 +166,49 @@ const AppDevelopment = () => {
 
           {/* AI Integration */}
           <div className="mb-16">
-            <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+            <Card className="bg-black border-white/10 text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-6 w-6 text-purple-600" />
+                  <Shield className="h-6 w-6 text-primary" />
                   AI-Powered App Features
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-white/70">
                   Enhance your app with cutting-edge artificial intelligence capabilities
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Natural language processing</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Natural language processing</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Computer vision & image recognition</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Computer vision & image recognition</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Predictive analytics</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Predictive analytics</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Personalized recommendations</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Personalized recommendations</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Voice recognition & synthesis</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Voice recognition & synthesis</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Intelligent automation</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Intelligent automation</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Real-time data processing</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Real-time data processing</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-purple-600 flex-shrink-0" />
-                    <span className="text-sm">Machine learning models</span>
+                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-white">Machine learning models</span>
                   </div>
                 </div>
               </CardContent>
@@ -318,20 +318,20 @@ const AppDevelopment = () => {
 
           {/* CTA */}
           <div className="text-center">
-            <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="bg-black border-white/10 text-white">
               <CardContent className="p-8">
                 <h2 className="text-3xl font-bold mb-4">Ready to Build Your App?</h2>
-                <p className="text-lg mb-6 opacity-90">
+                <p className="text-lg mb-6 text-white/70">
                   Let's turn your app idea into reality with cutting-edge technology and AI integration
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a href="https://wa.me/447392428844?text=Hi! I'm ready to start my app development project. Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
-                    <Button size="lg" variant="secondary">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90">
                       Start Your Project
                     </Button>
                   </a>
                   <a href="https://wa.me/447392428844?text=Hi! I'd like to schedule a consultation for app development." target="_blank" rel="noopener noreferrer">
-                    <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600">
+                    <Button size="lg" variant="outline" className="text-white border-white/10 hover:bg-white/5">
                       Schedule Consultation
                     </Button>
                   </a>

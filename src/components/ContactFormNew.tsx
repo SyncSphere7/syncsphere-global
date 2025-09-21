@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Phone, User, Building, MessageSquare, CheckCircle, AlertCircle, Send } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Send } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import '@/styles/phone-input.css';
+import { Label } from '@/components/ui/label';
 
 interface ContactFormProps {
   formType?: 'demo' | 'sales' | 'finance' | 'compliance' | 'security';
@@ -147,19 +149,24 @@ const ContactFormNew: React.FC<ContactFormProps> = ({
             </div>
             <div className="relative">
               <Phone className="absolute left-3 top-3 h-4 w-4 text-foreground/50 z-10" />
-              <PhoneInput
-                country={'us'}
-                value={formData.phone}
-                onChange={handlePhoneChange}
-                inputProps={{
-                  name: 'phone',
-                  placeholder: 'Phone Number',
-                }}
-                containerClass="phone-input-container pl-10"
-                buttonClass="phone-input-button"
-                dropdownClass="phone-input-dropdown"
-                searchClass="phone-input-search"
-              />
+              <div>
+                <PhoneInput
+                  country={'us'}
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
+                  inputProps={{
+                    name: 'phone',
+                    placeholder: 'Phone Number with Country Code',
+                  }}
+                  containerClass="phone-input-container pl-10"
+                  buttonClass="phone-input-button"
+                  dropdownClass="phone-input-dropdown"
+                  searchClass="phone-input-search"
+                />
+                <p className="text-xs text-foreground/50 mt-1 ml-1">
+                  Please include your country code (e.g., +1 for US/Canada)
+                </p>
+              </div>
             </div>
           </div>
 
