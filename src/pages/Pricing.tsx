@@ -223,7 +223,7 @@ const Pricing = () => {
                           <span className="leading-tight">Credits toward upgrades</span>
                         </li>
                       </ul>
-                      <a href="https://wa.me/447392428844?text=Hi! I'm interested in the £1,500 Pilot Program. Can you tell me more?" target="_blank" rel="noopener noreferrer">
+                      <a href="https://wa.me/447424819094?text=Hi! I'm interested in the £1,500 Pilot Program. Can you tell me more?" target="_blank" rel="noopener noreferrer">
                         <Button className="w-full text-xs py-2 bg-blue-500 hover:bg-blue-600">
                           Start Pilot
                           <ArrowRight className="h-3 w-3 ml-1" />
@@ -260,7 +260,7 @@ const Pricing = () => {
                           <span className="leading-tight">60-day warranty</span>
                         </li>
                       </ul>
-                      <a href="https://wa.me/447392428844?text=Hi! I'm interested in the Quick Start Package (£2,500-£5,000). Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
+                      <a href="https://wa.me/447424819094?text=Hi! I'm interested in the Quick Start Package (£2,500-£5,000). Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
                         <Button className="w-full text-xs py-2" variant="outline">
                           Get Started
                           <ArrowRight className="h-3 w-3 ml-1" />
@@ -307,7 +307,7 @@ const Pricing = () => {
                           <span className="leading-tight">Training included</span>
                         </li>
                       </ul>
-                      <a href="https://wa.me/447392428844?text=Hi! I'm interested in the Professional Package (£10,000-£25,000). Let's discuss a custom solution." target="_blank" rel="noopener noreferrer">
+                      <a href="https://wa.me/447424819094?text=Hi! I'm interested in the Professional Package (£10,000-£25,000). Let's discuss a custom solution." target="_blank" rel="noopener noreferrer">
                         <Button className="w-full text-xs py-2 bg-primary">
                           Get Started
                           <ArrowRight className="h-3 w-3 ml-1" />
@@ -348,7 +348,7 @@ const Pricing = () => {
                           <span className="leading-tight">SLA guarantees</span>
                         </li>
                       </ul>
-                      <a href="https://wa.me/447392428844?text=Hi! I'm interested in Enterprise solutions (£50,000+). Can we schedule a consultation?" target="_blank" rel="noopener noreferrer">
+                      <a href="https://wa.me/447424819094?text=Hi! I'm interested in Enterprise solutions (£50,000+). Can we schedule a consultation?" target="_blank" rel="noopener noreferrer">
                         <Button className="w-full text-xs py-2" variant="outline">
                           Contact Sales
                           <ArrowRight className="h-3 w-3 ml-1" />
@@ -400,7 +400,7 @@ const Pricing = () => {
                   All payment plans include setup, training, and ongoing support
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center max-w-md mx-auto">
-                  <a href="https://wa.me/447392428844?text=Hi! I'd like to discuss flexible payment options for AI solutions." target="_blank" rel="noopener noreferrer" className="inline-block w-full sm:w-auto">
+                  <a href="https://wa.me/447424819094?text=Hi! I'd like to discuss flexible payment options for AI solutions." target="_blank" rel="noopener noreferrer" className="inline-block w-full sm:w-auto">
                     <Button variant="outline" size="sm" className="w-full text-xs md:text-sm">
                       <Phone className="h-3 w-3 md:h-4 md:w-4 mr-2" />
                       Discuss Payment Options
@@ -446,7 +446,7 @@ const Pricing = () => {
                 Start with a £1,500 pilot program or book a free consultation to discuss your needs
               </p>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-6 md:mb-8 max-w-2xl mx-auto">
-                <a href="https://wa.me/447392428844?text=Hi SyncSphere! I'd like to schedule a free consultation to discuss AI solutions for my business." target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <a href="https://wa.me/447424819094?text=Hi SyncSphere! I'd like to schedule a free consultation to discuss AI solutions for my business." target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                   <Button 
                     size="sm" 
                     variant="secondary"

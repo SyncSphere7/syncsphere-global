@@ -23,7 +23,7 @@ const HeroSection = () => {
         <div className="flex flex-col items-center gap-4 animate-fadeIn" style={{ animationDelay: "0.4s" }}>
           {/* Primary Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://wa.me/447392428844?text=Hi! I'd like to start with a £1,500 AI pilot program to test your solutions." target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/447424819094?text=Hi! I'd like to start with a £1,500 AI pilot program to test your solutions." target="_blank" rel="noopener noreferrer">
               <Button 
                 className="group bg-gradient-to-r from-[#0EA5E9] to-primary hover:from-primary hover:to-[#0EA5E9] text-white px-6 md:px-8 py-4 md:py-6 text-base md:text-lg flex items-center gap-2 border border-primary/30 shadow-lg shadow-primary/20 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto" 
               >
@@ -32,7 +32,7 @@ const HeroSection = () => {
                 <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </a>
-            <a href="https://wa.me/447392428844?text=Hi! I'd like to discuss MVP development for my startup idea." target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/447424819094?text=Hi! I'd like to discuss MVP development for my startup idea." target="_blank" rel="noopener noreferrer">
               <Button 
                 className="group bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white px-6 md:px-8 py-4 md:py-6 text-base md:text-lg flex items-center gap-2 border border-primary/30 shadow-lg shadow-primary/20 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto" 
               >
@@ -45,7 +45,7 @@ const HeroSection = () => {
           
           {/* Secondary Consultation Button */}
           <div className="flex justify-center">
-            <a href="https://wa.me/447392428844?text=Hi! I'd like to learn more about your AI solutions and pricing." target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/447424819094?text=Hi! I'd like to learn more about your AI solutions and pricing." target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="outline" 
                 className="group backdrop-blur-sm bg-white/5 text-foreground border-foreground/20 hover:bg-foreground/10 px-6 md:px-8 py-3 md:py-4 text-sm md:text-base flex items-center gap-2 shadow-lg shadow-black/5 transition-all duration-300 hover:translate-y-[-2px]"

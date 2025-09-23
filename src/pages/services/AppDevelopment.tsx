@@ -51,7 +51,7 @@ const AppDevelopment = () => {
               that engage users, streamline operations, and drive business growth across all platforms.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="https://wa.me/447392428844?text=Hi! I'd like to start an app development project with a £1,000 pilot program." target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/447424819094?text=Hi! I'd like to start an app development project with a £1,000 pilot program." target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full">
                   Start £1,000 Pilot
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -325,12 +325,12 @@ const AppDevelopment = () => {
                   Let's turn your app idea into reality with cutting-edge technology and AI integration
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="https://wa.me/447392428844?text=Hi! I'm ready to start my app development project. Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
+                  <a href="https://wa.me/447424819094?text=Hi! I'm ready to start my app development project. Can we discuss my requirements?" target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="bg-primary hover:bg-primary/90">
                       Start Your Project
                     </Button>
                   </a>
-                  <a href="https://wa.me/447392428844?text=Hi! I'd like to schedule a consultation for app development." target="_blank" rel="noopener noreferrer">
+                  <a href="https://wa.me/447424819094?text=Hi! I'd like to schedule a consultation for app development." target="_blank" rel="noopener noreferrer">
                     <Button size="lg" variant="outline" className="text-white border-white/10 hover:bg-white/5">
                       Schedule Consultation
                     </Button>

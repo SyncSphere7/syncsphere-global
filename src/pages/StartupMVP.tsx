@@ -78,14 +78,14 @@ const StartupMVP = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn" style={{ animationDelay: "0.6s" }}>
-                <a href="https://wa.me/447392428844?text=Hi! I'd like to discuss MVP development for my startup idea." target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/447424819094?text=Hi! I'd like to discuss MVP development for my startup idea." target="_blank" rel="noopener noreferrer">
                   <Button size="lg" className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white px-8 py-6 text-lg">
                     <Rocket className="mr-2 h-5 w-5" />
                     Start Your MVP
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </a>
-                <a href="https://wa.me/447392428844?text=Hi! I'd like to learn about flexible payment options for MVP development." target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/447424819094?text=Hi! I'd like to learn about flexible payment options for MVP development." target="_blank" rel="noopener noreferrer">
                   <Button size="lg" variant="outline" className="backdrop-blur-sm bg-white/5 text-foreground border-foreground/20 hover:bg-foreground/10 px-8 py-6 text-lg">
                     Explore Payment Options
                   </Button>
@@ -241,7 +241,7 @@ const StartupMVP = () => {
                         <span className="text-sm">Priority support included</span>
                       </li>
                     </ul>
-                    <a href="https://wa.me/447392428844?text=Hi! I'd like to discuss standard payment for MVP development." target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/447424819094?text=Hi! I'd like to discuss standard payment for MVP development." target="_blank" rel="noopener noreferrer">
                       <Button className="w-full">
                         Get Started
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -284,7 +284,7 @@ const StartupMVP = () => {
                         <span className="text-sm">Scaling assistance</span>
                       </li>
                     </ul>
-                    <a href="https://wa.me/447392428844?text=Hi! I'm interested in the partnership option for MVP development with reduced cash + equity." target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/447424819094?text=Hi! I'm interested in the partnership option for MVP development with reduced cash + equity." target="_blank" rel="noopener noreferrer">
                       <Button className="w-full bg-primary">
                         Discuss Partnership
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -322,7 +322,7 @@ const StartupMVP = () => {
                         <span className="text-sm">Growth-aligned partnership</span>
                       </li>
                     </ul>
-                    <a href="https://wa.me/447392428844?text=Hi! I'd like to learn about the revenue share option for MVP development." target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/447424819094?text=Hi! I'd like to learn about the revenue share option for MVP development." target="_blank" rel="noopener noreferrer">
                       <Button className="w-full" variant="outline">
                         Learn More
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -390,13 +390,13 @@ const StartupMVP = () => {
                 Join successful startups who launched with SyncSphere. Choose your payment option and let's get started.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="https://wa.me/447392428844?text=Hi! I'm ready to start my MVP development project. Let's discuss the best payment option for my startup." target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/447424819094?text=Hi! I'm ready to start my MVP development project. Let's discuss the best payment option for my startup." target="_blank" rel="noopener noreferrer">
                   <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90 px-8 py-6 text-lg">
                     <Rocket className="mr-2 h-5 w-5" />
                     Start Your MVP Today
                   </Button>
                 </a>
-                <a href="https://wa.me/447392428844?text=Hi! I'd like to schedule a consultation to discuss my startup idea and MVP requirements." target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/447424819094?text=Hi! I'd like to schedule a consultation to discuss my startup idea and MVP requirements." target="_blank" rel="noopener noreferrer">
                   <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-primary px-8 py-6 text-lg">
                     Schedule Consultation
                   </Button>
