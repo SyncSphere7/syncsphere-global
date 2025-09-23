@@ -41,9 +41,15 @@ const services = [
     link: '/services/app-development'
   },
   {
+    title: 'Startup MVP Development (30 Days)',
+    description: 'From idea to launch in 30 days with flexible payment options. Complete MVP solutions with AI integration, designed to get startups funded and growing fast.',
+    delay: '0.7s',
+    link: '/startup-mvp'
+  },
+  {
     title: 'AI Consulting & Ongoing Support',
     description: 'Training, workflow optimization, and strategic guidance. Get expert AI consulting to maximize ROI and ensure long-term success with your AI initiatives.',
-    delay: '0.7s',
+    delay: '0.8s',
     link: '/services/consulting'
   }
 ];

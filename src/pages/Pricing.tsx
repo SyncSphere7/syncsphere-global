@@ -457,32 +457,16 @@ const Pricing = () => {
                     <ArrowRight size={16} className="md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </a>
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="group text-white border-white hover:bg-white hover:text-primary px-4 md:px-8 py-3 md:py-6 text-sm md:text-lg flex items-center gap-2 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto"
-                  onClick={async () => {
-                    try {
-                      await fetch('/api/contact', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          name: 'Pricing Guide Request',
-                          email: 'guide@example.com',
-                          message: 'Please send me your detailed pricing guide for AI solutions.',
-                          formType: 'demo',
-                          service: 'Pricing Guide'
-                        })
-                      });
-                      alert('Pricing guide request sent! Check your email soon.');
-                    } catch (error) {
-                      window.location.href = 'mailto:info@syncsphereofficial.com?subject=Pricing%20Guide%20Request';
-                    }
-                  }}
-                >
-                  <Download className="h-4 w-4 md:h-5 md:w-5" />
-                  Download Pricing Guide
-                </Button>
+                <a href="/SyncSphere-Pricing-Guide-2025.pdf" download="SyncSphere-Pricing-Guide-2025.pdf">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="group text-white border-white hover:bg-white hover:text-primary px-4 md:px-8 py-3 md:py-6 text-sm md:text-lg flex items-center gap-2 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto"
+                  >
+                    <Download className="h-4 w-4 md:h-5 md:w-5" />
+                    Download Pricing Guide
+                  </Button>
+                </a>
               </div>
               <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-xs md:text-sm opacity-80 px-4">
                 <a href="#payment-terms" className="hover:opacity-100 transition-opacity">

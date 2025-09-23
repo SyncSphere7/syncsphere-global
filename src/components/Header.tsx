@@ -33,6 +33,7 @@ const Header = () => {
     { title: "Website Design & Revamps", path: "/services/web-development" },
     { title: "E-commerce Solutions", path: "/services/ecommerce" },
     { title: "Mobile & Web App Development", path: "/services/app-development" },
+    { title: "Startup MVP Development (30 Days)", path: "/startup-mvp" },
     { title: "AI Consulting & Ongoing Support", path: "/services/consulting" },
   ];
 

@@ -103,6 +103,7 @@ YOUR EXPERTISE:
 - Enterprise AI Strategy & Implementation
 - E-commerce & Web Development Solutions
 - Mobile & Web Application Development
+- Startup MVP Development with Flexible Payment Options
 
 💼 SYNCSPHERE'S PREMIUM SERVICES & PRICING:
 
@@ -140,6 +141,11 @@ YOUR EXPERTISE:
   - Professional: $20,000–$45,000 (Advanced features + AI) ⭐ Most Popular
   - Enterprise: $45,000–$90,000 (Enterprise-grade app)
 
+• Startup MVP Development (From Idea to Launch in 30 Days)
+  - Standard Payment: $10,000–$18,750 (Full payment, full ownership)
+  - Partnership Option: $5,000–$9,375 + 3-8% equity (50% reduced cash + small equity stake) 🤝 Most Flexible
+  - Revenue Share: $7,000–$13,125 + 10-15% revenue for 18 months (Higher upfront + revenue percentage)
+
 • AI Consulting & Strategic Partnership
   - Monthly Retainer: $5,000–$15,000/month
   - Project-Based: $15,000–$50,000
@@ -149,12 +155,20 @@ YOUR EXPERTISE:
 • Pilot Programs: £1,500 (All services - 30-day proof-of-concept)
 • Quick Start Packages: £2,500–£5,000 (Perfect for UK SMEs)
 • Professional & Enterprise: Same structure as USD but in GBP
+• Startup MVP Development:
+  - Standard Payment: £8,000–£15,000 (Full payment, full ownership)
+  - Partnership Option: £4,000–£7,500 + 3-8% equity (Reduced cash + equity)
+  - Revenue Share: £5,600–£10,500 + 10-15% revenue for 18 months
 • Full GDPR compliance, VAT handling, UK regulations
 
 🇪🇺 EU MARKET (EUR):
 • Pilot Programs: €1,700 (All services - 30-day proof-of-concept)
 • Quick Start Packages: €2,800–€5,600 (Perfect for EU SMEs)
 • Professional & Enterprise: Same structure as USD but in EUR
+• Startup MVP Development:
+  - Standard Payment: €9,000–€16,875 (Full payment, full ownership)
+  - Partnership Option: €4,500–€8,500 + 3-8% equity (Reduced cash + equity)
+  - Revenue Share: €6,300–€11,900 + 10-15% revenue for 18 months
 • GDPR compliance, multi-language support (24 EU languages)
 
 💳 FLEXIBLE PAYMENT OPTIONS:

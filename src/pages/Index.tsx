@@ -19,7 +19,7 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "SyncSphere AI Agency",
-    "description": "Transform your business with AI workflow automation, chatbots, and voice agents. 24/7 customer support solutions for global enterprises.",
+    "description": "Transform your business with AI workflow automation, chatbots, voice agents, and startup MVP development. 24/7 customer support solutions for global enterprises and startups.",
     "url": "https://syncsphereofficial.com",
     "logo": "https://syncsphereofficial.com/syncsphere-logo.png",
     "sameAs": [
@@ -93,6 +93,14 @@ const Index = () => {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
+            "name": "Startup MVP Development",
+            "description": "From idea to launch in 30 days with flexible payment options including equity partnerships"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
             "name": "AI Consulting & Ongoing Support",
             "description": "Expert AI guidance and strategic implementation support"
           }
@@ -120,7 +128,7 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "SyncSphere AI Agency",
-    "description": "Leading AI workflow automation and chatbot development agency serving UK, US, and EU markets.",
+    "description": "Leading AI workflow automation, chatbot development, and startup MVP agency serving UK, US, and EU markets.",
     "url": "https://syncsphereofficial.com",
     "telephone": "+44-742-481-9094",
     "email": "info@syncsphereofficial.com",
@@ -165,6 +173,14 @@ const Index = () => {
           "@type": "Answer",
           "text": "Yes, SyncSphere provides AI solutions across UK, US, and EU markets with full regulatory compliance (GDPR, SOX, HIPAA). We offer regional pricing in GBP, USD, and EUR."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "What are your startup MVP development options?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer flexible MVP development with 3 payment options: Standard payment (£8,000-£15,000), Partnership option (£4,000-£7,500 + 3-8% equity), and Revenue share (£5,600-£10,500 + 10-15% revenue for 18 months). Complete delivery in 30 days."
+        }
       }
     ]
   };
@@ -172,8 +188,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-white flex flex-col">
       <Helmet>
-        <title>AI Workflow Automation & Chatbot Solutions | SyncSphere AI Agency</title>
-        <meta name="description" content="Transform your business with AI workflow automation, chatbots, and voice agents. 24/7 customer support solutions for global enterprises. Get started free." />
+        <title>AI Automation, Chatbot Development & Startup MVP Solutions | SyncSphere</title>
+        <meta name="description" content="Transform your business with AI automation, chatbots, voice agents, and startup MVP development. From £1,500 pilots to complete 30-day MVP solutions. UK/US/EU." />
         <link rel="canonical" href="https://syncsphereofficial.com" />
         <script type="application/ld+json">
           {JSON.stringify(businessSchema)}

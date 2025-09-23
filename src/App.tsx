@@ -50,6 +50,9 @@ import TermsOfService from "./pages/TermsOfService";
 // Pricing Page
 import Pricing from "./pages/Pricing";
 
+// Startup MVP Page
+import StartupMVP from "./pages/StartupMVP";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -97,6 +100,9 @@ const App = () => (
                 
                 {/* Pricing Routes */}
                 <Route path="/pricing" element={<Pricing />} />
+                
+                {/* Startup MVP Routes */}
+                <Route path="/startup-mvp" element={<StartupMVP />} />
                 
                 {/* Policy Routes */}
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
