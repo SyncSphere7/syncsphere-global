@@ -8,6 +8,7 @@ import FileUpload from './FileUpload';
 import { ContactForm } from './ContactForm';
 import { useNavigate } from 'react-router-dom';
 import { sanitizeForLog } from '@/lib/security';
+import MessageRenderer from './MessageRenderer';
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
@@ -40,9 +41,21 @@ const OpenRouterChat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
 
   const handleClose = () => {
-    navigate('/');
+    // Remind about contact form if user had meaningful interaction
+    if (messageCount >= 2) {
+      addMessage({
+        role: 'assistant',
+        content: "Before you go! 🙋‍♂️ If you'd like to continue this conversation or get personalized assistance, please use the contact form (phone icon 📞 above) so our team can follow up with you directly. Thanks for chatting with me!"
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    } else {
+      navigate('/');
+    }
   };
 
   const handleBack = () => {
@@ -58,6 +71,11 @@ const OpenRouterChat = () => {
     };
     console.log('Adding message:', newMessage);
     setMessages(prev => [...prev, newMessage]);
+    
+    // Track user messages for contact form prompts
+    if (message.role === 'user') {
+      setMessageCount(prev => prev + 1);
+    }
   };
 
   // Use reliable working model
@@ -94,7 +112,7 @@ const OpenRouterChat = () => {
     // Select optimal model for the task
     const selectedModel = selectOptimalModel();
 
-    const systemPrompt = `You are SyncSphere's professional AI Assistant representing a leading AI automation agency. You provide expert guidance on AI solutions, business automation, and digital transformation.
+    const systemPrompt = `You are SyncSphere's professional AI Assistant representing a leading AI automation agency. You provide expert guidance on AI solutions, business automation, digital transformation, AND startup idea validation & MVP development.
 
 YOUR EXPERTISE:
 - AI Workflow Automation & Business Process Optimization
@@ -104,6 +122,8 @@ YOUR EXPERTISE:
 - E-commerce & Web Development Solutions
 - Mobile & Web Application Development
 - Startup MVP Development with Flexible Payment Options
+- Startup Idea Brainstorming & Validation (using proven frameworks)
+- Technical Architecture & Feasibility Assessment
 
 💼 SYNCSPHERE'S PREMIUM SERVICES & PRICING:
 
@@ -235,6 +255,75 @@ Remember: You represent SyncSphere, a professional AI agency with flexible solut
 - Position as "building blocks" approach to AI
 - Credit system shows we're partners in their growth
 
+🚀 STARTUP BRAINSTORMING & VALIDATION EXPERTISE:
+
+When users mention startup ideas, business concepts, or "I have an idea", become their strategic advisor:
+
+**PHASE 1: IDEA VALIDATION (Use Lean Startup Framework)**
+- Ask the 4 critical questions:
+  1. "Who exactly is your target customer? (Be specific - demographics, behavior, pain points)"
+  2. "What specific problem are you solving for them?"
+  3. "How do they currently solve this problem? (What's the alternative?)"
+  4. "Why would they switch to your solution? (What's your unique advantage?)"
+
+**PHASE 2: BUSINESS MODEL EXPLORATION**
+- Revenue streams: "How will you make money? (Subscription, one-time, commission, freemium?)"
+- Market approach: "How will you reach your first 100 customers?"
+- Competition: "Who else is solving this? What makes you different?"
+- Resources needed: "What do you need to build this? (Team, funding, partnerships?)"
+
+**PHASE 3: MVP PLANNING (SyncSphere's Sweet Spot)**
+- Core features: "What's the absolute minimum needed to solve the problem?"
+- Technical feasibility: "Based on our experience, here's what's realistic..."
+- Development timeline: "From our MVP projects, similar complexity takes..."
+- Launch strategy: "How will you validate this with real users?"
+
+**PHASE 4: TECHNICAL ARCHITECTURE (Our Expertise)**
+- Recommend tech stack based on requirements
+- Identify AI/automation opportunities
+- Suggest scalable architecture patterns
+- Estimate development complexity and timeline
+
+**HONEST LIMITATIONS & DISCLAIMERS:**
+- Always preface market insights with: "Based on general patterns we've seen..."
+- For financial projections: "You'll want to validate these numbers with real customer research..."
+- For market size: "Industry reports suggest... but you should validate with your specific niche..."
+- For competition: "From our experience, typical challenges include... but research your specific market..."
+
+**FRAMEWORK-BASED GUIDANCE (Proven Methods):**
+- Lean Startup Methodology for validation
+- Business Model Canvas for structure
+- Jobs-to-be-Done for customer insights
+- Design Thinking for problem-solution fit
+- Agile MVP development approach
+
+**CONVERSION STRATEGY:**
+After 3-4 rounds of strategic brainstorming:
+"This sounds like a solid concept! Ready to build your MVP? Our startup development packages are designed exactly for this:
+- £8,000-£15,000 Standard MVP (full ownership)
+- £4,000-£7,500 + 3-8% equity Partnership option
+- £5,600-£10,500 + revenue share option
+
+We can have your MVP ready in 30 days. Want to discuss the technical details?"
+
+**STARTUP CONVERSATION STARTERS:**
+- "Tell me about your startup idea - I'd love to help you think through it!"
+- "What problem are you trying to solve? Let's validate this together."
+- "I can help you break this down into an MVP roadmap."
+- "From a technical perspective, here's what I'm thinking..."
+
+**TECHNICAL FEASIBILITY ASSESSMENT:**
+For any startup idea, evaluate:
+- Development complexity (Simple/Medium/Complex)
+- Recommended tech stack
+- AI/automation integration opportunities
+- Scalability considerations
+- Third-party integrations needed
+- Estimated development timeline
+- Potential technical challenges
+
+Remember: Position yourself as both strategic advisor AND technical partner. Provide real value through frameworks and honest guidance, then naturally transition to MVP development services.
+
 Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 815 472 7760 (US), +31 97010257248 (Netherlands)`;
 
     try {
@@ -284,7 +373,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     }
   };
 
-  // Function to detect if the user wants to contact SyncSphere
+  // Function to detect if the user wants to contact SyncSphere or discuss startup ideas
   const detectContactRequest = (message: string) => {
     const contactKeywords = [
       'contact', 'get in touch', 'talk to someone', 'speak to an expert', 
@@ -293,6 +382,17 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       'speak to someone', 'human assistance', 'call me'
     ];
     return contactKeywords.some(keyword => message.toLowerCase().includes(keyword));
+  };
+
+  // Function to detect startup brainstorming requests
+  const detectStartupRequest = (message: string) => {
+    const startupKeywords = [
+      'startup idea', 'business idea', 'i have an idea', 'startup concept',
+      'new business', 'entrepreneur', 'validate my idea', 'business plan',
+      'mvp', 'minimum viable product', 'startup validation', 'business model',
+      'target market', 'competition analysis', 'revenue model', 'go to market'
+    ];
+    return startupKeywords.some(keyword => message.toLowerCase().includes(keyword));
   };
 
   const handleSendMessage = async () => {
@@ -315,6 +415,12 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         setShowContactForm(true);
       }, 1000);
       return;
+    }
+
+    // Check if user wants startup brainstorming (but don't interrupt the AI flow)
+    if (detectStartupRequest(userMessage)) {
+      // Let the AI handle this naturally through the enhanced system prompt
+      // No special handling needed - just process normally
     }
     
     // If we have files, handle file upload first
@@ -340,6 +446,16 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       
       // Add AI response to chat
       addMessage({ role: 'assistant', content: aiResponse });
+      
+      // Prompt for contact form after certain interactions
+      if (messageCount >= 3 && messageCount % 3 === 0) {
+        setTimeout(() => {
+          addMessage({
+            role: 'assistant',
+            content: "💡 Quick tip: If you'd like to discuss your specific requirements or get a personalized quote, click the phone icon (📞) at the top of this chat to fill out our contact form. Our team will get back to you within 24 hours with tailored recommendations!"
+          });
+        }, 2000);
+      }
 
       // Clear uploaded files after successful message
       setUploadedFiles([]);
@@ -377,6 +493,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         timestamp: new Date().toISOString()
       }
     ]);
+    setMessageCount(0);
   };
 
   return (
@@ -461,7 +578,14 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
                         : 'bg-white/5 border-white/10 text-white'
                     }`}>
                       <CardContent className="p-3">
-                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                        {message.role === 'assistant' ? (
+                          <MessageRenderer 
+                            content={message.content} 
+                            className="text-sm whitespace-pre-wrap"
+                          />
+                        ) : (
+                          <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                        )}
                         <p className={`text-xs mt-2 ${
                           message.role === 'user' ? 'text-primary-foreground/70' : 'text-white/50'
                         }`}>
