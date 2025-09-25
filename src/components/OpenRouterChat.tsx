@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone } from 'lucide-react';
+import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone, MessageCircle, Lightbulb, Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,19 +20,69 @@ interface Message {
   timestamp: string;
 }
 
+type ChatTab = 'general' | 'startup' | 'technical';
+
+interface ChatSession {
+  id: string;
+  messages: { [key in ChatTab]: Message[] };
+  activeTab: ChatTab;
+  lastActivity: string;
+}
+
 const OpenRouterChat = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Simple message state - no localStorage
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-      timestamp: new Date().toISOString()
+  // Session management
+  const [sessionId] = useState(() => {
+    const stored = localStorage.getItem('syncsphere_session_id');
+    if (stored) return stored;
+    const newId = crypto.randomUUID();
+    localStorage.setItem('syncsphere_session_id', newId);
+    return newId;
+  });
+
+  // Multi-tab chat state
+  const [activeTab, setActiveTab] = useState<ChatTab>('general');
+  const [chatSession, setChatSession] = useState<ChatSession>(() => {
+    const stored = localStorage.getItem(`syncsphere_chat_${sessionId}`);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        // If parsing fails, create new session
+      }
     }
-  ]);
+    
+    return {
+      id: sessionId,
+      activeTab: 'general',
+      lastActivity: new Date().toISOString(),
+      messages: {
+        general: [{
+          id: '1',
+          role: 'assistant',
+          content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+          timestamp: new Date().toISOString()
+        }],
+        startup: [{
+          id: '1',
+          role: 'assistant',
+          content: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
+          timestamp: new Date().toISOString()
+        }],
+        technical: [{
+          id: '1',
+          role: 'assistant',
+          content: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?",
+          timestamp: new Date().toISOString()
+        }]
+      }
+    };
+  });
+
+  // Current tab messages
+  const messages = chatSession.messages[activeTab];
 
   // Local state
   const [input, setInput] = useState('');
@@ -42,6 +92,11 @@ const OpenRouterChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
+
+  // Save session to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(`syncsphere_chat_${sessionId}`, JSON.stringify(chatSession));
+  }, [chatSession, sessionId]);
 
   const handleClose = () => {
     // Remind about contact form if user had meaningful interaction
@@ -62,15 +117,23 @@ const OpenRouterChat = () => {
     navigate('/');
   };
 
-  // Add message to conversation
+  // Add message to current tab
   const addMessage = (message: Omit<Message, 'id' | 'timestamp'>) => {
     const newMessage: Message = {
       ...message,
       id: Date.now().toString(),
       timestamp: new Date().toISOString()
     };
-    console.log('Adding message:', newMessage);
-    setMessages(prev => [...prev, newMessage]);
+    console.log('Adding message to', activeTab, ':', newMessage);
+    
+    setChatSession(prev => ({
+      ...prev,
+      messages: {
+        ...prev.messages,
+        [activeTab]: [...prev.messages[activeTab], newMessage]
+      },
+      lastActivity: new Date().toISOString()
+    }));
     
     // Track user messages for contact form prompts
     if (message.role === 'user') {
@@ -112,7 +175,20 @@ const OpenRouterChat = () => {
     // Select optimal model for the task
     const selectedModel = selectOptimalModel();
 
-    const systemPrompt = `You are SyncSphere's professional AI Assistant representing a leading AI automation agency. You provide expert guidance on AI solutions, business automation, digital transformation, AND startup idea validation & MVP development.
+    // Context-aware system prompt based on active tab
+    const getSystemPrompt = (tabContext: ChatTab) => {
+      const basePrompt = `You are SyncSphere's professional AI Assistant representing a leading AI automation agency.`;
+      
+      const contextPrompts = {
+        general: `${basePrompt} You provide expert guidance on AI solutions, business automation, and digital transformation. Focus on our core services, pricing, and how we can help businesses with AI automation.`,
+        startup: `${basePrompt} You are specialized in startup idea validation and MVP development. Use proven frameworks like Lean Startup methodology to help entrepreneurs brainstorm, validate, and plan their startup ideas. Guide them through the journey from concept to MVP.`,
+        technical: `${basePrompt} You are a technical consultant specializing in architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments. Provide detailed technical guidance and solutions.`
+      };
+      
+      return contextPrompts[tabContext];
+    };
+
+    const systemPrompt = `${getSystemPrompt(activeTab)}
 
 YOUR EXPERTISE:
 - AI Workflow Automation & Business Process Optimization
@@ -485,15 +561,43 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
   };
 
   const clearCurrentChat = () => {
-    setMessages([
-      {
-        id: '1',
-        role: 'assistant',
-        content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-        timestamp: new Date().toISOString()
+    const welcomeMessages = {
+      general: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+      startup: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
+      technical: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?"
+    };
+
+    setChatSession(prev => ({
+      ...prev,
+      messages: {
+        ...prev.messages,
+        [activeTab]: [{
+          id: '1',
+          role: 'assistant',
+          content: welcomeMessages[activeTab],
+          timestamp: new Date().toISOString()
+        }]
       }
-    ]);
+    }));
     setMessageCount(0);
+  };
+
+  // Tab configuration
+  const tabs = [
+    { id: 'general' as ChatTab, label: 'General', icon: MessageCircle, description: 'Services & Pricing' },
+    { id: 'startup' as ChatTab, label: 'Startup', icon: Lightbulb, description: 'Idea Validation & MVP' },
+    { id: 'technical' as ChatTab, label: 'Technical', icon: Code, description: 'Architecture & Development' }
+  ];
+
+  // Switch tab handler
+  const switchTab = (tabId: ChatTab) => {
+    setActiveTab(tabId);
+    setChatSession(prev => ({ ...prev, activeTab: tabId }));
+  };
+
+  // Get message count for tab badge
+  const getTabMessageCount = (tabId: ChatTab) => {
+    return Math.max(0, chatSession.messages[tabId].length - 1); // Exclude welcome message
   };
 
   return (
@@ -531,7 +635,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
               size="sm"
               onClick={clearCurrentChat}
               className="text-white/70 hover:text-white"
-              title="New Chat"
+              title="Clear current tab"
             >
               <RefreshCw size={16} />
             </Button>
@@ -545,6 +649,41 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
               <X size={16} />
             </Button>
           </div>
+        </div>
+
+        {/* Chat Tabs */}
+        <div className="flex border-b border-white/10 bg-white/5">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const messageCount = getTabMessageCount(tab.id);
+            return (
+              <button
+                key={tab.id}
+                onClick={() => switchTab(tab.id)}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors relative ${
+                  activeTab === tab.id
+                    ? 'text-white bg-white/10 border-b-2 border-primary'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Icon size={16} />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.label}</span>
+                {messageCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {messageCount > 9 ? '9+' : messageCount}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab Description */}
+        <div className="px-4 py-2 bg-white/5 border-b border-white/10">
+          <p className="text-xs text-white/60">
+            {tabs.find(tab => tab.id === activeTab)?.description}
+          </p>
         </div>
 
         {/* Messages */}
