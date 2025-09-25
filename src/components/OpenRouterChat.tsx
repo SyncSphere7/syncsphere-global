@@ -331,6 +331,36 @@ Remember: You represent SyncSphere, a professional AI agency with flexible solut
 - Position as "building blocks" approach to AI
 - Credit system shows we're partners in their growth
 
+⚠️ SMART DISCLAIMERS & ESCALATION TRIGGERS:
+
+**Framework Guidance Disclaimer:**
+"I help you ask the right questions using proven frameworks like Lean Startup methodology. For specific market data, competitor analysis, and real-world validation, our human experts provide detailed research and professional guidance."
+
+**Limitation Transparency:**
+"My insights are based on general business patterns and SyncSphere's technical expertise. For current market trends, regulatory requirements, and financial projections, you'll want our specialized consultants."
+
+**Value Positioning:**
+"Think of me as your strategic thinking partner who guides you through proven frameworks. When you're ready for real-world validation, market research, and professional analysis, our experts take over."
+
+**ESCALATION TRIGGERS - Automatic Handoffs:**
+- User asks for specific market data → "That requires current market research. Let me connect you with our business analysts who can provide detailed market intelligence."
+- User requests competitor analysis → "Our research team can provide comprehensive competitive analysis with real data and insights."
+- User wants financial projections → "Our business consultants can help with realistic financial modeling and projections based on your specific market."
+- User asks regulatory/legal questions → "You'll need professional guidance for regulatory and legal matters. Our consultants can connect you with the right specialists."
+- User requests detailed technical architecture → "Our technical architects can provide detailed system design and implementation roadmaps."
+
+**ENGAGEMENT-BASED HANDOFFS:**
+- After 5+ meaningful exchanges in startup tab → "You've done great work thinking through your idea! Ready for personalized consultation with our startup specialists? They can provide market research, competitive analysis, and detailed validation."
+- User shows serious commitment → "I can see you're serious about this venture. Let's get you connected with our experts who can provide the detailed analysis and validation you need."
+- Complex business model questions → "This requires deeper business strategy expertise. Our consultants specialize in business model optimization and can provide detailed guidance."
+- Technical feasibility concerns → "Our technical team can provide detailed feasibility analysis and architecture recommendations for your specific requirements."
+
+**NATURAL TRANSITION PHRASES:**
+- "Based on our conversation, you're ready for the next level of validation..."
+- "The framework questions have given us a solid foundation. Now let's get you professional analysis..."
+- "You've identified the key areas that need validation. Our experts can provide the detailed research you need..."
+- "This is exactly the kind of strategic challenge our consultants love to solve..."
+
 🚀 STARTUP BRAINSTORMING & VALIDATION EXPERTISE:
 
 When users mention startup ideas, business concepts, or "I have an idea", become their strategic advisor:
@@ -471,6 +501,17 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     return startupKeywords.some(keyword => message.toLowerCase().includes(keyword));
   };
 
+  // Function to detect escalation triggers
+  const detectEscalationTrigger = (message: string) => {
+    const escalationKeywords = [
+      'market size', 'market data', 'competitor analysis', 'competition research',
+      'financial projections', 'revenue projections', 'legal requirements',
+      'regulatory compliance', 'detailed analysis', 'professional guidance',
+      'market research', 'industry report', 'specific data', 'current trends'
+    ];
+    return escalationKeywords.some(keyword => message.toLowerCase().includes(keyword));
+  };
+
   const handleSendMessage = async () => {
     if (!input.trim() && uploadedFiles.length === 0) return;
 
@@ -523,8 +564,28 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       // Add AI response to chat
       addMessage({ role: 'assistant', content: aiResponse });
       
-      // Prompt for contact form after certain interactions
-      if (messageCount >= 3 && messageCount % 3 === 0) {
+      // Check for escalation triggers in user message
+      if (detectEscalationTrigger(userMessage)) {
+        setTimeout(() => {
+          addMessage({
+            role: 'assistant',
+            content: "I can see you're looking for specific market data and professional analysis. While I can guide you through strategic frameworks, our expert consultants provide detailed market research, competitive intelligence, and professional validation. Would you like me to connect you with our team? Click the phone icon (📞) above to get started!"
+          });
+        }, 1500);
+      }
+      
+      // Enhanced contact form prompts for startup tab
+      else if (activeTab === 'startup' && messageCount >= 4) {
+        setTimeout(() => {
+          addMessage({
+            role: 'assistant',
+            content: "You've done excellent work thinking through your startup idea using proven frameworks! 🚀 Ready for the next level? Our startup specialists can provide detailed market research, competitive analysis, and professional validation. Click the phone icon (📞) above to connect with our experts!"
+          });
+        }, 2000);
+      }
+      
+      // General contact form prompts
+      else if (messageCount >= 3 && messageCount % 3 === 0) {
         setTimeout(() => {
           addMessage({
             role: 'assistant',
