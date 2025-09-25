@@ -68,7 +68,7 @@ const OpenRouterChat = () => {
   const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[], files?: File[]) => {
     // Check if API key is available
     if (!OPENROUTER_API_KEY) {
-      return "I'm currently experiencing configuration issues. Please contact our team directly at info@syncsphereofficial.com or WhatsApp +44 742 481 9094 for immediate assistance with your AI solution needs. Our experts are ready to discuss how we can transform your business with world-class AI technology.";
+      return "I'm currently experiencing configuration issues. Please contact our team directly at info@syncsphereofficial.com, WhatsApp +44 742 481 9094, or call us at +1 815 472 7760 (US) / +31 97010257248 (Netherlands) for immediate assistance with your AI solution needs. Our experts are ready to discuss how we can transform your business with world-class AI technology.";
     }
 
     // Process files if provided
@@ -235,7 +235,7 @@ Remember: You represent SyncSphere, a professional AI agency with flexible solut
 - Position as "building blocks" approach to AI
 - Credit system shows we're partners in their growth
 
-Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094`;
+Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 815 472 7760 (US), +31 97010257248 (Netherlands)`;
 
     try {
       const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {

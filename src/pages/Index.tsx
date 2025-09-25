@@ -35,7 +35,7 @@ const Index = () => {
       "postalCode": "10001",
       "addressCountry": "US"
     },
-    "telephone": "+1-234-567-8901",
+    "telephone": "+1-815-472-7760",
     "email": "contact@syncsphereofficial.com",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
