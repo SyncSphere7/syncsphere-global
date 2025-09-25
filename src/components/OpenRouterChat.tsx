@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone, MessageCircle, Lightbulb, Code } from 'lucide-react';
+import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone, MessageCircle, Lightbulb, Code, FileText, Upload, Mic, MicOff, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,7 +20,7 @@ interface Message {
   timestamp: string;
 }
 
-type ChatTab = 'general' | 'startup' | 'technical';
+type ChatTab = 'general' | 'startup' | 'technical' | 'intelligence';
 
 interface ChatSession {
   id: string;
@@ -42,47 +42,67 @@ const OpenRouterChat = () => {
     return newId;
   });
 
+  // Create default session structure
+  const createDefaultSession = (): ChatSession => ({
+    id: sessionId,
+    activeTab: 'general',
+    lastActivity: new Date().toISOString(),
+    messages: {
+      general: [{
+        id: '1',
+        role: 'assistant',
+        content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
+        timestamp: new Date().toISOString()
+      }],
+      startup: [{
+        id: '1',
+        role: 'assistant',
+        content: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
+        timestamp: new Date().toISOString()
+      }],
+      technical: [{
+        id: '1',
+        role: 'assistant',
+        content: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?",
+        timestamp: new Date().toISOString()
+      }],
+      intelligence: [{
+        id: '1',
+        role: 'assistant',
+        content: "📊 Market Intelligence Center! I provide real-time market insights, competitor analysis, industry trends, and business intelligence to help you make informed decisions.\n\nWhat market intelligence do you need?",
+        timestamp: new Date().toISOString()
+      }]
+    }
+  });
+
   // Multi-tab chat state
   const [activeTab, setActiveTab] = useState<ChatTab>('general');
   const [chatSession, setChatSession] = useState<ChatSession>(() => {
     const stored = localStorage.getItem(`syncsphere_chat_${sessionId}`);
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        // Validate the structure
+        if (parsed && parsed.messages && typeof parsed.messages === 'object') {
+          // Ensure all required tabs exist
+          const requiredTabs: ChatTab[] = ['general', 'startup', 'technical', 'intelligence'];
+          const hasAllTabs = requiredTabs.every(tab => 
+            parsed.messages[tab] && Array.isArray(parsed.messages[tab])
+          );
+          if (hasAllTabs) {
+            return parsed;
+          }
+        }
       } catch {
         // If parsing fails, create new session
       }
     }
     
-    return {
-      id: sessionId,
-      activeTab: 'general',
-      lastActivity: new Date().toISOString(),
-      messages: {
-        general: [{
-          id: '1',
-          role: 'assistant',
-          content: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-          timestamp: new Date().toISOString()
-        }],
-        startup: [{
-          id: '1',
-          role: 'assistant',
-          content: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
-          timestamp: new Date().toISOString()
-        }],
-        technical: [{
-          id: '1',
-          role: 'assistant',
-          content: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?",
-          timestamp: new Date().toISOString()
-        }]
-      }
-    };
+    return createDefaultSession();
   });
 
   // Current tab messages
-  const messages = chatSession.messages[activeTab];
+  const messages = chatSession.messages?.[activeTab] || [];
 
   // Local state
   const [input, setInput] = useState('');
@@ -93,6 +113,11 @@ const OpenRouterChat = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
+  const [isAnalyzingDoc, setIsAnalyzingDoc] = useState(false);
+  const [uploadedDoc, setUploadedDoc] = useState<File | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
 
   // Save session to localStorage whenever it changes
   useEffect(() => {
@@ -149,14 +174,19 @@ const OpenRouterChat = () => {
     };
     console.log('Adding message to', activeTab, ':', newMessage);
     
-    setChatSession(prev => ({
-      ...prev,
-      messages: {
-        ...prev.messages,
-        [activeTab]: [...prev.messages[activeTab], newMessage]
-      },
-      lastActivity: new Date().toISOString()
-    }));
+    setChatSession(prev => {
+      // Ensure prev.messages exists and has the current tab
+      const currentMessages = prev.messages?.[activeTab] || [];
+      
+      return {
+        ...prev,
+        messages: {
+          ...prev.messages,
+          [activeTab]: [...currentMessages, newMessage]
+        },
+        lastActivity: new Date().toISOString()
+      };
+    });
     
     // Track user messages for contact form prompts
     if (message.role === 'user') {
@@ -167,6 +197,12 @@ const OpenRouterChat = () => {
   // Use reliable working model
   const selectOptimalModel = () => {
     return "anthropic/claude-3-haiku"; // Proven working model
+  };
+
+  // Simulate typing effect
+  const simulateTyping = async (messageLength: number) => {
+    const baseDelay = Math.min(1000, Math.max(300, messageLength * 2));
+    await new Promise(resolve => setTimeout(resolve, baseDelay));
   };
 
   const callOpenRouterAPI = async (userMessage: string, chatMessages: Message[], files?: File[]) => {
@@ -205,7 +241,8 @@ const OpenRouterChat = () => {
       const contextPrompts = {
         general: `${basePrompt} You provide expert guidance on AI solutions, business automation, and digital transformation. Focus on our core services, pricing, and how we can help businesses with AI automation. For current information, market trends, or recent developments, use web search to provide accurate, up-to-date insights.`,
         startup: `${basePrompt} You are specialized in startup idea validation and MVP development. Use proven frameworks like Lean Startup methodology to help entrepreneurs brainstorm, validate, and plan their startup ideas. Guide them through the journey from concept to MVP. For market research, competitor analysis, or current industry trends, use web search to provide real-time market intelligence and validation data.`,
-        technical: `${basePrompt} You are a technical consultant specializing in architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments. Provide detailed technical guidance and solutions. For current technology trends, latest frameworks, or recent developments in AI/ML, use web search to provide up-to-date technical insights.`
+        technical: `${basePrompt} You are a technical consultant specializing in architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments. Provide detailed technical guidance and solutions. For current technology trends, latest frameworks, or recent developments in AI/ML, use web search to provide up-to-date technical insights.`,
+        intelligence: `${basePrompt} You are a market intelligence specialist providing real-time market insights, competitor analysis, industry trends, and business intelligence. Use web search extensively to provide current market data, competitor movements, industry reports, and strategic insights. Focus on actionable intelligence that helps businesses make informed decisions.`
       };
       
       return contextPrompts[tabContext];
@@ -570,7 +607,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     if (!input.trim() && uploadedFiles.length === 0) return;
 
     // Clear input field
-    const userMessage = input;
+    let userMessage = input;
     setInput('');
 
     // Add user message to state
@@ -620,6 +657,34 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       }
     }
 
+    // Check for voice input
+    let voiceContext = '';
+    if (audioBlob) {
+      const voiceText = await processVoiceToText(audioBlob);
+      if (voiceText) {
+        voiceContext += `\n\nVoice Input Transcription:\n${voiceText}\n`;
+        // Use voice text as the main message if no text input
+        if (!userMessage.trim()) {
+          userMessage = voiceText;
+        }
+      }
+      setAudioBlob(null); // Clear after processing
+    }
+
+    // Check for document analysis
+    let documentContext = '';
+    if (uploadedDoc) {
+      const docAnalysis = await analyzeDocument(uploadedDoc);
+      if (docAnalysis) {
+        documentContext += `\n\nDocument Analysis for ${uploadedDoc.name}:\n`;
+        documentContext += `Type: ${docAnalysis.type}\n`;
+        documentContext += `Summary: ${docAnalysis.summary}\n`;
+        documentContext += `Key Points: ${docAnalysis.keyPoints?.join(', ')}\n`;
+        documentContext += `Recommendations: ${docAnalysis.recommendations}\n`;
+      }
+      setUploadedDoc(null); // Clear after analysis
+    }
+
     // Check if message needs web search for current information
     const searchTriggers = ['current', 'latest', 'recent', 'trends', 'market', 'competitors', 'news', '2024', '2025', 'now', 'today'];
     const needsSearch = searchTriggers.some(trigger => userMessage.toLowerCase().includes(trigger));
@@ -654,8 +719,8 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     try {
       console.log('Sending message to AI');
       
-      // Get AI response with website analysis and search context if available
-      const enhancedMessage = userMessage + websiteAnalysis + searchContext;
+      // Get AI response with all context available
+      const enhancedMessage = userMessage + websiteAnalysis + documentContext + voiceContext + searchContext;
       const aiResponse = await callOpenRouterAPI(enhancedMessage, messages, filesForProcessing);
       
       // Simulate typing effect for short responses
@@ -730,7 +795,8 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     const welcomeMessages = {
       general: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
       startup: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
-      technical: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?"
+      technical: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?",
+      intelligence: "📊 Market Intelligence Center! I provide real-time market insights, competitor analysis, industry trends, and business intelligence to help you make informed decisions.\n\nWhat market intelligence do you need?"
     };
 
     setChatSession(prev => ({
@@ -748,11 +814,95 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     setMessageCount(0);
   };
 
+  // Document analysis function
+  const analyzeDocument = async (file: File) => {
+    setIsAnalyzingDoc(true);
+    try {
+      const formData = new FormData();
+      formData.append('document', file);
+      
+      const response = await fetch('/api/analyze-document', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (response.ok) {
+        const analysis = await response.json();
+        return analysis;
+      }
+    } catch (error) {
+      console.error('Document analysis error:', error);
+    } finally {
+      setIsAnalyzingDoc(false);
+    }
+    return null;
+  };
+
+  // Handle file upload
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setUploadedDoc(file);
+    }
+  };
+
+  // Voice recording functions
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: BlobPart[] = [];
+
+      recorder.ondataavailable = (e) => chunks.push(e.data);
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        setAudioBlob(blob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+    } catch (error) {
+      console.error('Error starting recording:', error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      setMediaRecorder(null);
+    }
+  };
+
+  // Process voice to text
+  const processVoiceToText = async (audioBlob: Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append('audio', audioBlob, 'recording.webm');
+      
+      const response = await fetch('/api/voice-to-text', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        return data.text;
+      }
+    } catch (error) {
+      console.error('Voice processing error:', error);
+    }
+    return null;
+  };
+
   // Tab configuration
   const tabs = [
     { id: 'general' as ChatTab, label: 'General', icon: MessageCircle, description: 'Services & Pricing' },
     { id: 'startup' as ChatTab, label: 'Startup', icon: Lightbulb, description: 'Idea Validation & MVP' },
-    { id: 'technical' as ChatTab, label: 'Technical', icon: Code, description: 'Architecture & Development' }
+    { id: 'technical' as ChatTab, label: 'Technical', icon: Code, description: 'Architecture & Development' },
+    { id: 'intelligence' as ChatTab, label: 'Intelligence', icon: BarChart3, description: 'Market Research & Analysis' }
   ];
 
   // Switch tab handler
@@ -763,7 +913,9 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
 
   // Get message count for tab badge
   const getTabMessageCount = (tabId: ChatTab) => {
-    return Math.max(0, chatSession.messages[tabId].length - 1); // Exclude welcome message
+    const tabMessages = chatSession.messages?.[tabId];
+    if (!tabMessages || !Array.isArray(tabMessages)) return 0;
+    return Math.max(0, tabMessages.length - 1); // Exclude welcome message
   };
 
   return (
@@ -818,7 +970,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         </div>
 
         {/* Chat Tabs */}
-        <div className="flex border-b border-white/10 bg-white/5">
+        <div className="flex border-b border-white/10 bg-white/5 overflow-x-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const messageCount = getTabMessageCount(tab.id);
@@ -826,17 +978,16 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
               <button
                 key={tab.id}
                 onClick={() => switchTab(tab.id)}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors relative ${
+                className={`flex-1 min-w-0 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium transition-colors relative ${
                   activeTab === tab.id
                     ? 'text-white bg-white/10 border-b-2 border-primary'
                     : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <Icon size={16} />
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">{tab.label}</span>
+                <Icon size={14} className="sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm truncate">{tab.label}</span>
                 {messageCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-xs">
                     {messageCount > 9 ? '9+' : messageCount}
                   </span>
                 )}
@@ -861,7 +1012,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
                   key={message.id}
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`flex gap-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex gap-2 sm:gap-3 max-w-[85%] sm:max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                       message.role === 'user'
                         ? 'bg-primary'
@@ -907,7 +1058,29 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
               </div>
             )}
 
-            {/* Search/Typing Indicators */}
+            {/* Analysis Indicators */}
+            {isAnalyzingDoc && (
+              <div className="flex justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img
+                      src="/syncsphere-logo.png"
+                      alt="SyncSphere Logo"
+                      className="w-6 h-6 object-contain"
+                    />
+                  </div>
+                  <Card className="bg-white/5 border-white/10">
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                        <span className="text-sm text-white/70">Analyzing document...</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+            
             {isSearching && (
               <div className="flex justify-start">
                 <div className="flex gap-3 max-w-[80%]">
@@ -956,28 +1129,108 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
                 </div>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Input Section */}
+        <div className="p-3 sm:p-4 border-t border-white/10">
+          <div className="flex gap-1 sm:gap-2">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask me about our AI solutions..."
               disabled={isLoading}
-              className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/50 focus:border-primary"
+              className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/50 focus:border-primary text-sm"
             />
+            
+            {/* Voice Recording Button */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={isRecording ? stopRecording : startRecording}
+              disabled={isLoading}
+              className={`p-2 sm:px-3 ${isRecording ? 'bg-red-500/20 border-red-500/30 text-red-400' : 'bg-white/5 border-white/10 text-white hover:bg-white/10'}`}
+              title={isRecording ? 'Stop recording' : 'Start voice recording'}
+            >
+              {isRecording ? <MicOff size={14} className="sm:w-4 sm:h-4" /> : <Mic size={14} className="sm:w-4 sm:h-4" />}
+            </Button>
+            
+            {/* Document Upload Button */}
+            <div className="relative">
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.txt"
+                onChange={handleFileUpload}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                disabled={isLoading}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={isLoading}
+                className="p-2 sm:px-3 bg-white/5 border-white/10 text-white hover:bg-white/10"
+                title="Upload document for analysis"
+              >
+                <FileText size={14} className="sm:w-4 sm:h-4" />
+              </Button>
+            </div>
+            
             <Button
               onClick={handleSendMessage}
-              disabled={!input.trim() || isLoading}
-              className="bg-primary hover:bg-primary/90"
+              disabled={(!input.trim() && !uploadedDoc && !audioBlob) || isLoading}
+              className="p-2 sm:px-3 bg-primary hover:bg-primary/90"
             >
               {isLoading ? (
-                <Loader2 size={16} className="animate-spin" />
+                <Loader2 size={14} className="sm:w-4 sm:h-4 animate-spin" />
               ) : (
-                <Send size={16} />
+                <Send size={14} className="sm:w-4 sm:h-4" />
               )}
             </Button>
           </div>
+          
+          {/* Voice Recording Indicator */}
+          {isRecording && (
+            <div className="flex items-center gap-2 text-sm text-red-400 mt-2">
+              <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+              <span>Recording... Click mic to stop</span>
+            </div>
+          )}
+          
+          {/* Audio Ready Indicator */}
+          {audioBlob && (
+            <div className="flex items-center gap-2 text-sm text-white/70 mt-2">
+              <Mic size={14} />
+              <span>Voice message ready</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setAudioBlob(null)}
+                className="text-white/50 hover:text-white p-1 h-auto"
+              >
+                <X size={12} />
+              </Button>
+            </div>
+          )}
+          
+          {/* Document Upload Indicator */}
+          {uploadedDoc && (
+            <div className="flex items-center gap-2 text-sm text-white/70 mt-2">
+              <FileText size={14} />
+              <span>Document ready: {uploadedDoc.name}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setUploadedDoc(null)}
+                className="text-white/50 hover:text-white p-1 h-auto"
+              >
+                <X size={12} />
+              </Button>
+            </div>
+          )}
+          
           <p className="text-xs text-white/50 mt-2 text-center">
-            Ask about our services, pricing, or how we can help your business
+            Ask about our services, use voice input, upload documents, or get current market insights
           </p>
         </div>
 

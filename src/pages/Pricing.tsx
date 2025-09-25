@@ -7,12 +7,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, Star, Globe, Zap, Shield, Clock, CreditCard, ArrowRight, Check, Phone, Mail, Download } from 'lucide-react';
+import { CheckCircle, Star, Globe, Zap, Shield, Clock, CreditCard, ArrowRight, Check, Phone, Mail, Download, Calculator } from 'lucide-react';
 import ContactFormNew from '@/components/ContactFormNew';
+import ROICalculator from '@/components/ROICalculator';
 
 const Pricing = () => {
   const [selectedService, setSelectedService] = useState('automations');
   const [currency, setCurrency] = useState('USD');
+  const [showROICalculator, setShowROICalculator] = useState(false);
 
   const services = [
     { id: 'automations', name: 'AI Automation', icon: '🤖', desc: 'Workflow automation & business systems' },
@@ -107,6 +109,17 @@ const Pricing = () => {
                 No hidden fees, no surprises - just transparent rates that deliver exceptional ROI.
               </p>
               
+              {/* ROI Calculator Toggle */}
+              <div className="flex justify-center mb-8 animate-fadeIn" style={{ animationDelay: "0.3s" }}>
+                <button
+                  onClick={() => setShowROICalculator(!showROICalculator)}
+                  className="flex items-center gap-2 px-6 py-3 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-lg text-primary transition-colors backdrop-blur-sm"
+                >
+                  <Calculator className="h-5 w-5" />
+                  {showROICalculator ? 'Hide ROI Calculator' : 'Calculate Your ROI'}
+                </button>
+              </div>
+              
               <div className="flex flex-wrap justify-center gap-4 mb-12 animate-fadeIn" style={{ animationDelay: "0.4s" }}>
                 <Badge variant="outline" className="px-4 py-2 bg-white/5 border-white/10 text-foreground/80 backdrop-blur-sm">
                   <Shield className="h-4 w-4 mr-2" />
@@ -127,6 +140,15 @@ const Pricing = () => {
               </div>
             </div>
           </section>
+
+          {/* ROI Calculator Section */}
+          {showROICalculator && (
+            <section className="py-16 bg-background">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <ROICalculator />
+              </div>
+            </section>
+          )}
 
           {/* Currency Selector */}
           <section className="py-8 bg-background">

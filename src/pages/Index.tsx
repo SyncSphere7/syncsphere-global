@@ -12,6 +12,8 @@ import FAQSection from '../components/FAQSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import AskAIButton from '../components/AskAIButton';
+import PersonalizationEngine from '../components/PersonalizationEngine';
+import BehavioralTriggers from '../components/BehavioralTriggers';
 
 const Index = () => {
   // JSON-LD structured data for the homepage
@@ -186,41 +188,50 @@ const Index = () => {
   };
   
   return (
-    <div className="min-h-screen bg-background text-white flex flex-col">
-      <Helmet>
-        <title>AI Automation, Chatbot Development & Startup MVP Solutions | SyncSphere</title>
-        <meta name="description" content="Transform your business with AI automation, chatbots, voice agents, and startup MVP development. From £1,500 pilots to complete 30-day MVP solutions. UK/US/EU." />
-        <link rel="canonical" href="https://syncsphereofficial.com" />
-        <script type="application/ld+json">
-          {JSON.stringify(businessSchema)}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify(reviewSchema)}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify(localBusinessSchema)}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify(faqSchema)}
-        </script>
-      </Helmet>
+    <PersonalizationEngine>
+      {({ greeting, pricing, testimonial, cta, urgency, industry }) => (
+        <div className="min-h-screen bg-background text-white flex flex-col">
+          <Helmet>
+            <title>AI Automation, Chatbot Development & Startup MVP Solutions | SyncSphere</title>
+            <meta name="description" content="Transform your business with AI automation, chatbots, voice agents, and startup MVP development. From £1,500 pilots to complete 30-day MVP solutions. UK/US/EU." />
+            <link rel="canonical" href="https://syncsphereofficial.com" />
+            <script type="application/ld+json">
+              {JSON.stringify(businessSchema)}
+            </script>
+            <script type="application/ld+json">
+              {JSON.stringify(reviewSchema)}
+            </script>
+            <script type="application/ld+json">
+              {JSON.stringify(localBusinessSchema)}
+            </script>
+            <script type="application/ld+json">
+              {JSON.stringify(faqSchema)}
+            </script>
+          </Helmet>
 
-      <Header />
-      <main>
-        <HeroSection />
-        <ServicesSection />
-        <ProcessSection />
-        <CaseStudiesSection />
-        <TestimonialsSection />
-        <EnterpriseExpertise />
-        <FAQSection />
-        <ContactSection />
-        
-        {/* Ask AI Button */}
-        <AskAIButton floating={true} />
-      </main>
-      <Footer />
-    </div>
+          <Header />
+          <main>
+            <HeroSection personalization={{ greeting, cta, urgency }} />
+            <ServicesSection />
+            <ProcessSection />
+            <CaseStudiesSection />
+            <TestimonialsSection testimonial={testimonial} industry={industry} />
+            <EnterpriseExpertise />
+            <FAQSection />
+            <ContactSection />
+            
+            {/* Ask AI Button */}
+            <AskAIButton floating={true} />
+            
+            {/* Behavioral Triggers */}
+            <BehavioralTriggers onTrigger={(type, data) => {
+              console.log('Behavioral trigger:', type, data);
+            }} />
+          </main>
+          <Footer />
+        </div>
+      )}
+    </PersonalizationEngine>
   );
 };
 

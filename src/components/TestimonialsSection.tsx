@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Star } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Star, Users, TrendingUp } from 'lucide-react';
 
 interface Testimonial {
   name: string;
@@ -31,7 +32,17 @@ const testimonials: Testimonial[] = [
   }
 ];
 
-const TestimonialsSection = () => {
+interface TestimonialsSectionProps {
+  testimonial?: {
+    text: string;
+    author: string;
+    company: string;
+    metric: string;
+  };
+  industry?: string;
+}
+
+const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonial, industry }) => {
   return (
     <section id="testimonials" className="py-20 bg-background relative">
       {/* Background gradient */}
@@ -48,8 +59,48 @@ const TestimonialsSection = () => {
           </p>
         </div>
 
+        {/* Personalized Testimonial */}
+        {testimonial && (
+          <div className="mb-16">
+            <Card className="bg-primary/10 border-primary/20 backdrop-blur-sm max-w-4xl mx-auto">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <Badge className="bg-primary/20 text-primary border-primary/30">
+                    {industry ? industry.charAt(0).toUpperCase() + industry.slice(1) : 'Industry'} Success Story
+                  </Badge>
+                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                    <TrendingUp className="h-3 w-3 mr-1" />
+                    {testimonial.metric}
+                  </Badge>
+                </div>
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={18}
+                      className="text-yellow-400 fill-yellow-400"
+                    />
+                  ))}
+                </div>
+                <blockquote className="text-lg md:text-xl text-foreground/90 mb-6 italic">
+                  "{testimonial.text}"
+                </blockquote>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Users className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{testimonial.author}</p>
+                    <p className="text-foreground/70">{testimonial.company}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonialItem, index) => (
             <div key={index} className="animate-fadeIn" style={{ animationDelay: `${0.1 * (index + 1)}s` }}>
               <Card className="bg-white/5 border border-white/10 backdrop-blur-sm h-full hover:bg-white/10 transition-colors">
                 <CardContent className="p-6">
@@ -58,14 +109,14 @@ const TestimonialsSection = () => {
                       <Star
                         key={i}
                         size={18}
-                        className={i < testimonial.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}
+                        className={i < testimonialItem.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}
                       />
                     ))}
                   </div>
-                  <p className="text-foreground/80 mb-6 italic">"{testimonial.text}"</p>
+                  <p className="text-foreground/80 mb-6 italic">"{testimonialItem.text}"</p>
                   <div className="mt-auto">
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-foreground/60 text-sm">{testimonial.company}</p>
+                    <p className="font-semibold text-foreground">{testimonialItem.name}</p>
+                    <p className="text-foreground/60 text-sm">{testimonialItem.company}</p>
                   </div>
                 </CardContent>
               </Card>

@@ -41,26 +41,27 @@ const WhatsAppBubble = () => {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-40 transition-all duration-300 ${
+      className={`fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-40 transition-all duration-300 ${
         isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
       }`}
     >
       {/* Minimal WhatsApp button - no prompting message since AI assistant handles that */}
       <button
         onClick={handleClick}
-        className="bg-[#25D366] text-white p-2.5 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 hover:scale-110 flex items-center justify-center group relative"
+        className="bg-[#25D366] text-white p-2 sm:p-2.5 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 hover:scale-110 flex items-center justify-center group relative"
         aria-label="Chat on WhatsApp"
       >
         {/* WhatsApp tooltip */}
-        <span className="absolute right-full mr-3 bg-black/80 text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        <span className="absolute right-full mr-2 sm:mr-3 bg-black/80 text-white text-xs sm:text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden sm:block">
           Contact us on WhatsApp
         </span>
 
-        {/* WhatsApp SVG Logo - smaller size */}
+        {/* WhatsApp SVG Logo - responsive size */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="20"
+          height="20"
+          className="sm:w-6 sm:h-6"
           viewBox="0 0 39 39"
           fill="none"
         >
