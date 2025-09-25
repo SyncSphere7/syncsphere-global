@@ -92,11 +92,34 @@ const OpenRouterChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
 
   // Save session to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(`syncsphere_chat_${sessionId}`, JSON.stringify(chatSession));
   }, [chatSession, sessionId]);
+
+  // Web search function
+  const performWebSearch = async (query: string) => {
+    setIsSearching(true);
+    try {
+      const response = await fetch('/api/web-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query, maxResults: 5 })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        return data.results;
+      }
+    } catch (error) {
+      console.error('Search error:', error);
+    } finally {
+      setIsSearching(false);
+    }
+    return null;
+  };
 
   const handleClose = () => {
     // Remind about contact form if user had meaningful interaction
@@ -180,9 +203,9 @@ const OpenRouterChat = () => {
       const basePrompt = `You are SyncSphere's professional AI Assistant representing a leading AI automation agency.`;
       
       const contextPrompts = {
-        general: `${basePrompt} You provide expert guidance on AI solutions, business automation, and digital transformation. Focus on our core services, pricing, and how we can help businesses with AI automation.`,
-        startup: `${basePrompt} You are specialized in startup idea validation and MVP development. Use proven frameworks like Lean Startup methodology to help entrepreneurs brainstorm, validate, and plan their startup ideas. Guide them through the journey from concept to MVP.`,
-        technical: `${basePrompt} You are a technical consultant specializing in architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments. Provide detailed technical guidance and solutions.`
+        general: `${basePrompt} You provide expert guidance on AI solutions, business automation, and digital transformation. Focus on our core services, pricing, and how we can help businesses with AI automation. For current information, market trends, or recent developments, use web search to provide accurate, up-to-date insights.`,
+        startup: `${basePrompt} You are specialized in startup idea validation and MVP development. Use proven frameworks like Lean Startup methodology to help entrepreneurs brainstorm, validate, and plan their startup ideas. Guide them through the journey from concept to MVP. For market research, competitor analysis, or current industry trends, use web search to provide real-time market intelligence and validation data.`,
+        technical: `${basePrompt} You are a technical consultant specializing in architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments. Provide detailed technical guidance and solutions. For current technology trends, latest frameworks, or recent developments in AI/ML, use web search to provide up-to-date technical insights.`
       };
       
       return contextPrompts[tabContext];
@@ -512,6 +535,37 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     return escalationKeywords.some(keyword => message.toLowerCase().includes(keyword));
   };
 
+  // Function to detect URLs in messages
+  const detectUrls = (message: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return message.match(urlRegex) || [];
+  };
+
+  // Function to analyze website
+  const analyzeWebsite = async (url: string) => {
+    try {
+      const response = await fetch('/api/web-scrape', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        return result.data;
+      } else {
+        console.error('Website analysis failed:', result.error);
+        return null;
+      }
+    } catch (error) {
+      console.error('Website analysis error:', error);
+      return null;
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!input.trim() && uploadedFiles.length === 0) return;
 
@@ -540,6 +594,56 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       // No special handling needed - just process normally
     }
     
+    // Check for URLs in the message and analyze them
+    const urls = detectUrls(userMessage);
+    let websiteAnalysis = '';
+    
+    if (urls.length > 0) {
+      setIsTyping(true);
+      addMessage({
+        role: 'assistant',
+        content: `🔍 I found a website URL in your message. Let me analyze it for you...`
+      });
+      
+      const websiteData = await analyzeWebsite(urls[0]);
+      if (websiteData) {
+        websiteAnalysis = `\n\n📊 Website Analysis for ${urls[0]}:\n` +
+          `Title: ${websiteData.title}\n` +
+          `Description: ${websiteData.description}\n` +
+          `Content Summary: ${websiteData.content}\n` +
+          `Key Headings: ${websiteData.headings.join(', ')}\n` +
+          `Site Type: ${websiteData.isEcommerce ? 'E-commerce' : websiteData.isBusiness ? 'Business/Corporate' : 'General'}\n` +
+          `Word Count: ${websiteData.wordCount} words\n` +
+          `Links: ${websiteData.linksCount} links found`;
+      } else {
+        websiteAnalysis = `\n\n⚠️ I had trouble analyzing the website ${urls[0]}. It might be protected or temporarily unavailable. I can still help you with general questions about website analysis and recommendations.`;
+      }
+    }
+
+    // Check if message needs web search for current information
+    const searchTriggers = ['current', 'latest', 'recent', 'trends', 'market', 'competitors', 'news', '2024', '2025', 'now', 'today'];
+    const needsSearch = searchTriggers.some(trigger => userMessage.toLowerCase().includes(trigger));
+    
+    let searchContext = '';
+    if (needsSearch) {
+      const searchResults = await performWebSearch(userMessage);
+      if (searchResults) {
+        searchContext += '\n\nCurrent Information:\n';
+        if (searchResults.abstract) {
+          searchContext += `Summary: ${searchResults.abstract}\n`;
+        }
+        if (searchResults.answer) {
+          searchContext += `Answer: ${searchResults.answer}\n`;
+        }
+        if (searchResults.relatedTopics?.length > 0) {
+          searchContext += 'Related Information:\n';
+          searchResults.relatedTopics.forEach((topic: any, index: number) => {
+            searchContext += `${index + 1}. ${topic.text}\n`;
+          });
+        }
+      }
+    }
+
     // If we have files, handle file upload first
     const filesForProcessing = uploadedFiles.length > 0 ? [...uploadedFiles] : undefined;
 
@@ -550,8 +654,9 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     try {
       console.log('Sending message to AI');
       
-      // Get AI response
-      const aiResponse = await callOpenRouterAPI(userMessage, messages, filesForProcessing);
+      // Get AI response with website analysis and search context if available
+      const enhancedMessage = userMessage + websiteAnalysis + searchContext;
+      const aiResponse = await callOpenRouterAPI(enhancedMessage, messages, filesForProcessing);
       
       // Simulate typing effect for short responses
       if (aiResponse.length < 500) {
@@ -802,8 +907,31 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
               </div>
             )}
 
+            {/* Search/Typing Indicators */}
+            {isSearching && (
+              <div className="flex justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img
+                      src="/syncsphere-logo.png"
+                      alt="SyncSphere Logo"
+                      className="w-6 h-6 object-contain"
+                    />
+                  </div>
+                  <Card className="bg-white/5 border-white/10">
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                        <span className="text-sm text-white/70">Searching for current information...</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+            
             {/* Typing Indicator */}
-            {isTyping && (
+            {isTyping && !isSearching && (
               <div className="flex justify-start">
                 <div className="flex gap-3 max-w-[80%]">
                   <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
