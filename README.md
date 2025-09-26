@@ -7,9 +7,9 @@
   
   *Transforming businesses through intelligent automation and AI-powered solutions*
 
-  [![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://syncsphere.ai)
+  [![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://syncsphereofficial.com)
   [![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/447424819094)
-  [![Contact](https://img.shields.io/badge/Contact-Email-red?style=for-the-badge)](mailto:hello@syncsphere.ai)
+  [![Contact](https://img.shields.io/badge/Contact-Email-red?style=for-the-badge)](mailto:info@syncsphereofficial.com)
 </div>
 
 ## 🚀 About SyncSphere
@@ -205,9 +205,9 @@ npm run build
 - **Netherlands**: +31 97010257248
 
 ### Digital Channels
-- **Email**: hello@syncsphere.ai
-- **Website**: [syncsphere.ai](https://syncsphere.ai)
-- **WhatsApp**: [Direct Chat](https://wa.me/447424819094)
+- **Email**: info@syncsphereofficial.com
+- **Website**: [syncsphereofficial.com](https://syncsphereofficial.com)
+- **WhatsApp**: [Direct Chat (+44 742 481 9094)](https://wa.me/447424819094)
 
 ### Business Hours
 - **UK/EU**: Monday-Friday, 9:00-18:00 GMT
@@ -235,7 +235,7 @@ We welcome contributions from the developer community! Please read our contribut
 
 This project is proprietary software owned by SyncSphere AI Agency. All rights reserved.
 
-For licensing inquiries, please contact: legal@syncsphere.ai
+For licensing inquiries, please contact: legal@syncsphereofficial.com
 
 ## 🌟 Why Choose SyncSphere?
 
@@ -251,5 +251,5 @@ For licensing inquiries, please contact: legal@syncsphere.ai
 <div align="center">
   <strong>Ready to transform your business with AI?</strong>
   
-  [Start Your Pilot Program](https://wa.me/447424819094) | [View Live Demo](https://syncsphere.ai) | [Get Quote](mailto:hello@syncsphere.ai)
+  [Start Your Pilot Program](https://wa.me/447424819094) | [View Live Demo](https://syncsphereofficial.com) | [Get Quote](mailto:info@syncsphereofficial.com)
 </div>
