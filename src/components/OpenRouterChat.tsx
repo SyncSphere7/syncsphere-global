@@ -1162,21 +1162,25 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
                 type="file"
                 accept=".pdf,.doc,.docx,.txt"
                 onChange={handleFileUpload}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 disabled={isLoading}
+                id="document-upload"
               />
               <Button
                 variant="outline"
                 size="sm"
                 disabled={isLoading}
-                className="p-2 sm:px-3 bg-white/5 border-white/10 text-white hover:bg-white/10"
+                className="p-2 sm:px-3 bg-white/5 border-white/10 text-white hover:bg-white/10 relative"
                 title="Upload document for analysis"
+                type="button"
+                onClick={(e) => e.preventDefault()}
               >
                 <FileText size={14} className="sm:w-4 sm:h-4" />
               </Button>
             </div>
             
             <Button
+              type="button"
               onClick={handleSendMessage}
               disabled={(!input.trim() && !uploadedDoc && !audioBlob) || isLoading}
               className="p-2 sm:px-3 bg-primary hover:bg-primary/90"
