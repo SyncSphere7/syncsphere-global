@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone, MessageCircle, Lightbulb, Code, FileText, Upload, Mic, MicOff, BarChart3 } from 'lucide-react';
+import { Send, Loader2, RefreshCw, X, User, Paperclip, Phone, MessageCircle, Lightbulb, Code, FileText, Upload, Mic, MicOff, BarChart3, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -118,6 +118,7 @@ const OpenRouterChat = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [isGeneratingDoc, setIsGeneratingDoc] = useState(false);
 
   // Save session to localStorage whenever it changes
   useEffect(() => {
@@ -450,6 +451,21 @@ When users mention startup ideas, business concepts, or "I have an idea", become
 - Suggest scalable architecture patterns
 - Estimate development complexity and timeline
 
+**PHASE 5: BUDGET & PROPOSAL GENERATION**
+After gathering requirements, offer to generate professional documents:
+- "Would you like me to generate a detailed budget breakdown for your MVP?"
+- "I can create a comprehensive project proposal with timelines and costs."
+- "Let me prepare a complete development plan document you can download and share."
+
+**DOCUMENT GENERATION CAPABILITIES:**
+When users request budgets, proposals, or plans, inform them:
+"I can generate professional documents for you to download:
+📊 **Budget Plan** - Detailed cost breakdown with payment options
+📋 **Project Proposal** - Complete proposal with timelines and deliverables  
+📈 **MVP Development Plan** - Step-by-step roadmap with milestones
+
+Just say 'generate budget', 'create proposal', or 'make development plan' and I'll create a downloadable document!"
+
 **HONEST LIMITATIONS & DISCLAIMERS:**
 - Always preface market insights with: "Based on general patterns we've seen..."
 - For financial projections: "You'll want to validate these numbers with real customer research..."
@@ -622,6 +638,27 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         });
         setShowContactForm(true);
       }, 1000);
+      return;
+    }
+
+    // Check if user wants document generation
+    if (detectDocumentRequest(userMessage)) {
+      const docType = userMessage.toLowerCase().includes('budget') ? 'budget' :
+                     userMessage.toLowerCase().includes('proposal') ? 'proposal' : 'mvp-plan';
+      
+      addMessage({
+        role: 'assistant',
+        content: `📄 I'll generate a professional ${docType.replace('-', ' ')} document for you! This will include detailed breakdowns, timelines, and all the information you need to move forward with your project.`
+      });
+      
+      // Generate document with basic content structure
+      setTimeout(() => {
+        generateDocument(docType, {
+          summary: 'Professional document generated based on our conversation',
+          projectName: 'MVP Project',
+          clientName: 'Valued Client'
+        });
+      }, 1500);
       return;
     }
 
@@ -897,6 +934,64 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     return null;
   };
 
+  // Generate downloadable document
+  const generateDocument = async (type: 'budget' | 'proposal' | 'mvp-plan', content: any, projectName?: string, clientName?: string) => {
+    setIsGeneratingDoc(true);
+    try {
+      const response = await fetch('/api/generate-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type,
+          content,
+          projectName: projectName || 'MVP Project',
+          clientName: clientName || 'Valued Client'
+        }),
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = response.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || `${type}-document.md`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        addMessage({
+          role: 'assistant',
+          content: `✅ Your ${type.replace('-', ' ')} document has been generated and downloaded! You can now review the detailed plan and share it with stakeholders.`
+        });
+      } else {
+        throw new Error('Failed to generate document');
+      }
+    } catch (error) {
+      console.error('Document generation error:', error);
+      addMessage({
+        role: 'assistant',
+        content: `❌ Sorry, I couldn't generate the document right now. Please try again or contact our team for assistance.`
+      });
+    } finally {
+      setIsGeneratingDoc(false);
+    }
+  };
+
+  // Detect document generation requests
+  const detectDocumentRequest = (message: string) => {
+    const docKeywords = [
+      'generate budget', 'create budget', 'budget document', 'budget plan',
+      'generate proposal', 'create proposal', 'proposal document', 'project proposal',
+      'generate plan', 'create plan', 'mvp plan', 'development plan', 'project plan',
+      'download budget', 'download proposal', 'download plan'
+    ];
+    return docKeywords.some(keyword => message.toLowerCase().includes(keyword));
+  };
+
   // Tab configuration
   const tabs = [
     { id: 'general' as ChatTab, label: 'General', icon: MessageCircle, description: 'Services & Pricing' },
@@ -1081,6 +1176,28 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
               </div>
             )}
             
+            {isGeneratingDoc && (
+              <div className="flex justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img
+                      src="/syncsphere-logo.png"
+                      alt="SyncSphere Logo"
+                      className="w-6 h-6 object-contain"
+                    />
+                  </div>
+                  <Card className="bg-white/5 border-white/10">
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-2">
+                        <Download className="animate-pulse h-4 w-4 text-primary" />
+                        <span className="text-sm text-white/70">Generating document...</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+            
             {isSearching && (
               <div className="flex justify-start">
                 <div className="flex gap-3 max-w-[80%]">
@@ -1178,6 +1295,24 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
                 <FileText size={14} className="sm:w-4 sm:h-4" />
               </Button>
             </div>
+            
+            {/* Document Generation Button (Startup Tab Only) */}
+            {activeTab === 'startup' && (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={isLoading || isGeneratingDoc}
+                className="p-2 sm:px-3 bg-white/5 border-white/10 text-white hover:bg-white/10"
+                title="Generate project documents"
+                type="button"
+                onClick={() => {
+                  addMessage({ role: 'user', content: 'generate development plan' });
+                  setTimeout(() => handleSendMessage(), 100);
+                }}
+              >
+                <Download size={14} className="sm:w-4 sm:h-4" />
+              </Button>
+            )}
             
             <Button
               type="button"
