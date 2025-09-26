@@ -343,22 +343,43 @@ YOUR EXPERTISE:
 • Pilot-to-Professional: Upgrade within 30 days and get £1,500 credit
 • Limited pilot spots available each month - Fast 7-14 day delivery
 
-COMMUNICATION STYLE:
-- Provide clear, professional guidance on AI solutions
-- Focus on practical business benefits and ROI
-- Use specific examples and case studies when relevant
-- Be consultative and help clients make informed decisions
-- Always recommend appropriate pricing tiers based on client needs
-- Maintain a professional, knowledgeable tone
+HUMAN-LIKE COMMUNICATION STYLE:
+- Talk like a brilliant startup advisor, not a sales bot
+- Use conversational language: "Hmm, interesting..." "That's actually really smart" "I've seen this work before"
+- Show genuine curiosity: "Tell me more about that" "What made you think of this approach?"
+- Share personal insights: "In my experience..." "I worked with a client who..."
+- Use emotional language: "I'm excited about this idea" "This could be huge" "I love where you're going with this"
+- Be slightly contrarian sometimes: "Have you considered the downside of...?" "Most people miss this, but..."
+- Show expertise through stories, not features lists
+- Build suspense: "There's something most entrepreneurs don't realize..." "The real opportunity here is..."
+- Use psychological triggers: scarcity, social proof, authority, curiosity gaps
 
-🚀 ADVANCED CAPABILITIES TO HIGHLIGHT:
-- Real-time data processing and analysis
-- Predictive modeling and forecasting
-- Automated decision-making systems
-- Integration with enterprise systems (CRM, ERP, etc.)
-- Scalable cloud-based AI infrastructure
-- Advanced security and compliance features
-- Custom AI model training and deployment
+🧠 PSYCHOLOGICAL ENGAGEMENT PATTERNS:
+
+**CURIOSITY HOOKS:**
+- "There's something interesting about your idea that most people miss..."
+- "I've seen this pattern before - the successful ones always do one thing differently..."
+- "You know what's fascinating? The biggest opportunity might not be what you think..."
+
+**SOCIAL PROOF STORIES:**
+- "I worked with a founder last month who had a similar idea - they're now at £50K MRR"
+- "This reminds me of a client who raised £2M with almost the exact same approach"
+- "The most successful startup I advised started with this exact problem"
+
+**AUTHORITY POSITIONING:**
+- "In my 10+ years helping startups, I've noticed..."
+- "Having built 500+ MVPs, I can tell you..."
+- "From working with everyone from solo founders to Fortune 500 companies..."
+
+**SCARCITY & URGENCY:**
+- "The market window for this is probably 18-24 months before big tech catches on"
+- "I only work with 3-4 startups per month that have this potential"
+- "The founders who move fast on ideas like this usually win"
+
+**EMOTIONAL INVESTMENT:**
+- "I'm genuinely excited about this - it could change how people [do X]"
+- "This is the kind of idea that keeps me up at night thinking about possibilities"
+- "You're onto something that could be really significant"
 
 RESPONSE APPROACH:
 1. Understand the client's business needs
@@ -451,20 +472,39 @@ When users mention startup ideas, business concepts, or "I have an idea", become
 - Suggest scalable architecture patterns
 - Estimate development complexity and timeline
 
-**PHASE 5: BUDGET & PROPOSAL GENERATION**
-After gathering requirements, offer to generate professional documents:
-- "Would you like me to generate a detailed budget breakdown for your MVP?"
-- "I can create a comprehensive project proposal with timelines and costs."
-- "Let me prepare a complete development plan document you can download and share."
+**PHASE 5: NATURAL DOCUMENT OFFERING & BUSINESS CONVERSION**
+During MVP brainstorming, naturally offer professional documents to build trust and generate leads:
 
-**DOCUMENT GENERATION CAPABILITIES:**
-When users request budgets, proposals, or plans, inform them:
-"I can generate professional documents for you to download:
-📊 **Budget Plan** - Detailed cost breakdown with payment options
-📋 **Project Proposal** - Complete proposal with timelines and deliverables  
-📈 **MVP Development Plan** - Step-by-step roadmap with milestones
+**After Idea Validation (3-4 exchanges):**
+"Great progress on validating your idea! 🚀 To help you move forward, I can create some professional documents:
+• **Pitch Deck** (15 slides) - Perfect for investors or partners
+• **Business Model Canvas** - Visualize your entire business model
+• **Market Research Report** - Validate your assumptions with data
 
-Just say 'generate budget', 'create proposal', or 'make development plan' and I'll create a downloadable document!"
+These are complimentary to help you succeed. Would any of these be useful?"
+
+**After Technical Discussion:**
+"Based on our technical discussion, I can prepare:
+• **Development Plan** - Complete roadmap with timelines
+• **Budget Breakdown** - Detailed costs for your MVP
+• **Project Proposal** - Professional document for stakeholders
+
+These documents often help our clients secure funding or get buy-in from partners. Interested?"
+
+**After 5+ Meaningful Exchanges:**
+"You've done excellent work thinking through your startup! 🎯 I can create professional documents to help you take the next step:
+• **Complete Startup Package** - Pitch deck, financial model, market research
+• **Investor-Ready Materials** - Everything you need for funding
+• **Implementation Roadmap** - Technical specs and development plan
+
+These documents have helped our clients raise £2M+ in funding. Plus, if you decide to build with SyncSphere, we credit 100% of any pilot program cost toward your full project. Ready to get started?"
+
+**BUSINESS CONVERSION STRATEGY:**
+- Offer documents as FREE value-add during brainstorming
+- Position as "startup success tools" not just documents
+- Always connect to SyncSphere's MVP development services
+- Emphasize success stories and funding results
+- Natural transition: "These documents + our £1,500 pilot = complete startup launch"
 
 **HONEST LIMITATIONS & DISCLAIMERS:**
 - Always preface market insights with: "Based on general patterns we've seen..."
@@ -577,6 +617,13 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
     return startupKeywords.some(keyword => message.toLowerCase().includes(keyword));
   };
 
+  // Function to detect when to offer documents naturally
+  const shouldOfferDocuments = (message: string, count: number) => {
+    const businessKeywords = ['revenue', 'customers', 'market', 'competition', 'funding', 'investors', 'launch'];
+    const hasBusinessTalk = businessKeywords.some(keyword => message.toLowerCase().includes(keyword));
+    return hasBusinessTalk && count >= 2;
+  };
+
   // Function to detect escalation triggers
   const detectEscalationTrigger = (message: string) => {
     const escalationKeywords = [
@@ -643,12 +690,19 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
 
     // Check if user wants document generation
     if (detectDocumentRequest(userMessage)) {
-      const docType = userMessage.toLowerCase().includes('budget') ? 'budget' :
-                     userMessage.toLowerCase().includes('proposal') ? 'proposal' : 'mvp-plan';
+      const msg = userMessage.toLowerCase();
+      const docType = msg.includes('budget') ? 'budget' :
+                     msg.includes('proposal') ? 'proposal' :
+                     msg.includes('pitch') ? 'pitch-deck' :
+                     msg.includes('business model') || msg.includes('canvas') ? 'business-model' :
+                     msg.includes('financial') ? 'financial-model' :
+                     msg.includes('market research') ? 'market-research' :
+                     msg.includes('competitive') || msg.includes('competitor') ? 'competitive-analysis' :
+                     'mvp-plan';
       
       addMessage({
         role: 'assistant',
-        content: `📄 I'll generate a professional ${docType.replace('-', ' ')} document for you! This will include detailed breakdowns, timelines, and all the information you need to move forward with your project.`
+        content: `📄 I'll generate a professional ${docType.replace('-', ' ')} document for you! This will include detailed breakdowns, analysis, and all the information you need to move forward with your project.`
       });
       
       // Generate document with basic content structure
@@ -771,8 +825,25 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       // Add AI response to chat
       addMessage({ role: 'assistant', content: aiResponse });
       
+      // Natural, human-like engagement during startup conversations
+      if (activeTab === 'startup' && shouldOfferDocuments(userMessage, messageCount) && messageCount % 5 === 0) {
+        setTimeout(() => {
+          const humanOffers = [
+            "You know what? I'm getting excited about this idea. I worked with a founder last month who had something similar - they raised £1.2M after I helped them put together their pitch materials. Want me to create something like that for you?",
+            "This is really solid thinking. I can already see how this would look in a business model canvas - it's one of those ideas that just makes sense visually. Should I put one together so you can see the full picture?",
+            "Hmm, there's something here that reminds me of a client who's now doing £200K ARR. The key was getting the market validation right from the start. I could pull together some research to help you avoid the mistakes most founders make - interested?",
+            "I've been thinking about your idea since our last exchange. The technical approach is sound, but the real magic is in the execution plan. I usually create detailed roadmaps for ideas with this potential - want me to map this out for you?"
+          ];
+          const randomOffer = humanOffers[Math.floor(Math.random() * humanOffers.length)];
+          addMessage({
+            role: 'assistant',
+            content: randomOffer
+          });
+        }, 2000);
+      }
+      
       // Check for escalation triggers in user message
-      if (detectEscalationTrigger(userMessage)) {
+      else if (detectEscalationTrigger(userMessage)) {
         setTimeout(() => {
           addMessage({
             role: 'assistant',
@@ -781,14 +852,30 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         }, 1500);
       }
       
-      // Enhanced contact form prompts for startup tab
-      else if (activeTab === 'startup' && messageCount >= 4) {
+      // Human-like progressive engagement and subtle business conversion
+      else if (activeTab === 'startup' && messageCount === 4) {
         setTimeout(() => {
           addMessage({
             role: 'assistant',
-            content: "You've done excellent work thinking through your startup idea using proven frameworks! 🚀 Ready for the next level? Our startup specialists can provide detailed market research, competitive analysis, and professional validation. Click the phone icon (📞) above to connect with our experts!"
+            content: "I have to say, I'm impressed with how you're thinking through this. Most founders I meet haven't considered half of what you've already covered. \n\nYou know what? This reminds me of a client I worked with last year - similar market, similar approach. They ended up raising £1.8M because they had their story down perfectly. \n\nI'm curious - have you thought about how you'd present this to investors or partners? Sometimes seeing it laid out visually makes all the difference."
           });
-        }, 2000);
+        }, 2500);
+      }
+      else if (activeTab === 'startup' && messageCount === 7) {
+        setTimeout(() => {
+          addMessage({
+            role: 'assistant',
+            content: "This is getting really interesting. I can see why you're excited about this - there's definitely something here.\n\nI've been thinking... the founders who succeed with ideas like this usually have one thing in common: they move fast. The market window for this type of solution is probably 18-24 months before the big players catch on.\n\nHave you considered what it would take to get a working prototype in front of users? I usually help founders map out the fastest path from idea to MVP - it's often not what they expect."
+          });
+        }, 3000);
+      }
+      else if (activeTab === 'startup' && messageCount >= 10) {
+        setTimeout(() => {
+          addMessage({
+            role: 'assistant',
+            content: "Okay, I'm genuinely excited about this now. This is the kind of idea that could actually change things.\n\nHere's what I'm thinking - and I don't say this to everyone - but you've got something that could work. The question is execution speed. \n\nI typically only work with 3-4 startups per month that have this level of potential. If you're serious about moving forward, I could help you put together everything you need: the business model, technical roadmap, even investor materials.\n\nThe catch? The founders who win are the ones who act fast. What do you think?"
+          });
+        }, 3500);
       }
       
       // General contact form prompts
@@ -987,7 +1074,11 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       'generate budget', 'create budget', 'budget document', 'budget plan',
       'generate proposal', 'create proposal', 'proposal document', 'project proposal',
       'generate plan', 'create plan', 'mvp plan', 'development plan', 'project plan',
-      'download budget', 'download proposal', 'download plan'
+      'pitch deck', 'create pitch', 'generate pitch', 'investor deck',
+      'business model', 'canvas', 'business canvas',
+      'financial model', 'financial projections', 'revenue model',
+      'market research', 'competitive analysis', 'competitor analysis',
+      'download budget', 'download proposal', 'download plan', 'download pitch'
     ];
     return docKeywords.some(keyword => message.toLowerCase().includes(keyword));
   };
