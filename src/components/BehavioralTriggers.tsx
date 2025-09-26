@@ -80,44 +80,43 @@ const BehavioralTriggers: React.FC<BehavioralTriggersProps> = ({ onTrigger }) =>
     };
   }, []);
 
-  // Trigger logic
+  // Trigger logic - Much less intrusive
   useEffect(() => {
-    // Exit intent popup
-    if (exitIntent && !activePopup && sessionData.timeSpent > 30) {
+    // Only exit intent popup - and only for engaged users
+    if (exitIntent && !activePopup && sessionData.timeSpent > 120 && scrollDepth > 50) {
       triggerPopup('exit-intent');
     }
     
-    // Time-based triggers
-    if (timeOnSite === 60 && !activePopup) { // 1 minute
-      triggerPopup('engagement');
-    }
-    
-    if (timeOnSite === 180 && !activePopup) { // 3 minutes
+    // Only one time-based trigger for very engaged users
+    if (timeOnSite === 300 && !activePopup && scrollDepth > 80) { // 5 minutes + deep scroll
       triggerPopup('consultation-offer');
     }
     
-    // Scroll-based triggers
-    if (scrollDepth >= 70 && !activePopup && sessionData.timeSpent > 45) {
-      triggerPopup('roi-calculator');
-    }
-    
-    // Returning visitor triggers
-    if (sessionData.visitCount > 2 && timeOnSite === 30 && !activePopup) {
+    // Returning visitor - only after 5+ visits and clear engagement
+    if (sessionData.visitCount > 5 && timeOnSite === 60 && scrollDepth > 60 && !activePopup) {
       triggerPopup('returning-visitor');
     }
   }, [exitIntent, timeOnSite, scrollDepth, sessionData, activePopup]);
 
   const triggerPopup = (type: string) => {
-    // Check if popup was already shown in this session
-    const shownPopups = JSON.parse(localStorage.getItem('syncsphere_shown_popups') || '[]');
+    // Check if popup was already shown (ever, not just this session)
+    const shownPopups = JSON.parse(localStorage.getItem('syncsphere_shown_popups_ever') || '[]');
     if (shownPopups.includes(type)) return;
+
+    // Additional cooldown - only one popup per day
+    const lastPopupTime = localStorage.getItem('syncsphere_last_popup');
+    const now = Date.now();
+    if (lastPopupTime && (now - parseInt(lastPopupTime)) < 24 * 60 * 60 * 1000) {
+      return; // Less than 24 hours since last popup
+    }
 
     setActivePopup(type);
     onTrigger?.(type, { timeOnSite, scrollDepth, sessionData });
     
-    // Mark as shown
+    // Mark as shown permanently and set timestamp
     shownPopups.push(type);
-    localStorage.setItem('syncsphere_shown_popups', JSON.stringify(shownPopups));
+    localStorage.setItem('syncsphere_shown_popups_ever', JSON.stringify(shownPopups));
+    localStorage.setItem('syncsphere_last_popup', now.toString());
   };
 
   const closePopup = () => {
