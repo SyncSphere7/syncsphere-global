@@ -332,7 +332,7 @@ const AutomationsUK = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🏢 Trusted by Fortune 500 companies • 🇬🇧 UK-based support team • 🔒 SOC 2 Type II certified
+              Trusted by Fortune 500 companies • UK-based support team • SOC 2 Type II certified
             </p>
           </div>
         </div>

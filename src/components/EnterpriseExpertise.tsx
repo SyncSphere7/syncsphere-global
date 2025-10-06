@@ -147,18 +147,18 @@ const EnterpriseExpertise = () => {
                       }}
                     />
                     <div className="text-2xl hidden">
-                      {partner.name === 'Microsoft Azure' && '🔷'}
-                      {partner.name === 'Amazon Web Services' && '🟠'}
-                      {partner.name === 'Google Cloud' && '🔴'}
-                      {partner.name === 'OpenAI' && '🤖'}
-                      {partner.name === 'Anthropic' && '🧠'}
-                      {partner.name === 'ElevenLabs' && '🎙️'}
-                      {partner.name === 'n8n' && '🔗'}
-                      {partner.name === 'Make' && '⚙️'}
-                      {partner.name === 'Zapier' && '⚡'}
-                      {partner.name === 'Stripe' && '💳'}
-                      {partner.name === 'Shopify Plus' && '🛒'}
-                      {partner.name === 'Twilio' && '📞'}
+                      {partner.name === 'Microsoft Azure' && 'Azure'}
+                      {partner.name === 'Amazon Web Services' && 'AWS'}
+                      {partner.name === 'Google Cloud' && 'GCP'}
+                      {partner.name === 'OpenAI' && 'AI'}
+                      {partner.name === 'Anthropic' && 'Claude'}
+                      {partner.name === 'ElevenLabs' && 'Voice'}
+                      {partner.name === 'n8n' && 'Auto'}
+                      {partner.name === 'Make' && 'Flow'}
+                      {partner.name === 'Zapier' && 'Zap'}
+                      {partner.name === 'Stripe' && 'Pay'}
+                      {partner.name === 'Shopify Plus' && 'Shop'}
+                      {partner.name === 'Twilio' && 'SMS'}
                     </div>
                   </div>
                   <div className="text-sm font-medium text-foreground">{partner.name}</div>

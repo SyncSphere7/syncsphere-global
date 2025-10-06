@@ -255,7 +255,7 @@ const AutomationsUS = () => {
                 </Button>
               </div>
               <p className="text-sm mt-6 opacity-80">
-                🏢 Fortune 500 trusted • 🇺🇸 US-based enterprise support • 🔒 SOC 2 Type II + FedRAMP certified
+                Fortune 500 trusted • US-based enterprise support • SOC 2 Type II + FedRAMP certified
               </p>
             </div>
           </div>

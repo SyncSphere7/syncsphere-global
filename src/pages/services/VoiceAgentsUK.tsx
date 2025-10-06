@@ -338,7 +338,7 @@ const VoiceAgentsUK = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🎤 97.8% accuracy • 🇬🇧 British accent optimized • 🔒 GDPR & Ofcom compliant
+              97.8% accuracy • British accent optimized • GDPR & Ofcom compliant
             </p>
           </div>
         </div>

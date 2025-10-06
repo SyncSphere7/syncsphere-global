@@ -241,7 +241,7 @@ const BehavioralTriggers: React.FC<BehavioralTriggersProps> = ({ onTrigger }) =>
           </div>
           
           <p className="text-xs text-foreground/50 mt-3 text-center leading-tight">
-            ✨ Free consultation • 🚀 Quick response • 💰 No commitment
+            Free consultation • Quick response • No commitment
           </p>
         </CardContent>
       </Card>

@@ -267,7 +267,7 @@ const EcommerceUK = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🛒 Shopify Plus certified • 🇬🇧 UK VAT compliant • 🔒 GDPR certified
+              Shopify Plus certified • UK VAT compliant • GDPR certified
             </p>
           </div>
         </div>

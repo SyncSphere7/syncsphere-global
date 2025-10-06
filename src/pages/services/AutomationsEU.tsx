@@ -498,7 +498,7 @@ const AutomationsEU = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🇪🇺 27 EU countries supported • 🔒 GDPR Article 25 compliant • 🌍 24 official languages
+              27 EU countries supported • GDPR Article 25 compliant • 24 official languages
             </p>
           </div>
         </div>

@@ -351,7 +351,7 @@ const EcommerceEU = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🛒 99.8% VAT accuracy • 🇪🇺 27 EU countries • 🔒 GDPR & DSA compliant
+              99.8% VAT accuracy • 27 EU countries • GDPR & DSA compliant
             </p>
           </div>
         </div>

@@ -59,7 +59,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ personalization }) => {
                 className="group bg-gradient-to-r from-[#0EA5E9] to-primary hover:from-primary hover:to-[#0EA5E9] text-white px-6 md:px-8 py-4 md:py-6 text-base md:text-lg flex items-center gap-2 border border-primary/30 shadow-lg shadow-primary/20 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto" 
               >
                 <Rocket className="mr-1 transition-transform duration-300 group-hover:rotate-12" />
-                🚀 Start Pilot (£1,500)
+                Start Pilot (£1,500)
                 <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </a>
@@ -68,7 +68,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ personalization }) => {
                 className="group bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white px-6 md:px-8 py-4 md:py-6 text-base md:text-lg flex items-center gap-2 border border-primary/30 shadow-lg shadow-primary/20 transition-all duration-300 hover:translate-y-[-2px] w-full sm:w-auto" 
               >
                 <Rocket className="mr-1 transition-transform duration-300 group-hover:rotate-12" />
-                🚀 Start Your MVP
+                Start Your MVP
                 <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </a>
@@ -89,7 +89,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ personalization }) => {
                 ) : (
                   <>
                     <MessageCircle className="h-4 w-4" />
-                    💬 WhatsApp Consultation
+                    WhatsApp Consultation
                   </>
                 )}
               </Button>
@@ -98,7 +98,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ personalization }) => {
         </div>
         <div className="mt-4 animate-fadeIn" style={{ animationDelay: "0.6s" }}>
           <p className="text-foreground/60 text-sm">
-            ✨ Instant response on WhatsApp • 🚀 Quick 7-14 day delivery • 💰 Credits toward full project
+            Instant response on WhatsApp • Quick 7-14 day delivery • Credits toward full project
           </p>
         </div>
       </div>

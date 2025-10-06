@@ -17,12 +17,12 @@ const Pricing = () => {
   const [showROICalculator, setShowROICalculator] = useState(false);
 
   const services = [
-    { id: 'automations', name: 'AI Automation', icon: '🤖', desc: 'Workflow automation & business systems' },
-    { id: 'chatbots', name: 'AI Chatbots', icon: '💬', desc: 'SMS, WhatsApp, web & social chatbots' },
-    { id: 'voice-agents', name: 'Voice Agents', icon: '🎙️', desc: 'AI-powered voice assistants' },
-    { id: 'ecommerce', name: 'E-commerce', icon: '🛒', desc: 'Online stores with AI integration' },
-    { id: 'web-development', name: 'Web Development', icon: '🌐', desc: 'Modern websites & web apps' },
-    { id: 'app-development', name: 'App Development', icon: '📱', desc: 'Mobile & web applications' }
+    { id: 'automations', name: 'AI Automation', icon: 'Auto', desc: 'Workflow automation & business systems' },
+    { id: 'chatbots', name: 'AI Chatbots', icon: 'Chat', desc: 'SMS, WhatsApp, web & social chatbots' },
+    { id: 'voice-agents', name: 'Voice Agents', icon: 'Voice', desc: 'AI-powered voice assistants' },
+    { id: 'ecommerce', name: 'E-commerce', icon: 'Shop', desc: 'Online stores with AI integration' },
+    { id: 'web-development', name: 'Web Development', icon: 'Web', desc: 'Modern websites & web apps' },
+    { id: 'app-development', name: 'App Development', icon: 'App', desc: 'Mobile & web applications' }
   ];
 
   const pricingData = {
@@ -215,7 +215,7 @@ const Pricing = () => {
                   <Card className="relative border-blue-500/30 bg-blue-500/5">
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-blue-500 text-white px-3 py-1 text-xs">
-                        🚀 Quick Start
+                        Quick Start
                       </Badge>
                     </div>
                     <CardHeader className="text-center pt-4 pb-2">
@@ -492,13 +492,13 @@ const Pricing = () => {
               </div>
               <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-xs md:text-sm opacity-80 px-4">
                 <a href="#payment-terms" className="hover:opacity-100 transition-opacity">
-                  <span>💳 Flexible payment terms</span>
+                  <span>Flexible payment terms</span>
                 </a>
                 <span className="hover:opacity-100 transition-opacity cursor-pointer" onClick={() => window.location.href = 'mailto:compliance@syncsphereofficial.com'}>
-                  🌍 Global compliance
+                  Global compliance
                 </span>
                 <span className="hover:opacity-100 transition-opacity cursor-pointer" onClick={() => window.location.href = 'mailto:security@syncsphereofficial.com'}>
-                  🔒 Enterprise security
+                  Enterprise security
                 </span>
                 <span>🏢 Fortune 500 trusted</span>
               </div>

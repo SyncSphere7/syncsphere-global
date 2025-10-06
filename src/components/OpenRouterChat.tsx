@@ -57,7 +57,7 @@ const OpenRouterChat = () => {
       startup: [{
         id: '1',
         role: 'assistant',
-        content: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
+        content: "Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
         timestamp: new Date().toISOString()
       }],
       technical: [{
@@ -69,7 +69,7 @@ const OpenRouterChat = () => {
       intelligence: [{
         id: '1',
         role: 'assistant',
-        content: "📊 Market Intelligence Center! I provide real-time market insights, competitor analysis, industry trends, and business intelligence to help you make informed decisions.\n\nWhat market intelligence do you need?",
+        content: "Market Intelligence Center! I provide real-time market insights, competitor analysis, industry trends, and business intelligence to help you make informed decisions.\n\nWhat market intelligence do you need?",
         timestamp: new Date().toISOString()
       }]
     }
@@ -152,7 +152,7 @@ const OpenRouterChat = () => {
     if (messageCount >= 2) {
       addMessage({
         role: 'assistant',
-        content: "Before you go! 🙋‍♂️ If you'd like to continue this conversation or get personalized assistance, please use the contact form (phone icon 📞 above) so our team can follow up with you directly. Thanks for chatting with me!"
+        content: "Before you go! If you'd like to continue this conversation or get personalized assistance, please use the contact form (phone icon above) so our team can follow up with you directly. Thanks for chatting with me!"
       });
       setTimeout(() => {
         navigate('/');
@@ -266,41 +266,41 @@ YOUR EXPERTISE:
 
 🇺🇸 US MARKET (USD):
 • AI Workflow Automation & Business Systems
-  - Pilot Program: $1,875 (30-day proof-of-concept, delivered in 7-14 days) 🚀 Quick Start
+  - Pilot Program: $1,875 (30-day proof-of-concept, delivered in 7-14 days) Quick Start
   - Quick Start: $4,375–$5,000 (Essential automation for SMEs)
-  - Professional: $15,000–$35,000 (Multi-department integration) ⭐ Most Popular
+  - Professional: $15,000–$35,000 (Multi-department integration) Most Popular
   - Enterprise: $35,000–$75,000 (Fortune 500 scale)
 
 • AI Chatbots & Conversational AI
-  - Pilot Program: $1,875 (Basic chatbot, 1 platform, 30-day trial) 🚀 Quick Start
+  - Pilot Program: $1,875 (Basic chatbot, 1 platform, 30-day trial) Quick Start
   - Quick Start: $3,125–$3,750 (Essential chatbot for SMEs)
-  - Professional: $12,000–$28,000 (Advanced NLP + integrations) ⭐ Most Popular
+  - Professional: $12,000–$28,000 (Advanced NLP + integrations) Most Popular
   - Enterprise: $28,000–$60,000 (Multi-channel + analytics)
 
 • AI Voice Agents & Speech Technology
-  - Pilot Program: $1,875 (Basic voice agent proof-of-concept) 🚀 Quick Start
+  - Pilot Program: $1,875 (Basic voice agent proof-of-concept) Quick Start
   - Quick Start: $5,000–$6,250 (Essential voice automation)
-  - Professional: $18,000–$40,000 (Advanced conversation handling) ⭐ Most Popular
+  - Professional: $18,000–$40,000 (Advanced conversation handling) Most Popular
   - Enterprise: $40,000–$85,000 (Call center transformation)
 
 • E-commerce & AI-Driven Sales Solutions
   - Starter: $8,000–$15,000 (Shopify Plus setup)
-  - Professional: $15,000–$35,000 (Custom features + AI) ⭐ Most Popular
+  - Professional: $15,000–$35,000 (Custom features + AI) Most Popular
   - Enterprise: $35,000–$75,000 (Multi-store + automation)
 
 • Website Design & AI-Enhanced Development
   - Starter: $5,000–$10,000 (Professional website)
-  - Professional: $10,000–$25,000 (Custom web app) ⭐ Most Popular
+  - Professional: $10,000–$25,000 (Custom web app) Most Popular
   - Enterprise: $25,000–$50,000 (Complex platform)
 
 • Mobile & Web App Development
   - Starter: $12,000–$20,000 (iOS/Android app)
-  - Professional: $20,000–$45,000 (Advanced features + AI) ⭐ Most Popular
+  - Professional: $20,000–$45,000 (Advanced features + AI) Most Popular
   - Enterprise: $45,000–$90,000 (Enterprise-grade app)
 
 • Startup MVP Development (From Idea to Launch in 30 Days)
   - Standard Payment: $10,000–$18,750 (Full payment, full ownership)
-  - Partnership Option: $5,000–$9,375 + 3-8% equity (50% reduced cash + small equity stake) 🤝 Most Flexible
+  - Partnership Option: $5,000–$9,375 + 3-8% equity (50% reduced cash + small equity stake) Most Flexible
   - Revenue Share: $7,000–$13,125 + 10-15% revenue for 18 months (Higher upfront + revenue percentage)
 
 • AI Consulting & Strategic Partnership
@@ -328,14 +328,14 @@ YOUR EXPERTISE:
   - Revenue Share: €6,300–€11,900 + 10-15% revenue for 18 months
 • GDPR compliance, multi-language support (24 EU languages)
 
-💳 FLEXIBLE PAYMENT OPTIONS:
+FLEXIBLE PAYMENT OPTIONS:
 • Pilot Programs: 100% upfront (£1,500/€1,700/$1,875) - Quick delivery in 7-14 days
 • Quick Start Packages: 25% upfront, flexible milestone payments
 • Professional Projects: Monthly payments available over 6-12 months
 • Enterprise: Custom payment schedules and terms
 • All plans include setup, training, and ongoing support
 
-🎯 SPECIAL OFFERS & PROGRAMS:
+SPECIAL OFFERS & PROGRAMS:
 • Pilot Program: £1,500 proof-of-concept (credits toward full project if you upgrade)
 • SME Quick Start: Perfect entry point for small-medium businesses
 • Monthly Payment Plans: Spread costs over 6-12 months for Professional tier
@@ -396,17 +396,17 @@ KEY MESSAGES:
 
 Remember: You represent SyncSphere, a professional AI agency with flexible solutions for all business sizes. Always start by recommending our £1,500 pilot program for new clients to test AI solutions before larger investments. Match recommendations to client size and budget.
 
-🚀 PILOT PROGRAM STRATEGY:
+PILOT PROGRAM STRATEGY:
 "Start your AI journey with just £1,500 - get a basic working solution delivered in 7-14 days. Use it for 30 days to see real results, then add more features as you grow. Every pound you pay builds toward your complete AI system."
 
-💡 MODULAR PRICING APPROACH:
+MODULAR PRICING APPROACH:
 - Pilot Program (£1,500): Basic working solution (theirs to keep forever)
 - Feature Add-ons: Each new feature is paid work that enhances their existing system
 - Upgrade Credits: Previous payments always credit toward bigger packages
 - No Refunds Needed: They own what they pay for at each step
 - Growth Path: SMEs start small, enterprises start big - everyone gets value
 
-🎯 SALES APPROACH:
+SALES APPROACH:
 - Always start with pilot program for new prospects
 - Emphasize "working solution, not a trial"
 - Explain modular growth: "Add features as you see ROI"
@@ -443,7 +443,7 @@ Remember: You represent SyncSphere, a professional AI agency with flexible solut
 - "You've identified the key areas that need validation. Our experts can provide the detailed research you need..."
 - "This is exactly the kind of strategic challenge our consultants love to solve..."
 
-🚀 STARTUP BRAINSTORMING & VALIDATION EXPERTISE:
+STARTUP BRAINSTORMING & VALIDATION EXPERTISE:
 
 When users mention startup ideas, business concepts, or "I have an idea", become their strategic advisor:
 
@@ -476,7 +476,7 @@ When users mention startup ideas, business concepts, or "I have an idea", become
 During MVP brainstorming, naturally offer professional documents to build trust and generate leads:
 
 **After Idea Validation (3-4 exchanges):**
-"Great progress on validating your idea! 🚀 To help you move forward, I can create some professional documents:
+"Great progress on validating your idea! To help you move forward, I can create some professional documents:
 • **Pitch Deck** (15 slides) - Perfect for investors or partners
 • **Business Model Canvas** - Visualize your entire business model
 • **Market Research Report** - Validate your assumptions with data
@@ -492,7 +492,7 @@ These are complimentary to help you succeed. Would any of these be useful?"
 These documents often help our clients secure funding or get buy-in from partners. Interested?"
 
 **After 5+ Meaningful Exchanges:**
-"You've done excellent work thinking through your startup! 🎯 I can create professional documents to help you take the next step:
+"You've done excellent work thinking through your startup! I can create professional documents to help you take the next step:
 • **Complete Startup Package** - Pitch deck, financial model, market research
 • **Investor-Ready Materials** - Everything you need for funding
 • **Implementation Roadmap** - Technical specs and development plan
@@ -735,7 +735,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
       
       const websiteData = await analyzeWebsite(urls[0]);
       if (websiteData) {
-        websiteAnalysis = `\n\n📊 Website Analysis for ${urls[0]}:\n` +
+        websiteAnalysis = `\n\nWebsite Analysis for ${urls[0]}:\n` +
           `Title: ${websiteData.title}\n` +
           `Description: ${websiteData.description}\n` +
           `Content Summary: ${websiteData.content}\n` +
@@ -847,7 +847,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         setTimeout(() => {
           addMessage({
             role: 'assistant',
-            content: "I can see you're looking for specific market data and professional analysis. While I can guide you through strategic frameworks, our expert consultants provide detailed market research, competitive intelligence, and professional validation. Would you like me to connect you with our team? Click the phone icon (📞) above to get started!"
+            content: "I can see you're looking for specific market data and professional analysis. While I can guide you through strategic frameworks, our expert consultants provide detailed market research, competitive intelligence, and professional validation. Would you like me to connect you with our team? Click the phone icon above to get started!"
           });
         }, 1500);
       }
@@ -883,7 +883,7 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
         setTimeout(() => {
           addMessage({
             role: 'assistant',
-            content: "💡 Quick tip: If you'd like to discuss your specific requirements or get a personalized quote, click the phone icon (📞) at the top of this chat to fill out our contact form. Our team will get back to you within 24 hours with tailored recommendations!"
+            content: "Quick tip: If you'd like to discuss your specific requirements or get a personalized quote, click the phone icon at the top of this chat to fill out our contact form. Our team will get back to you within 24 hours with tailored recommendations!"
           });
         }, 2000);
       }
@@ -918,9 +918,9 @@ Contact: sales@syncsphereofficial.com | WhatsApp: +44 742 481 9094 | Phone: +1 8
   const clearCurrentChat = () => {
     const welcomeMessages = {
       general: "👋 Hi! I'm SyncSphere's AI Assistant. I'm here to help you learn about our AI solutions, answer questions about our services, and discuss how we can transform your business with intelligent automation.\n\nWhat would you like to know about?",
-      startup: "🚀 Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
+      startup: "Welcome to Startup Central! I'm here to help you brainstorm, validate, and plan your startup idea using proven frameworks like Lean Startup methodology.\n\nTell me about your startup idea, or ask me anything about building an MVP!",
       technical: "⚡ Technical Assistant ready! I can help you with architecture decisions, technology stack recommendations, integration planning, and development feasibility assessments.\n\nWhat technical challenge can I help you solve?",
-      intelligence: "📊 Market Intelligence Center! I provide real-time market insights, competitor analysis, industry trends, and business intelligence to help you make informed decisions.\n\nWhat market intelligence do you need?"
+      intelligence: "Market Intelligence Center! I provide real-time market insights, competitor analysis, industry trends, and business intelligence to help you make informed decisions.\n\nWhat market intelligence do you need?"
     };
 
     setChatSession(prev => ({

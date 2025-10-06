@@ -275,7 +275,7 @@ const EcommerceUS = () => {
               </Button>
             </div>
             <p className="text-sm mt-6 opacity-80">
-              🛒 $2.8B GMV • 🇺🇸 Fortune 500 trusted • 🔒 PCI DSS Level 1 compliant
+              $2.8B GMV • Fortune 500 trusted • PCI DSS Level 1 compliant
             </p>
           </div>
         </div>

@@ -39,11 +39,11 @@ const AppDevelopment = () => {
         <div className="container mx-auto px-4 py-16">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <Badge variant="outline" className="mb-4 border-blue-500 text-blue-600">
+            <Badge variant="outline" className="mb-4 border-primary text-primary">
               <Smartphone className="w-4 h-4 mr-2" />
               App Development Excellence
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-blue-300 bg-clip-text text-transparent">
               Mobile & Web App Development
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-4xl mx-auto">
@@ -52,7 +52,7 @@ const AppDevelopment = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="https://wa.me/447424819094?text=Hi! I'd like to start an app development project with a £1,000 pilot program." target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 w-full">
                   Start £1,000 Pilot
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

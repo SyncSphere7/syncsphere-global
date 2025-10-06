@@ -151,7 +151,7 @@ This conversation history is provided for reference to ensure accurate project s
         <CardContent>
           <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
             <p className="text-sm text-blue-200">
-              📋 Your conversation history will be shared with our sales team for accurate project scoping and consistent pricing.
+              Your conversation history will be shared with our sales team for accurate project scoping and consistent pricing.
             </p>
           </div>
           

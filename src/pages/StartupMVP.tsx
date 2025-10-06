@@ -48,7 +48,7 @@ const StartupMVP = () => {
             
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <span className="px-4 py-2 bg-white/5 rounded-full text-foreground/80 text-sm mb-6 border border-white/10 backdrop-blur-sm animate-fadeIn">
-                🚀 Startup MVP Development
+                Startup MVP Development
               </span>
               <h1 className="text-foreground text-4xl md:text-6xl font-bold mb-6 animate-fadeIn leading-tight">
                 From <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-300">Idea to Launch</span> in 30 Days
@@ -254,7 +254,7 @@ const StartupMVP = () => {
                 <Card className="relative border-primary shadow-lg scale-105">
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-primary text-white px-3 py-1">
-                      🤝 Most Flexible
+                      Most Flexible
                     </Badge>
                   </div>
                   <CardHeader className="text-center pt-6">

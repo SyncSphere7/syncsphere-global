@@ -127,17 +127,17 @@ const Chatbots = () => {
               <div className="space-y-3">
                 <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20start%20with%20a%20£1,500%20AI%20chatbot%20pilot%20program." target="_blank" rel="noopener noreferrer">
                   <button className="w-full bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
-                    💬 Start Chatbot Pilot (£1,500)
+                    Start Chatbot Pilot (£1,500)
                   </button>
                 </a>
                 <a href="https://wa.me/447424819094?text=Hi!%20I'd%20like%20to%20discuss%20AI%20chatbot%20solutions%20for%20my%20business." target="_blank" rel="noopener noreferrer">
                   <button className="w-full bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg font-medium transition-colors border border-white/20">
-                    💬 WhatsApp Consultation
+                    WhatsApp Consultation
                   </button>
                 </a>
                 <ServiceDemoForm
                   serviceName="AI Chatbots"
-                  ctaText="📧 Send Detailed Requirements"
+                  ctaText="Send Detailed Requirements"
                 />
               </div>
               <p className="text-white/50 text-xs text-center mt-3">

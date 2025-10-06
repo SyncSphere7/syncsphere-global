@@ -104,7 +104,7 @@ const SEOMonitor: React.FC = () => {
       case 'UK': return '🇬🇧';
       case 'US': return '🇺🇸';
       case 'EU': return '🇪🇺';
-      default: return '🌍';
+      default: return 'Global';
     }
   };
 

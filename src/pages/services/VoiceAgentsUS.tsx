@@ -326,7 +326,7 @@ const VoiceAgentsUS = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🎤 98.4% accuracy • 🇺🇸 American English optimized • 🔒 HIPAA & FCC compliant
+              98.4% accuracy • American English optimized • HIPAA & FCC compliant
             </p>
           </div>
         </div>

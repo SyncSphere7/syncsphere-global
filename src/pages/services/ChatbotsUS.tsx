@@ -275,7 +275,7 @@ const ChatbotsUS = () => {
               </Button>
             </div>
             <p className="text-sm mt-6 opacity-80">
-              🤖 96.8% accuracy • 🇺🇸 Fortune 500 trusted • 🔒 SOC 2 + HIPAA compliant
+              96.8% accuracy • Fortune 500 trusted • SOC 2 + HIPAA compliant
             </p>
           </div>
         </div>

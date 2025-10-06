@@ -41,12 +41,12 @@ const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({ embedded = fals
   });
 
   const industries = [
-    { id: 'technology', name: 'Technology', icon: '💻' },
-    { id: 'healthcare', name: 'Healthcare', icon: '🏥' },
-    { id: 'finance', name: 'Finance', icon: '💰' },
-    { id: 'ecommerce', name: 'E-commerce', icon: '🛒' },
-    { id: 'manufacturing', name: 'Manufacturing', icon: '🏭' },
-    { id: 'retail', name: 'Retail', icon: '🏪' }
+    { id: 'technology', name: 'Technology', icon: 'Tech' },
+    { id: 'healthcare', name: 'Healthcare', icon: 'Health' },
+    { id: 'finance', name: 'Finance', icon: 'Finance' },
+    { id: 'ecommerce', name: 'E-commerce', icon: 'Shop' },
+    { id: 'manufacturing', name: 'Manufacturing', icon: 'Mfg' },
+    { id: 'retail', name: 'Retail', icon: 'Retail' }
   ];
 
   // Simulated market data
@@ -207,7 +207,7 @@ const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({ embedded = fals
               onClick={() => setSelectedIndustry(industry.id)}
               className="whitespace-nowrap"
             >
-              {industry.icon} {industry.name}
+              {industry.name}
             </Button>
           ))}
         </div>

@@ -256,7 +256,7 @@ const VoiceAgentsEU = () => {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-6">
-              🎤 95.8% multilingual accuracy • 🇪🇺 24 EU languages • 🔒 GDPR & DSA compliant
+              95.8% multilingual accuracy • 24 EU languages • GDPR & DSA compliant
             </p>
           </div>
         </div>

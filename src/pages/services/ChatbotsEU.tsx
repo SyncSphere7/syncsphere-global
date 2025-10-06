@@ -274,7 +274,7 @@ const ChatbotsEU = () => {
               </Button>
             </div>
             <p className="text-sm mt-6 opacity-80">
-              🇪🇺 27 languages • 🛡️ GDPR compliant • 🔒 EU data residency
+              27 languages • GDPR compliant • EU data residency
             </p>
           </div>
         </div>

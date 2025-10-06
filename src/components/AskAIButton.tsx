@@ -32,10 +32,10 @@ const AskAIButton = () => {
   };
 
   const prompts = [
-    "🤖 Need AI solutions for your business? Let's chat!",
-    "💡 Looking for automation? Our AI assistant can help!",
-    "🚀 Ready to transform your business with AI? Ask me anything!",
-    "💬 Have questions about our AI services? I'm here to help!",
+    "Need AI solutions for your business? Let's chat!",
+    "Looking for automation? Our AI assistant can help!",
+    "Ready to transform your business with AI? Ask me anything!",
+    "Have questions about our AI services? I'm here to help!",
     "⚡ Want to learn about AI chatbots, voice agents, or automation?"
   ];
 
